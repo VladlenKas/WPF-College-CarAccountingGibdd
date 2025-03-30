@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
@@ -20,15 +21,15 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<Certificate> Certificates { get; set; }
 
-    public virtual DbSet<Department> Departments { get; set; }
+    public virtual DbSet<Department> AllDepartments { get; set; }
 
-    public virtual DbSet<Employee> Employees { get; set; }
+    public virtual DbSet<Employee> AllEmployees { get; set; }
 
     public virtual DbSet<Inspection> Inspections { get; set; }
 
     public virtual DbSet<InspectionStatus> InspectionStatuses { get; set; }
 
-    public virtual DbSet<Owner> Owners { get; set; }
+    public virtual DbSet<Owner> AllOwners { get; set; }
 
     public virtual DbSet<Payment> Payments { get; set; }
 
@@ -36,13 +37,22 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<Post> Posts { get; set; }
 
-    public virtual DbSet<Vehicle> Vehicles { get; set; }
+    public virtual DbSet<Vehicle> AllVehicles { get; set; }
 
     public virtual DbSet<VehicleType> VehicleTypes { get; set; }
 
-    public virtual DbSet<Violation> Violations { get; set; }
+    public virtual DbSet<Violation> AllViolations { get; set; }
 
     public virtual DbSet<ViolationsInspection> ViolationsInspections { get; set; }
+
+    #region Активные записи
+    public IQueryable<Employee> Employees => AllEmployees.Where(r => r.Deleted != 1);
+    public IQueryable<Department> Departments => AllDepartments.Where(r => r.Deleted != 1);
+    public IQueryable<Owner> Owners => AllOwners.Where(r => r.Deleted != 1);
+    public IQueryable<Vehicle> Vehicles => AllVehicles.Where(r => r.Deleted != 1);
+    public IQueryable<Violation> Violations => AllViolations.Where(r => r.Deleted != 1);
+
+    #endregion
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -373,6 +383,7 @@ public partial class GibddContext : DbContext
             entity.HasKey(e => e.ViolationsId).HasName("PRIMARY");
 
             entity.ToTable("violations");
+            entity.Property(e => e.Deleted).HasColumnName("deleted");
 
             entity.Property(e => e.ViolationsId).HasColumnName("violations_id");
             entity.Property(e => e.Name)

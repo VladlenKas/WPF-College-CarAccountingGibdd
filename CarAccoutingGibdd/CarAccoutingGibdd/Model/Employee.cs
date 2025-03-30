@@ -17,6 +17,8 @@ public partial class Employee
 
     public string? Patronymic { get; set; }
 
+    public string Fullname => $"{Lastname} {Firstname} {Patronymic}";
+    
     public DateOnly Birthdate { get; set; }
 
     public string Passport { get; set; } = null!;

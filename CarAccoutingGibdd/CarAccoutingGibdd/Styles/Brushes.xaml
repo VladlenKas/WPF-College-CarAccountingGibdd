@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Основные кисти -->
+    <SolidColorBrush x:Key="Primary.Static.Brush" Color="{StaticResource Primary.Static.Color}"/>
+    <SolidColorBrush x:Key="Primary.Hover.Brush" Color="{StaticResource Primary.Hover.Color}"/>
+    <SolidColorBrush x:Key="Primary.Pressed.Brush" Color="{StaticResource Primary.Pressed.Color}"/>
+
+    <!-- Фоновые кисти -->
+    <SolidColorBrush x:Key="Background.Window.Brush" Color="{StaticResource Background.Window.Color}"/>
+    <SolidColorBrush x:Key="Background.Control.Brush" Color="{StaticResource Background.Control.Color}"/>
+    <SolidColorBrush x:Key="Background.Disabled.Brush" Color="{StaticResource Background.Disabled.Color}"/>
+
+    <!-- Граничные кисти -->
+    <SolidColorBrush x:Key="Border.Static.Brush" Color="{StaticResource Border.Static.Color}"/>
+    <SolidColorBrush x:Key="Border.Hover.Brush" Color="{StaticResource Border.Hover.Color}"/>
+    <SolidColorBrush x:Key="Border.Focused.Brush" Color="{StaticResource Border.Focused.Color}"/>
+    <SolidColorBrush x:Key="Card.Border.Static.Brush" Color="{StaticResource Card.Border.Static.Color}"/>
+
+    <!-- Текстовые кисти -->
+    <SolidColorBrush x:Key="Text.Primary.Brush" Color="{StaticResource Text.Primary.Color}"/>
+    <SolidColorBrush x:Key="Text.Static.Brush" Color="{StaticResource Text.Static.Color}"/>
+    <SolidColorBrush x:Key="Text.Secondary.Brush" Color="{StaticResource Text.Secondary.Color}"/>
+    <SolidColorBrush x:Key="Text.Inverted.Brush" Color="{StaticResource Text.Inverted.Color}"/>
+
+    <!-- Кисти кнопок -->
+    <SolidColorBrush x:Key="Button.Background.Static.Brush" Color="{StaticResource Button.Background.Static.Color}"/>
+    <SolidColorBrush x:Key="Button.Background.Hover.Brush" Color="{StaticResource Button.Background.Hover.Color}"/>
+    <SolidColorBrush x:Key="Button.Background.Pressed.Brush" Color="{StaticResource Button.Background.Pressed.Color}"/>
+
+    <!-- Кисти для важных кнопок -->
+    <SolidColorBrush x:Key="Button.Primary.Background.Static.Brush" Color="{StaticResource Primary.Static.Color}"/>
+    <SolidColorBrush x:Key="Button.Primary.Background.Hover.Brush" Color="{StaticResource Primary.Hover.Color}"/>
+    <SolidColorBrush x:Key="Button.Primary.Background.Pressed.Brush" Color="{StaticResource Primary.Pressed.Color}"/>
+
+    <!-- Обычные обводки -->
+    <SolidColorBrush x:Key="Button.Border.Static.Brush" Color="{StaticResource Button.Border.Static.Color}"/>
+    <SolidColorBrush x:Key="Button.Border.Hover.Brush" Color="{StaticResource Button.Border.Hover.Color}"/>
+    <SolidColorBrush x:Key="Button.Border.Pressed.Brush" Color="{StaticResource Button.Border.Pressed.Color}"/>
+
+    <!-- Обводки для важных элементов -->
+    <SolidColorBrush x:Key="Button.Primary.Border.Static.Brush" Color="{StaticResource Button.Primary.Border.Static.Color}"/>
+    <SolidColorBrush x:Key="Button.Primary.Border.Hover.Brush" Color="{StaticResource Button.Primary.Border.Hover.Color}"/>
+    <SolidColorBrush x:Key="Button.Primary.Border.Pressed.Brush" Color="{StaticResource Button.Primary.Border.Pressed.Color}"/>
+
+</ResourceDictionary>

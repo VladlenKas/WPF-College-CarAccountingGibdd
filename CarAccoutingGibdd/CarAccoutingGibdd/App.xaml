@@ -2,8 +2,27 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CarAccoutingGibdd"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Windows/AuthWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Цвета -->
+                <ResourceDictionary Source="Styles/Colors.xaml"/>
+
+                <!-- Кисти -->
+                <ResourceDictionary Source="Styles/Brushes.xaml"/>
+                
+                <!-- Базовый стиль-->
+                <ResourceDictionary Source="Styles/BaseElements.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="{x:Type Window}" x:Key="Window.Ordinary">
+                <Setter Property="SnapsToDevicePixels" Value="true"/>
+                <Setter Property="Background" Value="{StaticResource Background.Window.Brush}"/>
+                <Setter Property="Icon" Value="/CarAccountingGibdd;component/Images/LogoGibdd.ico"/>
+            </Style>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

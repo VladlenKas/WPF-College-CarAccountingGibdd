@@ -1,0 +1,26 @@
+﻿<Window x:Class="CarAccoutingGibdd.Windows.NavigationAdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CarAccoutingGibdd.Windows"
+        mc:Ignorable="d"
+        
+        Height="550" Width="800"   
+        MinHeight="450" MinWidth="700"   
+        Style="{StaticResource Window.Ordinary}"
+        WindowStartupLocation="CenterScreen">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                     Tag="Love"
+                     GroupName="NavGroup"
+                     Content="Привет"
+                     Margin="0 0 0 20"/>
+
+        <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                     Tag="Close"
+                     Content="Пока"
+                     GroupName="NavGroup"/>
+    </StackPanel>
+</Window>
