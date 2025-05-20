@@ -9,7 +9,7 @@
         xmlns:components="clr-namespace:CarAccoutingGibdd.Components"
         
         Title="Вход в систему управления ГИБДД" 
-        Height="700" Width="550"   
+        Height="700" Width="500"   
         MinHeight="600" MinWidth="450"   
         Style="{StaticResource Window.Ordinary}"
         WindowStartupLocation="CenterScreen">

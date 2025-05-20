@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarAccountingGibdd.Model;
+using System;
 using System.Collections.Generic;
 
 namespace CarAccoutingGibdd.Model;
@@ -26,6 +27,8 @@ public partial class Vehicle
     public sbyte Used { get; set; }
 
     public sbyte Deleted { get; set; }
+
+    public string Info => $"{Brand} {Model} {Year} {Color}";
 
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 

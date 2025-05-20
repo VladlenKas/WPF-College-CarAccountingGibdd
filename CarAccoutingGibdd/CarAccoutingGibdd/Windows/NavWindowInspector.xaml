@@ -1,0 +1,172 @@
+﻿<Window x:Class="CarAccountingGibdd.Windows.NavWindowInspector"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CarAccountingGibdd.Windows"
+        mc:Ignorable="d"
+        
+        xmlns:icons="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
+        Height="900" Width="1610"   
+        MinHeight="700" MinWidth="1200" 
+        Style="{StaticResource Window.Ordinary}"
+        WindowStartupLocation="CenterScreen">
+
+    <DockPanel>
+
+        <!-- Навигационная панель -->
+        <Grid Background="{StaticResource Primary.Static.Brush}">
+
+            <StackPanel Margin="20 10">
+
+                <StackPanel Margin="0 28"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+
+                    <Image Source="/Resources/LogoGibdd.png"
+                           Width="48"
+                           Margin="0 0 12 0"/>
+
+                    <TextBlock Style="{StaticResource TextBlock.H6}"
+                               Foreground="#ffffff"
+                               Text="Управление &#x0a;ГИБДД"/>
+                </StackPanel>
+
+                <!-- Основные операции -->
+                <TextBlock Style="{StaticResource TextBlock.Subtitle}"
+                           Foreground="#ffffff"
+                           Text="Рабочий процесс"
+                           Margin="0 10 0 5"
+                           FontWeight="SemiBold"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Name="applicationRB"
+                             Content="Заявки"
+                             Tag="listBoxOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="ApplicationRButton_Checked"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Осмотры"
+                             Tag="carSearchOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="InspectionRButton_Checked"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Нарушения"
+                             Tag="ClipboardAlertOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 10"
+                             Checked="ValitionRButton_Checked"/>
+
+                <!-- Справочные данные -->
+                <TextBlock Style="{StaticResource TextBlock.Subtitle}"
+                           Foreground="#ffffff"
+                           Text="Справочники"
+                           Margin="0 10 0 5"
+                           FontWeight="SemiBold"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Владельцы"
+                             Tag="userOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="OwnerRButton_Checked"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Автомобили"
+                             Tag="carOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="VehicleRButton_Checked"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Сотрудники"
+                             Tag="AccountTieHatOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="EmployeeRButton_Checked"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Департаменты"
+                             Tag="homeSiloOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 10"
+                             Checked="DepartmentRButton_Checked"/>
+
+                <!-- Отчеты -->
+                <TextBlock Style="{StaticResource TextBlock.Subtitle}"
+                           Foreground="#ffffff"
+                           Text="Документы"
+                           Margin="0 10 0 5"
+                           FontWeight="SemiBold"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Сертификаты"
+                             Tag="certificateOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 10"
+                             Checked="CertificateRButton_Checked"/>
+                
+                <Button Style="{StaticResource Button.Navigator}"
+                        Content="Отчет"
+                        Tag="chartLine"
+                        Margin="0 0 0 10"
+                        Click="ReportButton_Click"/>
+                
+                <Separator Background="#ffffff"
+                           Margin="0 0 0 10"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Выйти"
+                             Tag="logout"
+                             GroupName="navItems"
+                             Margin="0 0 0 10"
+                             Checked="ExitRButton_Checked"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Меню -->
+        <Grid Margin="35">
+            <DockPanel>
+                <DockPanel LastChildFill="False"
+                           DockPanel.Dock="Top">
+
+                    <TextBlock Style="{StaticResource TextBlock.H1}"
+                               Name="titlePage"
+                               Text="Заявки"
+                               DockPanel.Dock="Left"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                DockPanel.Dock="Right"
+                                Margin="0 0 0 28">
+
+                        <icons:PackIcon Style="{StaticResource Icon.Large}"
+                                        Kind="shieldAccountOutline"
+                                        Margin="0 0 10 0"
+                                        Foreground="{StaticResource Text.Secondary.Brush}"/>
+
+                        <StackPanel VerticalAlignment="Center">
+
+                            <TextBlock Style="{StaticResource TextBlock.Normal}"
+                                       Text="Фамилия Имя Админа"
+                                       Name="FIcourier"/>
+
+                            <TextBlock Style="{StaticResource TextBlock.Normal}"
+                                       Text="Администратор"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+
+                <Frame Name="CurrentPage"
+                       NavigationUIVisibility="Hidden"
+                       DockPanel.Dock="Top"/>
+
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>

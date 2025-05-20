@@ -9,6 +9,8 @@ namespace CarAccoutingGibdd
     /// </summary>
     public partial class App : Application
     {
+        // Окно текущего меню
+        public static Window MenuWindow { get; set; } = null!;
     }
 
 }

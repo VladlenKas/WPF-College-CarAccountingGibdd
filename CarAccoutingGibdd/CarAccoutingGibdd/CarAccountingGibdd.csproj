@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\LogoGibdd.ico" />
+    <None Remove="Resources\LogoGibdd.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,12 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\" />
-    <Folder Include="UserControls\" />
+    <Folder Include="Classes\Services\" />
+    <Folder Include="Classes\Limitators\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\LogoGibdd.ico" />
+    <Resource Include="Resources\IconGibdd.ico" />
+    <Resource Include="Resources\LogoGibdd.png" />
   </ItemGroup>
 
 </Project>

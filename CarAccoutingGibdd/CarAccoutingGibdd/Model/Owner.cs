@@ -13,6 +13,8 @@ public partial class Owner
 
     public string? Patronymic { get; set; }
 
+    public string FIname => $"{Lastname} {Firstname}";
+
     public DateOnly Birthdate { get; set; }
 
     public string Passport { get; set; } = null!;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq.Expressions;
+using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
@@ -17,7 +19,7 @@ public partial class GibddContext : DbContext
     {
     }
 
-    public virtual DbSet<Application> Applications { get; set; }
+    public virtual DbSet<Application> AllApplications { get; set; }
 
     public virtual DbSet<Certificate> Certificates { get; set; }
 
@@ -45,12 +47,56 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<ViolationsInspection> ViolationsInspections { get; set; }
 
-    #region Активные записи
-    public IQueryable<Employee> Employees => AllEmployees.Where(r => r.Deleted != 1);
-    public IQueryable<Department> Departments => AllDepartments.Where(r => r.Deleted != 1);
-    public IQueryable<Owner> Owners => AllOwners.Where(r => r.Deleted != 1);
-    public IQueryable<Vehicle> Vehicles => AllVehicles.Where(r => r.Deleted != 1);
-    public IQueryable<Violation> Violations => AllViolations.Where(r => r.Deleted != 1);
+    #region Записи активные и с контекстом
+    public IQueryable<Application> Applications => AllApplications
+        .Include(a => a.Vehicle)
+            .ThenInclude(v => v.Owner)
+        .Include(a => a.Vehicle)
+            .ThenInclude(v => v.VehicleType)
+        .Include(a => a.Vehicle)
+            .ThenInclude(v => v.PhotosVehicles)
+        .Include(a => a.Certificates)
+        .Include(a => a.Inspections)
+            .ThenInclude(i => i.Employee)
+        .Include(a => a.Inspections)
+            .ThenInclude(i => i.Status)
+        .Include(a => a.Inspections)
+            .ThenInclude(i => i.ViolationsInspections)
+                .ThenInclude(vi => vi.Violations)
+        .AsSplitQuery(); // для оптимизации
+
+    public IQueryable<Employee> Employees => AllEmployees.Where(r => r.Deleted != 1)
+        .Include(r => r.Post);
+
+    public IQueryable<Department> Departments => AllDepartments.Where(r => r.Deleted != 1)
+        .Include(r => r.Employees)
+            .ThenInclude(r => r.Post);
+
+    public IQueryable<Owner> Owners => AllOwners.Where(r => r.Deleted != 1)
+        .Include(r => r.Vehicles)
+            .ThenInclude(r => r.PhotosVehicles);
+
+    public IQueryable<Vehicle> Vehicles => AllVehicles.Where(r => r.Deleted != 1)
+        .Include(r => r.PhotosVehicles)
+        .Include(r => r.VehicleType);
+
+    public IQueryable<Violation> Violations => AllViolations.Where(r => r.Deleted != 1)
+        .Include(v => v.ViolationsInspections)
+            .ThenInclude(vi => vi.Inspection)
+                .ThenInclude(i => i.Application)
+                    .ThenInclude(a => a.Vehicle)
+                        .ThenInclude(v => v.Owner)
+        .Include(v => v.ViolationsInspections)
+            .ThenInclude(vi => vi.Inspection)
+                .ThenInclude(i => i.Employee)
+        .Include(v => v.ViolationsInspections)
+            .ThenInclude(vi => vi.Inspection)
+                .ThenInclude(i => i.Status)
+        .Include(v => v.ViolationsInspections)
+            .ThenInclude(vi => vi.Inspection)
+                .ThenInclude(i => i.Application)
+                    .ThenInclude(c => c.Certificates) // если есть связь с сертификатом
+        .AsSplitQuery(); // для оптимизации
 
     #endregion
 
@@ -70,7 +116,7 @@ public partial class GibddContext : DbContext
 
             entity.ToTable("application");
 
-            entity.HasIndex(e => e.PaymentId, "fk_payment_idx");
+            entity.HasIndex(e => e.ApplicationStatusId, "fk_payment_idx");
 
             entity.HasIndex(e => e.VehicleId, "vehicle_id_idx");
 
@@ -81,18 +127,30 @@ public partial class GibddContext : DbContext
             entity.Property(e => e.DatetimeSupply)
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_supply");
-            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
+            entity.Property(e => e.ApplicationStatusId).HasColumnName("application_status_id");
             entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
 
-            entity.HasOne(d => d.Payment).WithMany(p => p.Applications)
-                .HasForeignKey(d => d.PaymentId)
+            entity.HasOne(d => d.ApplicationStatus).WithMany(p => p.Applications)
+                .HasForeignKey(d => d.ApplicationStatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_payment");
+                .HasConstraintName("fkey_payment");
 
             entity.HasOne(d => d.Vehicle).WithMany(p => p.Applications)
                 .HasForeignKey(d => d.VehicleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_vehicle");
+                .HasConstraintName("fk_application_status");
+        });
+
+        modelBuilder.Entity<InspectionStatus>(entity =>
+        {
+            entity.HasKey(e => e.InspectionStatusId).HasName("PRIMARY");
+
+            entity.ToTable("inspection_status");
+
+            entity.Property(e => e.InspectionStatusId).HasColumnName("inspection_status_id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(45)
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<Certificate>(entity =>
@@ -281,10 +339,36 @@ public partial class GibddContext : DbContext
 
             entity.ToTable("payment");
 
-            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
-            entity.Property(e => e.Name)
-                .HasMaxLength(45)
-                .HasColumnName("name");
+            entity.HasIndex(e => e.ApplicationId, "application_id_idx");
+
+            entity.Property(e => e.PaymentId)
+                .HasColumnName("payment_id")
+                .ValueGeneratedOnAdd();
+
+            entity.Property(e => e.ApplicationId)
+                .HasColumnName("application_id");
+
+            entity.Property(e => e.PaymentMethod)
+                .HasColumnName("payment_method")
+                .HasDefaultValue(0);
+
+            entity.Property(e => e.BankName)
+                .HasColumnName("bank_name")
+                .HasMaxLength(45);
+
+            entity.Property(e => e.Amount)
+                .HasColumnName("amount")
+                .HasColumnType("decimal(10,2)");
+
+            entity.Property(e => e.PaymentDatetime)
+                .HasColumnName("payment_datetime")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(d => d.Application)
+                .WithMany(p => p.Payments)
+                .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fkey_application");
         });
 
         modelBuilder.Entity<PhotosVehicle>(entity =>

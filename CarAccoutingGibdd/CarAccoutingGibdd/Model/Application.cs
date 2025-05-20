@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarAccountingGibdd.Model;
+using System;
 using System.Collections.Generic;
 
 namespace CarAccoutingGibdd.Model;
@@ -9,7 +10,7 @@ public partial class Application
 
     public int VehicleId { get; set; }
 
-    public int PaymentId { get; set; }
+    public int ApplicationStatusId { get; set; }
 
     public DateTime DatetimeSupply { get; set; }
 
@@ -19,7 +20,9 @@ public partial class Application
 
     public virtual ICollection<Inspection> Inspections { get; set; } = new List<Inspection>();
 
-    public virtual Payment Payment { get; set; } = null!;
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+
+    public virtual ApplicationStatus ApplicationStatus { get; set; } = null!;
 
     public virtual Vehicle Vehicle { get; set; } = null!;
 }

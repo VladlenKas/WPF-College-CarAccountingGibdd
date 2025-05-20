@@ -1,4 +1,5 @@
-﻿using CarAccoutingGibdd.Classes;
+﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Windows;
 using CarAccoutingGibdd.Model;
 using CarAccoutingGibdd.Windows;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ namespace CarAccoutingGibdd
         // Поля и свойства
         private GibddContext _dbContext;
         private string Login => loginTB.Text;
-        private string Password => PasswordHelper.GetPassword(PassPB, PassTB);
+        private string Password => ComponentsHelper.GetPassword(PassPB, PassTB);
 
         // Конструктор
         public AuthWindow()
@@ -45,8 +46,7 @@ namespace CarAccoutingGibdd
         {
             if (Login == string.Empty || Password == string.Empty)
             {
-                MessageBox.Show($"Заполните все поля", "Предупреждение.",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageHelper.MessageNullFields();
                 return;
             }
 
@@ -70,13 +70,22 @@ namespace CarAccoutingGibdd
 
                 if (employee.PostId == 1)
                 {
-                    NavigationAdminWindow navigationAdminWindow = new(employee);
-                    navigationAdminWindow.Show();
+                    NavWindowAdmin navWindow = new(employee);
+                    navWindow.Show();
+                    Close();
+                }
+                else if (employee.PostId == 2)
+                {
+                    NavWindowInspector navWindow = new(employee);
+                    navWindow.Show();
                     Close();
                 }
                 else
                 {
-                    // Вход инспектора
+                    MessageBox.Show("Неизвестная ошибка.",
+                        "Ошибка авторизации",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
         }
@@ -89,12 +98,12 @@ namespace CarAccoutingGibdd
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            DialogHelper.ConfirmExit(this);
+            MessageHelper.ConfirmExit(this);
         }
 
         private void VisibilityPassword_Click(object sender, RoutedEventArgs e)
         {
-            PasswordHelper.ToggleVisibility(sender, PassPB, PassTB);
+            ComponentsHelper.ToggleVisibility(sender, PassPB, PassTB);
         }
     }
 }

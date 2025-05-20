@@ -1,7 +1,8 @@
-﻿using System;
+﻿using CarAccoutingGibdd.Model;
+using System;
 using System.Collections.Generic;
 
-namespace CarAccoutingGibdd.Model;
+namespace CarAccountingGibdd.Model;
 
 public partial class Post
 {

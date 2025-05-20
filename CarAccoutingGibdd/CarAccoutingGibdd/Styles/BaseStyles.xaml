@@ -16,6 +16,20 @@
         <Setter Property="Height" Value="24"/>
         <Setter Property="Width" Value="24"/>
     </Style>
+    
+    <Style TargetType="icons:PackIcon" x:Key="Icon.Large">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="Width" Value="36"/>
+    </Style>
+    
+    <Style TargetType="icons:PackIcon" x:Key="Icon.Navigation">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Width" Value="20"/>
+    </Style>
     <!--#endregion-->
 
     <!--#region Тени -->
@@ -42,10 +56,40 @@
         <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
     </Style>
 
+    <Style TargetType="{x:Type TextBlock}" x:Key="TextBlock.H2">
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+    </Style>
+
     <Style TargetType="{x:Type TextBlock}" x:Key="TextBlock.Normal">
         <Setter Property="FontFamily" Value="SF Pro Text"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
+    </Style>
+    
+    <Style TargetType="{x:Type TextBlock}" x:Key="TextBlock.Subtitle">
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+        <Setter Property="Margin" Value="0 10 0 5"/>
+        <Setter Property="Opacity" Value="0.8"/>
+    </Style>
+
+    <Style TargetType="{x:Type Run}" x:Key="Run.Subtitle">
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+    </Style>    
+    
+    <Style TargetType="{x:Type Run}" x:Key="Run.Description">
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Regular"/>
         <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
     </Style>
     <!--#endregion-->
@@ -166,51 +210,6 @@
     <!--#endregion-->
 
     <!--#region Кнопки -->
-    <!--#region Ссылочная кнопка -->
-    <Style TargetType="{x:Type Button}" x:Key="Button.HyperLink">
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Foreground" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="FontFamily" Value="SF Pro Text"/>
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontWeight" Value="Medium"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            SnapsToDevicePixels="True">
-
-                        <ContentPresenter VerticalAlignment="Center"
-                                          HorizontalAlignment="Center">
-                        </ContentPresenter>
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource Button.Primary.Background.Hover.Brush}"/>
-                        </Trigger>
-
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource Button.Primary.Background.Pressed.Brush}"/>
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <TranslateTransform Y="0.5"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <!--#endregion-->
-
     <!--#region Приоритетная -->
     <Style TargetType="{x:Type Button}" x:Key="Button.Primary">
         <Setter Property="Background" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
@@ -313,16 +312,132 @@
     </Style>
     <!--#endregion-->
 
-    <!--#region Навигационная кнопка -->
+    <!--#region Приоритетная с иконкой -->
+    <Style TargetType="{x:Type Button}" x:Key="Button.Primary.Icon">
+        <Setter Property="Background" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Inverted.Brush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Button.Primary.Border.Static.Brush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="MinWidth" Value="200"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="10">
+
+                        <StackPanel Orientation="Horizontal" 
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+
+                            <icons:PackIcon Name="icon"
+                                            Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"
+                                            Style="{StaticResource Icon.Medium}"
+                                            Margin="0 0 5 0"/>
+
+                            <TextBlock Name="content"
+                                       Text="{TemplateBinding Content}"
+                                       VerticalAlignment="Center"/>
+                            
+                        </StackPanel>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Primary.Background.Hover.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Button.Primary.Border.Hover.Brush}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Primary.Background.Pressed.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Button.Primary.Border.Pressed.Brush}"/>
+                            <Setter TargetName="border" Property="RenderTransform">
+                                <Setter.Value>
+                                    <TranslateTransform Y="1"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+
+                        <!-- Триггер для неактивной кнопки -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{StaticResource Background.Disabled.Brush}"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Иконка средняя -->
+    <Style TargetType="{x:Type Button}" x:Key="Button.Icon.Medium">
+        <Setter Property="Background" Value="{StaticResource Button.Background.Static.Brush}"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Button.Background.Static.Brush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Width" Value="48"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="10">
+
+                        <icons:PackIcon Name="icon"
+                                        Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"
+                                        Style="{StaticResource Icon.Medium}"
+                                        Margin="12"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Background.Hover.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Button.Background.Hover.Brush}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Background.Pressed.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Button.Background.Pressed.Brush}"/>
+                        </Trigger>
+
+                        <!-- Триггер для неактивной кнопки -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{StaticResource Background.Disabled.Brush}"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Навигационная кнопка (RadioButton)-->
     <Style TargetType="{x:Type RadioButton}" x:Key="RadioButton.Navigation">
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="16"/>
+        <Setter Property="Padding" Value="12"/>
         <Setter Property="Width" Value="195"/>
-        <Setter Property="Height" Value="56"/>
+        <Setter Property="Height" Value="48"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="FontFamily" Value="SF Pro Text"/>
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Medium"/>
         <Setter Property="Cursor" Value="Arrow"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -339,11 +454,8 @@
                             
                             <icons:PackIcon Name="icon"
                                             Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            Width="24"
-                                            Height="24"
-                                            Margin="0 0 8 0"/>
+                                            Style="{StaticResource Icon.Navigation}"
+                                            Margin="0 0 6 0"/>
                             
                             <TextBlock Name="content"
                                        Text="{TemplateBinding Content}"
@@ -353,18 +465,65 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
+                        <!-- Активна -->
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="BorderBrush" Value="{StaticResource Background.Control.Brush}"/>
                             <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
                             <Setter TargetName="icon" Property="Foreground" Value="{StaticResource Primary.Static.Brush}"/>
                             <Setter TargetName="content" Property="Foreground" Value="{StaticResource Primary.Static.Brush}"/>
                         </Trigger>
-                        
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="BorderBrush" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
-                            <Setter Property="Background" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
-                            <Setter TargetName="icon" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
-                            <Setter TargetName="content" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
+
+                        <!-- Не активна + не нажата -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False"/>
+                                <Condition Property="IsMouseOver" Value="False"/>
+                                <Condition Property="IsPressed" Value="False"/>
+                            </MultiTrigger.Conditions>
+
+                            <MultiTrigger.Setters>
+                                <Setter Property="BorderBrush" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
+                                <Setter Property="Background" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
+                                <Setter TargetName="content" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <!-- Не активна + наведена -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsPressed" Value="False"/>
+                            </MultiTrigger.Conditions>
+
+                            <MultiTrigger.Setters>
+                                <Setter Property="BorderBrush" Value="{StaticResource Background.Control.Brush}"/>
+                                <Setter Property="Background" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
+                                <Setter TargetName="content" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <!-- Не активна + нажата -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False"/>
+                                <Condition Property="IsPressed" Value="True"/>
+                            </MultiTrigger.Conditions>
+
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource Background.Control.Brush}"/>
+                                <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="{StaticResource Primary.Static.Brush}"/>
+                                <Setter TargetName="content" Property="Foreground" Value="{StaticResource Primary.Static.Brush}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <!-- Отключённая кнопка -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -372,6 +531,87 @@
         </Setter>
     </Style>
         <!--#endregion-->
+
+    <!--#region Навигационная кнопка (Button) -->
+    <Style TargetType="{x:Type Button}" x:Key="Button.Navigator">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="Width" Value="195"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Cursor" Value="Arrow"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="10">
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+
+                            <icons:PackIcon Name="icon"
+                                            Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"
+                                            Style="{StaticResource Icon.Navigation}"
+                                            Margin="0 0 6 0"/>
+
+                            <TextBlock Name="content"
+                                       Text="{TemplateBinding Content}"
+                                       VerticalAlignment="Center"/>
+
+                        </StackPanel>
+                    </Border>
+                    
+                    <ControlTemplate.Triggers>
+                        <!-- Не активна + не нажата (базовое состояние) -->
+                        <Trigger Property="IsEnabled" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
+                            <Setter Property="Background" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
+                            <Setter TargetName="icon" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
+                            <Setter TargetName="content" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
+                        </Trigger>
+
+                        <!-- Не активна + наведена -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="True"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="BorderBrush" Value="{StaticResource Background.Control.Brush}"/>
+                            <Setter Property="Background" Value="{StaticResource Button.Primary.Background.Static.Brush}"/>
+                            <Setter TargetName="icon" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
+                            <Setter TargetName="content" Property="Foreground" Value="{StaticResource Background.Control.Brush}"/>
+                        </MultiTrigger>
+
+                        <!-- Не активна + нажата -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="True"/>
+                                <Condition Property="IsPressed" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Background.Control.Brush}"/>
+                            <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
+                            <Setter TargetName="icon" Property="Foreground" Value="{StaticResource Primary.Static.Brush}"/>
+                            <Setter TargetName="content" Property="Foreground" Value="{StaticResource Primary.Static.Brush}"/>
+                        </MultiTrigger>
+
+                        <!-- Отключённая кнопка -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
     <!--#endregion-->
 
     <!--#region Чек боксы -->

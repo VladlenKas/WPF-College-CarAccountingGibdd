@@ -1,0 +1,15 @@
+﻿<Page x:Class="CarAccountingGibdd.Pages.PagesInspector.ApplicationPageInspector"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CarAccountingGibdd.Pages.PagesInspector"
+      mc:Ignorable="d" 
+      
+      d:Width="900" d:Height="450"
+      xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters">
+
+
+
+
+</Page>
