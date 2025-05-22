@@ -1,6 +1,6 @@
 ﻿using CarAccountingGibdd.Pages.PagesAdmin;
-using CarAccoutingGibdd.Model;
-using CarAccoutingGibdd;
+using CarAccountingGibdd.Model;
+using CarAccountingGibdd;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CarAccountingGibdd.Pages.PagesInspector;
 
 namespace CarAccountingGibdd.Windows
 {
@@ -43,7 +44,7 @@ namespace CarAccountingGibdd.Windows
         // Обработчики событий
         private void ApplicationRButton_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new OwnerPageAdmin());
+            CurrentPage.Navigate(new ApplicationPageInspector(_inspector));
             titlePage.Text = "Заявки";
         }
         

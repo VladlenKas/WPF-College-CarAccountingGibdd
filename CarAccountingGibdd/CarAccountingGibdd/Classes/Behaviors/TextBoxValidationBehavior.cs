@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace CarAccountingGibdd.Classes
+namespace CarAccountingGibdd.Classes.Behaviors
 {
     public static class TextBoxValidationBehavior
     {

@@ -1,8 +1,7 @@
-﻿using CarAccountingGibdd.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace CarAccoutingGibdd.Model;
+namespace CarAccountingGibdd.Model;
 
 public partial class Employee
 {
@@ -16,12 +15,12 @@ public partial class Employee
 
     public string Lastname { get; set; } = null!;
 
-    public string? Patronymic { get; set; }
-
     public string Fullname => $"{Lastname} {Firstname} {Patronymic}";
 
     public string FIname => $"{Lastname} {Firstname}";
-    
+
+    public string? Patronymic { get; set; }
+
     public DateOnly Birthdate { get; set; }
 
     public string Passport { get; set; } = null!;

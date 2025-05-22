@@ -37,9 +37,7 @@
                 <!-- Основные операции -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
-                           Text="Рабочий процесс"
-                           Margin="0 10 0 5"
-                           FontWeight="SemiBold"/>
+                           Text="Рабочий процесс"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Name="applicationRB"
@@ -66,9 +64,7 @@
                 <!-- Справочные данные -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
-                           Text="Справочники"
-                           Margin="0 10 0 5"
-                           FontWeight="SemiBold"/>
+                           Text="Справочники"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Владельцы"
@@ -101,15 +97,13 @@
                 <!-- Отчеты -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
-                           Text="Документы"
-                           Margin="0 10 0 5"
-                           FontWeight="SemiBold"/>
+                           Text="Документы"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Сертификаты"
                              Tag="certificateOutline"
                              GroupName="navItems"
-                             Margin="0 0 0 10"
+                             Margin="0 0 0 5"
                              Checked="CertificateRButton_Checked"/>
                 
                 <Button Style="{StaticResource Button.Navigator}"

@@ -1,14 +1,11 @@
-﻿using CarAccountingGibdd.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace CarAccoutingGibdd.Model;
+namespace CarAccountingGibdd.Model;
 
 public partial class Vehicle
 {
     public int VehicleId { get; set; }
-
-    public int OwnerId { get; set; }
 
     public int VehicleTypeId { get; set; }
 
@@ -24,15 +21,20 @@ public partial class Vehicle
 
     public string? LicensePlate { get; set; }
 
+    public string Info => $"{Brand} {Model} {Year} {Color}";
+
     public sbyte Used { get; set; }
 
     public sbyte Deleted { get; set; }
 
-    public string Info => $"{Brand} {Model} {Year} {Color}";
+    public string UsedValueString => Used switch
+    {
+        1 => "Нет",
+        0 => "Да",
+        _ => "NULL VALUE"
+    };
 
-    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
-
-    public virtual Owner Owner { get; set; } = null!;
+    public virtual ICollection<OwnerVehicle> OwnerVehicles { get; set; } = new List<OwnerVehicle>();
 
     public virtual ICollection<PhotosVehicle> PhotosVehicles { get; set; } = new List<PhotosVehicle>();
 

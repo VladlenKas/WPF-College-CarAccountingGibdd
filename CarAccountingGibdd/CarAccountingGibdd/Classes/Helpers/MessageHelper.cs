@@ -17,6 +17,27 @@ namespace CarAccountingGibdd.Classes
                 "Предупреждение",
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
+        }        
+        
+        // Предупреждение о пустых полях
+        public static void MessageActiveApplication()
+        {
+            MessageBox.Show($"В настоящее время выбранное транспортное средство уже имеет" +
+                $" действующую заявку. Гражданин не может подавать сразу несколько" +
+                $" заявок на одно транспортное средство.",
+                "Предупреждение",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+        }
+
+        // Предупреждение о пустых полях
+        public static void MessageCerrentSertificate()
+        {
+            MessageBox.Show($"Данный владелец уже имеет действующее сведетельство" +
+                $" о регистрации ТС. Нельзя выдавать несколько сертификатов одному владельцу",
+                "Предупреждение",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
         }
         #endregion
 
@@ -33,7 +54,53 @@ namespace CarAccountingGibdd.Classes
             {
                 window.Close();
             }
-        } 
+        }
+
+        // Подтверждение добавления ЗАЯВКИ
+        public static bool ConfirmSaveApplication()
+        {
+            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно? Внести изменения будет невозомжно.",
+                "Вопрос",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("Формирование заявки прошло успешно",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Подтверждение добавления
+        public static bool ConfirmSave()
+        {
+            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно?",
+                "Вопрос",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("Добавление прошло успешно",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion
     }
 }

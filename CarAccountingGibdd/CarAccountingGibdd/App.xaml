@@ -1,7 +1,7 @@
-﻿<Application x:Class="CarAccoutingGibdd.App"
+﻿<Application x:Class="CarAccountingGibdd.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CarAccoutingGibdd"
+             xmlns:local="clr-namespace:CarAccountingGibdd"
              StartupUri="Windows/AuthWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

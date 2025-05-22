@@ -1,7 +1,6 @@
 ﻿using CarAccountingGibdd.Classes;
 using CarAccountingGibdd.Windows;
-using CarAccoutingGibdd.Model;
-using CarAccoutingGibdd.Windows;
+using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Windows;
@@ -14,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CarAccoutingGibdd
+namespace CarAccountingGibdd
 {
     /// <summary>
     /// Interaction logic for AuthWindow.xaml

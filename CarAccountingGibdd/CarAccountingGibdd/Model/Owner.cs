@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CarAccoutingGibdd.Model;
+namespace CarAccountingGibdd.Model;
 
 public partial class Owner
 {
@@ -13,8 +13,6 @@ public partial class Owner
 
     public string? Patronymic { get; set; }
 
-    public string FIname => $"{Lastname} {Firstname}";
-
     public DateOnly Birthdate { get; set; }
 
     public string Passport { get; set; } = null!;
@@ -25,5 +23,5 @@ public partial class Owner
 
     public sbyte Deleted { get; set; }
 
-    public virtual ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
+    public virtual ICollection<OwnerVehicle> OwnerVehicles { get; set; } = new List<OwnerVehicle>();
 }

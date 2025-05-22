@@ -21,7 +21,7 @@
                 CornerRadius="10">
 
             <DockPanel LastChildFill="False"
-                       Width="400">
+                       Width="310">
 
                 <!-- Заголовок -->
                 <TextBlock Style="{StaticResource TextBlock.H2}"
@@ -36,65 +36,83 @@
                            Margin="0 0 0 12"
                            TextWrapping="Wrap">
                     <Run Text="Владелец:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Vehicle[0].Owner[0].FIname, StringFormat={}№{0}}"/>
+                    <Run Text="{Binding OwnerVehicle.Owner.FIname, Mode=OneWay}"
+                         Style="{StaticResource Run.Description}"/>
                 </TextBlock>
                 
                 <TextBlock DockPanel.Dock="Top"
                            Margin="0 0 0 12"
                            TextWrapping="Wrap">
                     <Run Text="Телефон:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Vehicle[0].Owner[0].Phone, StringFormat={}№{0}}"/>
+                    <Run Text="{Binding OwnerVehicle.Owner.Phone}"
+                         Style="{StaticResource Run.Description}"/>
                 </TextBlock>
 
                 <TextBlock DockPanel.Dock="Top"
                            Margin="0 0 0 12"
                            TextWrapping="Wrap">
                     <Run Text="Автомобиль:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Vehicle[0].Info, StringFormat={}№{0}}"/>
+                    <Run Text="{Binding OwnerVehicle.Vehicle.Info, Mode=OneWay}"
+                         Style="{StaticResource Run.Description}"/>
                 </TextBlock>
 
                 <TextBlock DockPanel.Dock="Top"
                            Margin="0 0 0 12"
                            TextWrapping="Wrap">
                     <Run Text="ВИН:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Vehicle[0].Vin, StringFormat={}№{0}}"/>
+                    <Run Text="{Binding OwnerVehicle.Vehicle.Vin}"
+                         Style="{StaticResource Run.Description}"/>
                 </TextBlock>
 
                 <TextBlock DockPanel.Dock="Top"
                            Margin="0 0 0 12"
                            TextWrapping="Wrap">
                     <Run Text="Дата подачи:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Vehicle[0].Vin, StringFormat={}№{0}}"/>
+                    <Run Text="{Binding DatetimeSupply, StringFormat={}{0:dd.MM.yyyy}}"
+                         Style="{StaticResource Run.Description}"/>
                 </TextBlock>
 
                 <TextBlock DockPanel.Dock="Top"
                            Margin="0 0 0 24"
                            TextWrapping="Wrap">
                     <Run Text="Статус:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding ApplicationStatus.Name, StringFormat={}№{0}}"/>
+                    <Run Text="{Binding ApplicationStatus.Name}"
+                         Style="{StaticResource Run.Description}"/>
                 </TextBlock>
 
                 <!-- Кнопки -->
                 <DockPanel DockPanel.Dock="Bottom"
-                           Visibility="Visible"
-                           Name="ButtonsSP"
+                           Visibility="Collapsed"
+                           Name="buttonsDP"
                            Width="Auto">
-                    
-                    <Button Style="{StaticResource Button.Icon.Medium}"
-                            Tag="infoOutline"
-                            DockPanel.Dock="Right"/>
 
-                    <Button Style="{StaticResource Button.Icon.Medium}"
-                            Margin="0 0 12 0"
+                    <Button Style="{StaticResource Button.Icon.Large}"
                             Tag="closeCircleOutline"
-                            DockPanel.Dock="Right"/>
+                            DockPanel.Dock="Right"
+                            Click="Cancel_Click"/>
+                    
+                    <Button Style="{StaticResource Button.Icon.Large}"
+                            Margin="0 0 12 0"
+                            Tag="infoOutline"
+                            DockPanel.Dock="Right"
+                            Click="GetInfo_Click"/>
                     
                     <!-- Смена статуса -->
                     <Button Style="{StaticResource Button.Primary.Icon}"
                             Margin="0 0 12 0"
                             Content="Принять"
-                            Tag="check"/>
+                            Tag="check"
+                            Click="ToAccept_Click"/>
                 </DockPanel>
+
+                <!-- Смена статуса -->
+                <Button Style="{StaticResource Button.Primary.Icon}"
+                        DockPanel.Dock="Bottom"
+                        Visibility="Collapsed"
+                        Name="infoBTN"
+                        Content="Информация"
+                        Tag="closeCircleOutline"
+                        Click="GetInfo_Click"/>   
             </DockPanel>
         </Border>
     </Grid>

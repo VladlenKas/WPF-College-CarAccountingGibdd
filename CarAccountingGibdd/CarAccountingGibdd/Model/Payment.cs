@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
-namespace CarAccoutingGibdd.Model;
+namespace CarAccountingGibdd.Model;
 
 public partial class Payment
 {
@@ -11,7 +9,7 @@ public partial class Payment
 
     public int ApplicationId { get; set; }
 
-    public byte PaymentMethod { get; set; } = 0; // 0=наличные, 1=безнал
+    public sbyte PaymentMethod { get; set; }
 
     public string? BankName { get; set; }
 

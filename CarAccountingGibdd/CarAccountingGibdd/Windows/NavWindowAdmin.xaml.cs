@@ -1,5 +1,5 @@
 ﻿using CarAccountingGibdd.Pages.PagesAdmin;
-using CarAccoutingGibdd.Model;
+using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace CarAccoutingGibdd.Windows
+namespace CarAccountingGibdd.Windows
 {
     /// <summary>
     /// Логика взаимодействия для NavigationAdminWindow.xaml

@@ -6,10 +6,85 @@
       xmlns:local="clr-namespace:CarAccountingGibdd.Pages.PagesInspector"
       mc:Ignorable="d" 
       
-      d:Width="900" d:Height="450"
+      d:Width="1000" d:Height="450"
+      d:Background="{StaticResource Background.Window.Brush}"
       xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters">
 
+    <DockPanel>
+        <!-- Область параметров -->
+        <DockPanel DockPanel.Dock="Top"
+                   Margin="0 0 0 35"
+                   LastChildFill="False">
 
+            <Grid>
+                <TextBox Width="360"
+                         MinWidth="150"
+                         Name="searchTB"
+                         Tag="Поиск"
+                         MaxLength="70"
+                         ToolTip="Нажмите на значок поиска для обновления данных"/>
+
+                <Button Name="searchBTN"
+                        HorizontalAlignment="Right"
+                        Tag="Search"
+                        Style="{StaticResource Button.Icon.Transperent}"/>
+            </Grid>
+
+            <ComboBox Style="{StaticResource ComboBox.Filter}"
+                      Margin="10 0"
+                      Name="filterCB"
+                      Tag="Фильтр"/>
+
+            <ComboBox Style="{StaticResource ComboBox.Sorter}"
+                      Name="sorterCB"
+                      Tag="Сортировка"/>
+
+            <CheckBox Style="{StaticResource CheckBox.Ascending}"
+                      Margin="5 0 10 0"
+                      Name="ascendingCHB"/>
+
+            <Button Name="resetFiltersBTN"
+                    Style="{StaticResource Button.Icon.Medium}"
+                    Content="Очистить все"
+                    Tag="restore"
+                    ToolTip="Сброс фильтров"/>
+
+
+            <Button Style="{StaticResource Button.Primary.Icon}"
+                    DockPanel.Dock="Right"
+                    MinWidth="200"
+                    Content="Новая заявка"
+                    Tag="add"
+                    Click="Add_Click"/>
+
+        </DockPanel>
+
+        <!-- Область вывода информации -->
+        <Grid>
+
+            <!-- Контент -->
+            <Grid>
+                <ScrollViewer Name="contentScroll"
+                          Style="{StaticResource ScrollViewer.Standart}">
+                    <ItemsControl Name="cardsIC">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"
+                                           HorizontalAlignment="Left"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <TextBlock Text="Данные о заявках отсутствуют"
+                           Style="{StaticResource TextBlock.H2}"
+                           Visibility="{Binding Items.Count, ElementName=cardsIC, 
+                           Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
+            </Grid>
+
+        </Grid>
+
+    </DockPanel>
 
 
 </Page>
