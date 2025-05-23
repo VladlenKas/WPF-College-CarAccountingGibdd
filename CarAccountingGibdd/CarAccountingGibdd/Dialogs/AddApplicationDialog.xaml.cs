@@ -1,4 +1,5 @@
 ﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Model;
 using System;
 using System.Collections.Generic;
@@ -23,32 +24,33 @@ namespace CarAccountingGibdd.Dialogs
     public partial class AddApplicationDialog : Window, INotifyPropertyChanged
     {
         // Поля и свойства
+        private ApplicationService ApplicationService => new ApplicationService();
         public bool Saved { get; private set; }
 
         // Конструктор
         public AddApplicationDialog()
         {
             InitializeComponent();
-            ownerATB.ItemsSource = App.DbContext.Owners.ToList();
-            vehicleATB.ItemsSource = null;
+            ownerATB.ItemsSource = App.DbContext.Owners;
+            vehicleATB.ItemsSource = App.DbContext.Vehicles;
         }
 
         // Методы
         private void CreateApplication(Owner owner, Vehicle vehicle)
         {
-           /* bool notError = Limitators.RateLimitator(null, name, cost, description);
+            bool notError = ApplicationService.Check(owner, vehicle);
             if (!notError) return;
 
             bool accept = MessageHelper.ConfirmSaveApplication();
             if (!accept) return;
 
-            RateService.AddRate(name, cost, description);
+            ApplicationService.CreateApplication(owner, vehicle);
             Saved = true;
-            Close();*/
+            Close();
         }
 
         // Обработчики событий
-        private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
+        private void Exit_Click(object sender, RoutedEventArgs e) =>  MessageHelper.ConfirmExit(this);
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {

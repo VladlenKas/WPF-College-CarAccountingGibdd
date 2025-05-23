@@ -13,6 +13,12 @@ public partial class Owner
 
     public string? Patronymic { get; set; }
 
+    public string Fullname => $"{Lastname} {Firstname} {Patronymic}";
+
+    public string FIname => $"{Lastname} {Firstname}";
+
+    public string FIpassport => $"{Lastname} {Firstname}, {Passport}";
+
     public DateOnly Birthdate { get; set; }
 
     public string Passport { get; set; } = null!;
@@ -22,6 +28,8 @@ public partial class Owner
     public string Phone { get; set; } = null!;
 
     public sbyte Deleted { get; set; }
+
+    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
     public virtual ICollection<OwnerVehicle> OwnerVehicles { get; set; } = new List<OwnerVehicle>();
 }

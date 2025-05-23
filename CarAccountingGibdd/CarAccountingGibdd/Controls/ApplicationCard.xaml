@@ -36,7 +36,7 @@
                            Margin="0 0 0 12"
                            TextWrapping="Wrap">
                     <Run Text="Владелец:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding OwnerVehicle.Owner.FIname, Mode=OneWay}"
+                    <Run Text="{Binding Owner.FIname, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                 </TextBlock>
                 
@@ -44,7 +44,7 @@
                            Margin="0 0 0 12"
                            TextWrapping="Wrap">
                     <Run Text="Телефон:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding OwnerVehicle.Owner.Phone}"
+                    <Run Text="{Binding Owner.Phone}"
                          Style="{StaticResource Run.Description}"/>
                 </TextBlock>
 
@@ -52,7 +52,7 @@
                            Margin="0 0 0 12"
                            TextWrapping="Wrap">
                     <Run Text="Автомобиль:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding OwnerVehicle.Vehicle.Info, Mode=OneWay}"
+                    <Run Text="{Binding Vehicle.Info, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                 </TextBlock>
 
@@ -60,7 +60,7 @@
                            Margin="0 0 0 12"
                            TextWrapping="Wrap">
                     <Run Text="ВИН:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding OwnerVehicle.Vehicle.Vin}"
+                    <Run Text="{Binding Vehicle.Vin}"
                          Style="{StaticResource Run.Description}"/>
                 </TextBlock>
 

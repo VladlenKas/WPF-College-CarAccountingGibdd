@@ -50,7 +50,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="ФИО:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding OwnerVehicle.Owner.Fullname, Mode=OneWay}"
+                    <Run Text="{Binding Owner.Fullname, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -58,7 +58,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Дата рождения:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding OwnerVehicle.Owner.Birthdate, StringFormat={}{0:dd.MM.yyyy}}"
+                    <Run Text="{Binding Owner.Birthdate, StringFormat={}{0:dd.MM.yyyy}}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -66,7 +66,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Серия и номер паспорта:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Vehicle.Owner.Passport}"
+                    <Run Text="{Binding Owner.Passport}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -74,7 +74,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Номер телефона:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Vehicle.Owner.Phone}"
+                    <Run Text="{Binding Owner.Phone}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -82,7 +82,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Адрес проживания:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Vehicle.Owner.Address}"
+                    <Run Text="{Binding Owner.Address}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
                 </DockPanel>
@@ -160,7 +160,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Пользованный:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding UsedValueString, Mode=OneWay}"
+                    <Run Text="{Binding Vehicle.UsedValueString, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
                 </DockPanel>
@@ -206,14 +206,6 @@
                                TextWrapping="Wrap">
                     <Run Text="ФИО инспектора:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding FirstEmployeeFullname, Mode=OneWay}"
-                         Style="{StaticResource Run.Description}"/>
-                    </TextBlock>
-                    
-                    <TextBlock DockPanel.Dock="Top"
-                               Margin="0 0 0 12"
-                               TextWrapping="Wrap">
-                    <Run Text="Сертификат:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding FirstCertificateNumber, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 

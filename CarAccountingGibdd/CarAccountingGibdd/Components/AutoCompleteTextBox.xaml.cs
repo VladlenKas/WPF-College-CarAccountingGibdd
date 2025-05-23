@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +85,9 @@ namespace CarAccountingGibdd.Components
             }
         }
 
+        // Проверка на то, открыт ли список
+        private bool PopupIsOpen { get; set; } 
+
         /// <summary>
         /// Конструктор элемента управления.
         /// </summary>
@@ -91,6 +95,7 @@ namespace CarAccountingGibdd.Components
         {
             InitializeComponent();
 
+            PopupIsOpen = false;
             this.Loaded += AutoCompleteControl_Loaded; // Подписка на событие загрузки
             this.PreviewMouseDown += OnPreviewMouseDown;
             this.LostFocus += OnLostFocus;
@@ -100,17 +105,19 @@ namespace CarAccountingGibdd.Components
         private void InputTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             ToggleButton.IsChecked = true;
+            SuggestionsPopup.IsOpen = true;
         }
 
         private void CloseList()
         {
             ToggleButton.IsChecked = false;
+            PopupIsOpen = false;
         }
 
         private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             // Проверяем, был ли клик внутри компонента
-            if (!IsMouseOver)
+            if (!IsMouseOver && PopupIsOpen == false)
             {
                 CloseList();
             }
@@ -118,7 +125,7 @@ namespace CarAccountingGibdd.Components
 
         private void OnLostFocus(object sender, RoutedEventArgs e)
         {
-            if (!ItemsListBox.IsMouseOver && !InputTextBox.IsFocused)
+            if (PopupIsOpen == true)
             {
                 CloseList();
             }
@@ -182,6 +189,10 @@ namespace CarAccountingGibdd.Components
             if (string.IsNullOrWhiteSpace(filter))
             {
                 // Если текст пустой, показываем все элементы
+                ItemsListBox.ItemsSource = ItemsSource.Cast<object>().ToList();
+            }
+            else if (ItemsListBox.SelectedItem != null)
+            {
                 ItemsListBox.ItemsSource = ItemsSource.Cast<object>().ToList();
             }
             else
@@ -269,7 +280,6 @@ namespace CarAccountingGibdd.Components
                 ItemSelected?.Invoke(selectedItem);
 
             }
-            ItemsListBox.Visibility = Visibility.Collapsed; // Скрываем список после выбора
         }
 
         /// <summary>

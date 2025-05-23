@@ -9,7 +9,9 @@ public partial class Application
 
     public int ApplicationStatusId { get; set; }
 
-    public int? OwnerVehicleId { get; set; }
+    public int OwnerId { get; set; }
+
+    public int VehicleId { get; set; }
 
     public DateTime DatetimeSupply { get; set; }
 
@@ -19,7 +21,15 @@ public partial class Application
 
     public virtual ICollection<Inspection> Inspections { get; set; } = new List<Inspection>();
 
-    public virtual OwnerVehicle OwnerVehicle { get; set; } = null!;
+    public virtual Owner Owner { get; set; } = null!;
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+
+    public virtual Vehicle Vehicle { get; set; } = null!;
+
+    public string FirstEmployeeFullname =>
+    Inspections?.FirstOrDefault()?.Employee?.Fullname ?? "Отсутствует";
+
+    public string FirstInspectionNumber =>
+        Inspections?.FirstOrDefault()?.InspectionId.ToString() ?? "Отсутствует";
 }

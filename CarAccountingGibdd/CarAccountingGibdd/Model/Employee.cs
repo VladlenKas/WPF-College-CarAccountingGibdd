@@ -15,11 +15,11 @@ public partial class Employee
 
     public string Lastname { get; set; } = null!;
 
+    public string? Patronymic { get; set; }
+
     public string Fullname => $"{Lastname} {Firstname} {Patronymic}";
 
     public string FIname => $"{Lastname} {Firstname}";
-
-    public string? Patronymic { get; set; }
 
     public DateOnly Birthdate { get; set; }
 

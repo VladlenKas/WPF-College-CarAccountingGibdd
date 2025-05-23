@@ -11,6 +11,7 @@
 
         <!--#region Кнопка -->
         <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -26,7 +27,7 @@
                                             Kind="ChevronDown"
                                             Width="24"
                                             Height="24"
-                                            Foreground="#FFFFFF"
+                                            Foreground="{StaticResource Text.Secondary.Brush}"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"/>
 
@@ -47,12 +48,13 @@
         
         <!--#region Список (ListBox) -->
         <Style TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBox}">
 
-                        <Border Background="{StaticResource Background.Disabled.Brush}"
-                                BorderBrush="{StaticResource Border.Static.Brush}"
+                        <Border Background="{StaticResource Background.Control.Brush}"
+                                BorderBrush="{StaticResource Primary.Static.Brush}"
                                 BorderThickness="1"
                                 CornerRadius="10">
 
@@ -72,7 +74,7 @@
 
         <!--#region Элемент списка (ItemListBox) -->
         <Style TargetType="{x:Type ListBoxItem}">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
             <Setter Property="FontFamily" Value="SF Pro Text"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Template">
@@ -92,12 +94,14 @@
                         <ControlTemplate.Triggers>
 
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="{StaticResource Background.Disabled.Brush}"/>
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource Background.Window.Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
                             </Trigger>
 
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="{StaticResource Background.Disabled.Brush}"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Background.Disabled.Brush}"/>
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource Background.Window.Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Primary.Static.Brush}"/>
                             </Trigger>
 
                         </ControlTemplate.Triggers>
@@ -129,12 +133,12 @@
         <Popup x:Name="SuggestionsPopup"
                Placement="Bottom"
                StaysOpen="True"
-               AllowsTransparency="False"
+               AllowsTransparency="True"
                PopupAnimation="Slide"
-               IsOpen="{Binding ElementName=ToggleButton, Path=IsChecked}">
+               IsOpen="{Binding IsChecked, ElementName=ToggleButton, Mode=TwoWay}">
 
-            <Border Background="{StaticResource Background.Disabled.Brush}"
-                    BorderBrush="{StaticResource Background.Disabled.Brush}"
+            <Border Background="Transparent"
+                    BorderBrush="Transparent"
                     CornerRadius="10"
                     MaxHeight="200"
                     Width="{Binding ActualWidth, ElementName=InputTextBox}">

@@ -38,13 +38,15 @@
                        Opacity="0.5"
                        DockPanel.Dock="Top"/>
 
-            <components:AutoCompleteTextBox Placeholder="Владелец (ФИО, номер телефона)"
+            <components:AutoCompleteTextBox Placeholder="Владелец (ФИ, паспорт)"
+                                            DisplayMemberPath="FIpassport"
                                             x:Name="ownerATB"
                                             Margin="0 0 0 12"
                                             DockPanel.Dock="Top"
                                             behaviors:TextBoxValidationBehavior.ValidationType="CyrillicAndNumbers"/>
 
-            <components:AutoCompleteTextBox Placeholder="Автомоиль (марка, модель, год)"
+            <components:AutoCompleteTextBox Placeholder="Автомобиль (марка, модель, год, цвет)"
+                                            DisplayMemberPath="Info"
                                             x:Name="vehicleATB"
                                             Margin="0 0 0 40"
                                             DockPanel.Dock="Top"
@@ -53,13 +55,13 @@
             <Button Style="{StaticResource Button.Ordinary}"
                     DockPanel.Dock="Bottom"
                     Content="Выйти"
-                    Click="Add_Click"/>
+                    Click="Exit_Click"/>
 
             <Button Style="{StaticResource Button.Primary}"
                     DockPanel.Dock="Bottom"
                     Content="Сохранить"
                     Margin="0 0 0 12"
-                    Click="Exit_Click"/>
+                    Click="Add_Click"/>
 
         </DockPanel>
 

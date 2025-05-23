@@ -1,6 +1,7 @@
 ﻿using CarAccountingGibdd.Classes;
 using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Controls;
+using CarAccountingGibdd.Dialogs;
 using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -68,7 +69,11 @@ namespace CarAccountingGibdd.Pages.PagesInspector
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
+            AddApplicationDialog dialog = new();
+            ComponentsHelper.ShowDialogWindowDark(dialog);
 
+            bool saved = dialog.Saved;
+            if (saved) UpdateIC();
         }
     }
 }

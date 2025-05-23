@@ -13,8 +13,6 @@ public partial class OwnerVehicle
 
     public sbyte Deleted { get; set; }
 
-    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
-
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
     public virtual Owner Owner { get; set; } = null!;

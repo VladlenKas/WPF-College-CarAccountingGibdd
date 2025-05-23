@@ -21,7 +21,7 @@ public partial class Vehicle
 
     public string? LicensePlate { get; set; }
 
-    public string Info => $"{Brand} {Model} {Year} {Color}";
+    public string Info => $"{Brand} {Model} {Year}, {Color}";
 
     public sbyte Used { get; set; }
 
@@ -33,6 +33,8 @@ public partial class Vehicle
         0 => "Да",
         _ => "NULL VALUE"
     };
+
+    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
     public virtual ICollection<OwnerVehicle> OwnerVehicles { get; set; } = new List<OwnerVehicle>();
 
