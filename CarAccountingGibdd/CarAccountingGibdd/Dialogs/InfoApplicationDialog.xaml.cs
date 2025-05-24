@@ -38,12 +38,12 @@ namespace CarAccountingGibdd.Dialogs
                 return;
             }
 
-            if (inspection.StatusId == 3) // Если инспекция прошла осмотр
+            if (inspection.InspectionStatusId == 3) // Если инспекция прошла осмотр
             {
                 titleInfoDocumentTB.Text = "Номер сертификата:";
                 infoDocumentTB.Text = $"№{inspection.Application.Certificates.Single().CertificateId}";
             }
-            else if (inspection.StatusId == 4 || inspection.StatusId == 5) // Если инспекция не прошла осмотр
+            else if (inspection.InspectionStatusId == 4 || inspection.InspectionStatusId == 5) // Если инспекция не прошла осмотр
             {
                 titleInfoDocumentTB.Text = "Номер документа о нарушениях:";
                 infoDocumentTB.Text = $"Отчёт о выявленных нарушениях №{inspection.InspectionId}";

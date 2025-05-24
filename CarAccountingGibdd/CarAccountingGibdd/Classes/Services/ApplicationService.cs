@@ -82,7 +82,7 @@ namespace CarAccountingGibdd.Classes.Services
             {
                 ApplicationId = application.ApplicationId,
                 InspectorId = inspector.EmployeeId,
-                StatusId = 1,
+                InspectionStatusId = 1,
                 DatetimePlanned = dateTimePlanned,
             };
 
@@ -106,7 +106,7 @@ namespace CarAccountingGibdd.Classes.Services
             // Обновляем статусы
             overdueInspections.ForEach(s =>
             {
-                s.StatusId = 2; // В процессе
+                s.InspectionStatusId = 2; // В процессе
                 s.Application.ApplicationStatusId = 4; // На осмотре
             });
 
@@ -179,7 +179,7 @@ namespace CarAccountingGibdd.Classes.Services
             List<Inspection> startedInspections = App.DbContext.Inspections
                 .Where(d => 
                     d.DatetimePlanned.AddHours(2) < DateTime.Now &&
-                    d.StatusId == 1)
+                    d.InspectionStatusId == 1)
                 .ToList();
 
             bool hasStartedInspections = startedInspections.Count > 0;

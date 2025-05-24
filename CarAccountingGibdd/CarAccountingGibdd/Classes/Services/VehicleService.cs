@@ -136,7 +136,7 @@ namespace CarAccountingGibdd.Classes.Services
                 return false;
             }
 
-            // Валидность ВИН
+            // Валидность VIN
             bool isVinValid = Validations.ValidateCorrectVin(_vin);
             if (!isVinValid)
             {
@@ -145,7 +145,7 @@ namespace CarAccountingGibdd.Classes.Services
             }
 
             // Если есть номерной знак
-            if (!string.IsNullOrEmpty(_licensePlate))
+            if (!string.IsNullOrEmpty(_licensePlate) || !string.IsNullOrWhiteSpace(_licensePlate))
             {
             // Валидность номерного знака
                 bool isValidLicensePlate = Validations.ValidateCorrectLicensePlate(_licensePlate);

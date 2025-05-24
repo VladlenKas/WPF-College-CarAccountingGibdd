@@ -12,7 +12,6 @@
     <None Remove="Resources\GifLoadCat.gif" />
     <None Remove="Resources\LoadingGif.gif" />
     <None Remove="Resources\LogoGibdd.png" />
-    <None Remove="Resources\Signature.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +33,6 @@
     <Resource Include="Resources\IconGibdd.ico" />
     <Resource Include="Resources\LoadingGif.gif" />
     <Resource Include="Resources\LogoGibdd.png" />
-    <Resource Include="Resources\Signature.png" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ public partial class Inspection
 
     public int InspectorId { get; set; }
 
-    public int StatusId { get; set; }
+    public int InspectionStatusId { get; set; }
 
     public DateTime DatetimePlanned { get; set; }
 

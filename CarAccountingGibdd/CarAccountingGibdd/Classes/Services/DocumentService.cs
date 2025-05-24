@@ -207,7 +207,7 @@ namespace CarAccountingGibdd.Classes.Services
                 float xPos = document.PageSize.Width - document.RightMargin - 200f + 40f; // подгоните под ширину таблицы и отступы
                 float yImage = yPos + 5f; // немного выше линии, чтобы наложиться
 
-                // Загружаем изображение подписи
+                /*// Загружаем изображение подписи
                 Image signatureImage = null;
                 uri = new Uri("/CarAccountingGibdd;component/Resources/Signature.png", UriKind.Relative);
                 streamResourceInfo = System.Windows.Application.GetResourceStream(uri);
@@ -230,7 +230,7 @@ namespace CarAccountingGibdd.Classes.Services
                     graphicsState.FillOpacity = 0.7f;  // 70% прозрачность
                     cb.SetGState(graphicsState);
                     cb.AddImage(signatureImage);
-                }
+                }*/
 
                 document.Close();
             }
@@ -423,7 +423,7 @@ namespace CarAccountingGibdd.Classes.Services
                 float xPos = document.PageSize.Width - document.RightMargin - 200f + 40f; // подгоните под ширину таблицы и отступы
                 float yImage = yPos + 5f; // немного выше линии, чтобы наложиться
 
-                // Загружаем изображение подписи
+                /*// Загружаем изображение подписи
                 Image signatureImage = null;
                 uri = new Uri("/CarAccountingGibdd;component/Resources/Signature.png", UriKind.Relative);
                 streamResourceInfo = System.Windows.Application.GetResourceStream(uri);
@@ -446,7 +446,7 @@ namespace CarAccountingGibdd.Classes.Services
                     graphicsState.FillOpacity = 0.7f;  // 50% прозрачность
                     cb.SetGState(graphicsState);
                     cb.AddImage(signatureImage);
-                }
+                }*/
 
                 document.Close();
             }
@@ -628,7 +628,7 @@ namespace CarAccountingGibdd.Classes.Services
                 float yImage = yPos + 5f; // немного выше линии, чтобы наложиться
 
                 // Загружаем изображение подписи
-                Image signatureImage = null;
+                /*Image signatureImage = null;
                 uri = new Uri("/CarAccountingGibdd;component/Resources/Signature.png", UriKind.Relative);
                 streamResourceInfo = System.Windows.Application.GetResourceStream(uri);
                 if (streamResourceInfo != null)
@@ -650,7 +650,7 @@ namespace CarAccountingGibdd.Classes.Services
                     graphicsState.FillOpacity = 0.7f;  // 50% прозрачность
                     cb.SetGState(graphicsState);
                     cb.AddImage(signatureImage);
-                }
+                }*/
 
                 document.Close();
             }

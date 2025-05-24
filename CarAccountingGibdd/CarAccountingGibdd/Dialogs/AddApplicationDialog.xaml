@@ -44,7 +44,7 @@
                                             DockPanel.Dock="Top"
                                             behaviors:TextBoxValidationBehavior.ValidationType="CyrillicAndNumbers"/>
 
-            <components:AutoCompleteTextBox Placeholder="Автомобиль (марка, модель. ВИН)"
+            <components:AutoCompleteTextBox Placeholder="Автомобиль (марка, модель. VIN)"
                                             DisplayMemberPath="ShortInfo"
                                             x:Name="vehicleATB"
                                             Margin="0 0 0 24"

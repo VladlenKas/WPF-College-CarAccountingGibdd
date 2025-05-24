@@ -39,7 +39,7 @@
 
             <TextBox DockPanel.Dock="Top"
                      Name="vinTB"
-                     Tag="ВИН"
+                     Tag="VIN"
                      Margin="0 0 0 12"
                      MaxLength="17"
                      behaviors:TextBoxValidationBehavior.ValidationType="Vin"/>

@@ -298,16 +298,16 @@ public class InspectionDataService
             case 1: // "Активные осмотры"
                 return inspections
                     .Where(r =>
-                        r.StatusId == 1 ||
-                        r.StatusId == 2)
+                        r.InspectionStatusId == 1 ||
+                        r.InspectionStatusId == 2)
                     .ToList();
 
             case 2: // "Завершенные осмотры"
                 return inspections
                     .Where(r =>
-                        r.StatusId == 3 ||
-                        r.StatusId == 4 ||
-                        r.StatusId == 5)
+                        r.InspectionStatusId == 3 ||
+                        r.InspectionStatusId == 4 ||
+                        r.InspectionStatusId == 5)
                     .ToList();
 
             default: // "Все осмотры"
@@ -1477,7 +1477,7 @@ public class ReportDataService
         _itemsDG = itemsDG;
         UpdateIC = Action;
 
-        sorterCB.ItemsSource = new[] { "По дате", "По статусу", "По ФИО владельца", "По инфо. ТС", "По департаменту" };
+        sorterCB.ItemsSource = new[] { "По дате", "По статусу", "По ФИО владельца", "По номеру заявки", "По департаменту" };
         sorterCB.SelectedIndex = 0;
         ascendingCHB.IsChecked = false;
 
@@ -1515,7 +1515,7 @@ public class ReportDataService
             {
                 1 => reports.OrderBy(e => e.StatusName).ToList(),
                 2 => reports.OrderBy(e => e.OwnerFullname).ToList(),
-                3 => reports.OrderBy(e => e.VehicleFullInfo).ToList(),
+                3 => reports.OrderBy(e => e.ApplcationId).ToList(),
                 4 => reports.OrderBy(e => e.DepartmentName).ToList(),
                 _ => reports.OrderBy(e => e.DatetimeSupply).ToList(),
             };
@@ -1528,7 +1528,7 @@ public class ReportDataService
             {
                 1 => reports.OrderByDescending(e => e.StatusName).ToList(),
                 2 => reports.OrderByDescending(e => e.OwnerFullname).ToList(),
-                3 => reports.OrderByDescending(e => e.VehicleFullInfo).ToList(),
+                3 => reports.OrderByDescending(e => e.ApplcationId).ToList(),
                 4 => reports.OrderByDescending(e => e.DepartmentName).ToList(),
                 _ => reports.OrderByDescending(e => e.DatetimeSupply).ToList(),
             };

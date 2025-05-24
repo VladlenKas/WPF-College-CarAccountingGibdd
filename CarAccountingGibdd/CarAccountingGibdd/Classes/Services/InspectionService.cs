@@ -21,7 +21,7 @@ namespace CarAccountingGibdd.Classes.Services
         // Начало осмотра
         public void StartInspection()
         {
-            _inspection.StatusId = 2;
+            _inspection.InspectionStatusId = 2;
             _inspection.Application.ApplicationStatusId = 4;
 
             App.DbContext.Update(_inspection);
@@ -31,7 +31,7 @@ namespace CarAccountingGibdd.Classes.Services
         // Отклонение
         public void Reject()
         {
-            _inspection.StatusId = 5;
+            _inspection.InspectionStatusId = 5;
             _inspection.Application.ApplicationStatusId = 5;
             _inspection.DatetimeCompleted = DateTime.Now;
 
@@ -63,7 +63,7 @@ namespace CarAccountingGibdd.Classes.Services
             ChangeLicensePlate(newLicensePlate);
 
             // Меняем статус инспекции
-            _inspection.StatusId = 3; // пройдена
+            _inspection.InspectionStatusId = 3; // пройдена
             _inspection.DatetimeCompleted = DateTime.Now;
 
             // Меняем статус заявки
@@ -112,7 +112,7 @@ namespace CarAccountingGibdd.Classes.Services
             });
 
             // Меняем статус инспекции
-            _inspection.StatusId = 4; // не пройдена
+            _inspection.InspectionStatusId = 4; // не пройдена
             _inspection.DatetimeCompleted = DateTime.Now;
 
             // Меняем статус заявки

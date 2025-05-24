@@ -49,7 +49,7 @@ namespace CarAccountingGibdd.Classes
             ShowWarning("Такие серия и номер паспорта уже существуют! Введите другие");
         
         public static void MessageDuplicateVin() =>
-            ShowWarning("Такой ВИН уже существует у другого ТС! Введите другой");
+            ShowWarning("Такой VIN уже существует у другого ТС! Введите другой");
         
         public static void MessageDuplicateLicensePlate() =>
             ShowWarning("Такой номерной знак уже существует у другого ТС! Введите другой");

@@ -57,7 +57,7 @@
                     <TextBlock DockPanel.Dock="Top"
                        Margin="0 0 0 12"
                        TextWrapping="Wrap">
-                    <Run Text="ВИН:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="VIN:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Inspection.Application.Vehicle.Vin}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>

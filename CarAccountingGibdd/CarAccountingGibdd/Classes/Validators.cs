@@ -208,7 +208,7 @@ namespace CarAccountingGibdd.Classes
         [GeneratedRegex(@"[а-яА-Я0-9]")]
         private static partial Regex CyrillicAndNumbers();
 
-        // Для ввода ВИН
+        // Для ввода VIN
         [GeneratedRegex(@"[A-Z0-9]")]
         private static partial Regex Vin();
 
@@ -306,7 +306,7 @@ namespace CarAccountingGibdd.Classes
             return true;
         }
         
-        // Ограничение на валидность ВИН
+        // Ограничение на валидность VIN
         public static bool ValidateCorrectVin(string vin)
         {
             var regex = new Regex(@"^[A-HJ-NPR-Z0-9]{17}$");

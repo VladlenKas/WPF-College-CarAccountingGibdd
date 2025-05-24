@@ -23,7 +23,7 @@ public partial class Vehicle
 
     public string Info => $"{Brand} {Model} {Year}";
 
-    public string FullInfo => $"{Brand} {Model} {Year}, {Color}. ВИН: {Vin}";
+    public string FullInfo => $"{Brand} {Model} {Year}, {Color}. VIN: {Vin}";
 
     public string ShortInfo => $"{Brand} {Model}. {Vin}";
 

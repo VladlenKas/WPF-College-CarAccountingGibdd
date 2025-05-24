@@ -95,7 +95,7 @@
                 <!-- Контент -->
                 <DataGrid Name="itemsDG">
                     <DataGrid.Columns>
-                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.4*" Header="ВИН" Binding="{Binding Vin}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.4*" Header="VIN" Binding="{Binding Vin}"/>
                         <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Номерной знак" Binding="{Binding LicensePlateValue, Mode=OneWay}"/>
                         <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Марка, модель" Binding="{Binding BrandModel, Mode=OneWay}"/>
                         <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Цвет" Binding="{Binding Color}"/>

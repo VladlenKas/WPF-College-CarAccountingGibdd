@@ -41,25 +41,10 @@
                       Margin="5 0 24 0"
                       Name="ascendingCHB"/>
 
-
-            <TextBlock Style="{StaticResource TextBlock.Normal}"
-                       Text="Дата начала периода:"
-                       Width="95"
-                       TextWrapping="Wrap"
-                       VerticalAlignment="Center"
-                       Margin="0 0 6 0"/>
-            
             <components:BindableDateBox x:Name="startDateTB"
                                         PlaceholderDate="От даты:"
-                                        Margin="0 0 24 0"
+                                        Margin="0 0 12 0"
                                         Width="140"/>
-
-            <TextBlock Style="{StaticResource TextBlock.Normal}"
-                       Text="Дата окончания периода:"
-                       Width="120"
-                       TextWrapping="Wrap"
-                       VerticalAlignment="Center"
-                       Margin="0 0 6 0"/>
 
             <components:BindableDateBox x:Name="endDateTB"
                                         PlaceholderDate="До даты:"
@@ -90,17 +75,17 @@
                     <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.1*" Header="ФИО владельца" Binding="{Binding OwnerFullname}"/>
                     <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="2*" Header="Данные ТС" Binding="{Binding VehicleFullInfo}"/>
                     <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.7*" Header="Дата подачи" Binding="{Binding DatetimeSupply, StringFormat=dd.MM.yyyy HH:mm}"/>
-                    <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.7*" Header="Дата рассмотрения" Binding="{Binding DatetimeConfirmValue}"/>
+                    <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.72*" Header="Дата рассмотрения" Binding="{Binding DatetimeConfirmValue}"/>
                     <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.6*" Header="Статус" Binding="{Binding StatusName}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
             <TextBlock Text="Данных для отчета нет"
-                          Style="{StaticResource TextBlock.H6}"
-                          FontSize="18"
-                          Margin="20 90 0 0"
-                          Visibility="{Binding Items.Count, ElementName=itemsDG, 
-                          Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
+                       Style="{StaticResource TextBlock.H6}"
+                       FontSize="18"
+                       Margin="20 100 0 0"
+                       Visibility="{Binding Items.Count, ElementName=itemsDG, 
+                       Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
         </Grid>
 
         <!-- Область вывода информации --><!--

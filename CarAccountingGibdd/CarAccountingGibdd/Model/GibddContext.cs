@@ -280,7 +280,7 @@ public partial class GibddContext : DbContext
 
             entity.HasIndex(e => e.InspectorId, "employee_id_idx");
 
-            entity.HasIndex(e => e.StatusId, "result_id_idx");
+            entity.HasIndex(e => e.InspectionStatusId, "inspection_status_id_idx");
 
             entity.Property(e => e.InspectionId).HasColumnName("inspection_id");
             entity.Property(e => e.ApplicationId).HasColumnName("application_id");
@@ -291,7 +291,7 @@ public partial class GibddContext : DbContext
             entity.Property(e => e.DatetimePlanned)
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_planned");
-            entity.Property(e => e.StatusId).HasColumnName("status_id");
+            entity.Property(e => e.InspectionStatusId).HasColumnName("inspection_status_id");
 
             entity.HasOne(d => d.Application).WithMany(p => p.Inspections)
                 .HasForeignKey(d => d.ApplicationId)
@@ -304,9 +304,9 @@ public partial class GibddContext : DbContext
                 .HasConstraintName("employee_id");
 
             entity.HasOne(d => d.Status).WithMany(p => p.Inspections)
-                .HasForeignKey(d => d.StatusId)
+                .HasForeignKey(d => d.InspectionStatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("status_id");
+                .HasConstraintName("inspection_status_id");
         });
 
         modelBuilder.Entity<InspectionStatus>(entity =>

@@ -48,34 +48,49 @@ namespace CarAccountingGibdd.Controls
         // Свойства
         private void DifferentiationFunctionality()
         {
-            // Разграничение по должностям
             int post = _employee.PostId;
+            int status = _inspection.InspectionStatusId;
 
-            if (post == 3) // Если оператор
+            // Учитываем, что кнопки скрыты
+
+            // Логика для оператора
+            if (post == 3) // оператор
             {
-                infoBTN.Visibility = System.Windows.Visibility.Visible;
-                Opacity = 0.5;
-
-                return;
+                infoBTN.Visibility = Visibility.Visible;
+            }
+            else // для инспектора
+            {
+                if (status == 1) // осмотр не начат
+                {
+                    startInspectionBTNS.Visibility = Visibility.Visible;
+                }
+                else if (status == 2) // в процессе
+                {
+                    endInspectionBTN.Visibility = Visibility.Visible;
+                }
+                else // все остальные статусы
+                {
+                    infoBTN.Visibility = Visibility.Visible;
+                }
             }
 
-            // Разграничиваем функционал по статусам
-            int status = _inspection.StatusId;
+            // Прозрачность зависит от статуса осмотра
+            if (status == 3) // например, статус "завершён" или другой, когда нужна прозрачность
+            {
+                this.Opacity = 0.5;
+            }
+            else
+            {
+                this.Opacity = 1.0;
+            }
 
-            if (status == 1) // если осмотр не неачат
+            // Закрашиваем Border в красный, если опоздание
+            DateTime datetimePlanned = _inspection.DatetimePlanned.AddHours(2);
+            if (DateTime.Now > datetimePlanned)
             {
-                startInspectionBTNS.Visibility = System.Windows.Visibility.Visible;
-            }
-            else if (status == 2) // в процессе
-            {
-                endInspectionBTN.Visibility = System.Windows.Visibility.Visible;
-            }
-            else // все остальные случаи
-            {
-                infoBTN.Visibility = System.Windows.Visibility.Visible;
-                Opacity = 0.5;
             }
         }
+
 
         private void LoadCardData()
         {
