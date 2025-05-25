@@ -24,14 +24,23 @@
                     <!-- Заголовок -->
                     <TextBlock Style="{StaticResource TextBlock.H2}"
                                DockPanel.Dock="Top"
-                               Margin="0 0 0 24">
+                               Margin="0 0 0 0">
                     <Run Text="Осмотр"/>
                     <Run Text="{Binding InspectionId, StringFormat={}№{0}}"/>
                     </TextBlock>
+                    
+                    <!-- Флажок о задержке -->
+                    <TextBlock Style="{StaticResource TextBlock.Subtitle}"
+                               Foreground="Red"
+                               Margin="0 6 0 0"
+                               Visibility="Collapsed"
+                               DockPanel.Dock="Top"
+                               Name="importantPushTB"
+                               Text="(осмотр задерживается)"/>
 
                     <!-- Описание -->
                     <TextBlock DockPanel.Dock="Top"
-                               Margin="0 0 0 12"
+                               Margin="0 24 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Заявление:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding ApplicationId, StringFormat={}№{0}}"

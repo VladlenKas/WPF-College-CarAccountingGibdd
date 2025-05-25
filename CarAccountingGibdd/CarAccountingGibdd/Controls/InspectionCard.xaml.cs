@@ -88,6 +88,7 @@ namespace CarAccountingGibdd.Controls
             DateTime datetimePlanned = _inspection.DatetimePlanned.AddHours(2);
             if (DateTime.Now > datetimePlanned)
             {
+                importantPushTB.Visibility = Visibility.Visible;
             }
         }
 

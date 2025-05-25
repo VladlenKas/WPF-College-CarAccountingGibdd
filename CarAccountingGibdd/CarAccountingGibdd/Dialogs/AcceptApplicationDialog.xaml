@@ -12,7 +12,7 @@
         SizeToContent="Height"
         MinHeight="650"
         MinWidth="450" Width="450"
-        Title="Назначение заявки на плановый осмотр" 
+        Title="Назначение заявления на плановый осмотр" 
         Style="{StaticResource Window.Ordinary}"
         WindowStartupLocation="CenterScreen">
 
@@ -27,7 +27,7 @@
                        DockPanel.Dock="Top"
                        Margin="0 0 0 16"
                        TextWrapping="Wrap">
-                <Run Text="Назначение заявки на плановый осмотр"/>
+                <Run Text="Назначение заявления на плановый осмотр"/>
                 <Run Text="{Binding ApplicationNumber, StringFormat={}№{0}}"/>
             </TextBlock>
 
