@@ -9,7 +9,7 @@ public partial class Inspection
 
     public int ApplicationId { get; set; }
 
-    public int EmployeeId { get; set; }
+    public int InspectorId { get; set; }
 
     public int StatusId { get; set; }
 
@@ -19,7 +19,7 @@ public partial class Inspection
 
     public virtual Application Application { get; set; } = null!;
 
-    public virtual Employee Employee { get; set; } = null!;
+    public virtual Employee Inspector { get; set; } = null!;
 
     public virtual InspectionStatus Status { get; set; } = null!;
 

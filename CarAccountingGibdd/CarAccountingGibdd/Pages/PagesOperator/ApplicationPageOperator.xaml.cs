@@ -1,9 +1,8 @@
-﻿using CarAccountingGibdd.Classes;
-using CarAccountingGibdd.Classes.Services;
+﻿using CarAccountingGibdd.Classes.Services;
+using CarAccountingGibdd.Classes;
 using CarAccountingGibdd.Controls;
 using CarAccountingGibdd.Dialogs;
 using CarAccountingGibdd.Model;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,22 +18,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CarAccountingGibdd.Pages.PagesInspector
+namespace CarAccountingGibdd.Pages.PagesOperator
 {
     /// <summary>
-    /// Логика взаимодействия для ApplicationPageInspector.xaml
+    /// Логика взаимодействия для ApplicationPageOperator.xaml
     /// </summary>
-    public partial class ApplicationPageInspector : Page
+    public partial class ApplicationPageOperator : Page
     {
         //  Поля и свойства 
         private ApplicationService _service;
-        private Employee _inspector;
+        private Employee _operator;
 
-        public ApplicationPageInspector(Employee inspector)
+        public ApplicationPageOperator(Employee @operator)
         {
             InitializeComponent();
 
-            _inspector = inspector;
+            _operator = @operator;
             // Фильтры
             UpdateIC();
         }
@@ -63,7 +62,17 @@ namespace CarAccountingGibdd.Pages.PagesInspector
                 cardsIC.Items.Add(card);
             }
         }
+
         // Обработчики событий
         private void ApplicationToAccept(object sender, ApplicationEventArgs e) => UpdateIC();
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            AddApplicationDialog dialog = new();
+            ComponentsHelper.ShowDialogWindowDark(dialog);
+
+            bool saved = dialog.Saved;
+            if (saved) UpdateIC();
+        }
     }
 }

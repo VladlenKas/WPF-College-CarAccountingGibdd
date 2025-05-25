@@ -16,11 +16,12 @@ namespace CarAccountingGibdd.Classes.Services
             {
                 OwnerId = owner.OwnerId,
                 VehicleId = vehicle.VehicleId,
-                ApplicationStatusId = 1, // Назначаем на осмотр
+                ApplicationStatusId = 1, // На проверке документов
                 DatetimeSupply = DateTime.Now
             };
 
             App.DbContext.Add(application);
+            App.DbContext.SaveChanges();
         }
 
         // Проверка (ПРОВЕРИТЬ РАБОТУ!)
@@ -33,24 +34,28 @@ namespace CarAccountingGibdd.Classes.Services
                 return false;
             }
             // Проверка на то, что действующих заявок нет
-            else if (vehicle.Applications?.Any(r => r.ApplicationStatusId == 1 || r.ApplicationStatusId == 2) == true)
-            {
-                MessageHelper.MessageActiveApplication();
-                return false;
-            }
-            // Проверка на то, что у владельца и авто нет действующих сертификатов
             else if (App.DbContext.Applications.Any(r =>
-                (r.Owner.OwnerId == owner.OwnerId && r.Vehicle.VehicleId == vehicle.VehicleId) && 
-                r.ApplicationStatusId == 1 || r.ApplicationStatusId == 2))
+                r.Vehicle.VehicleId == vehicle.VehicleId &&
+                (r.ApplicationStatusId != 5 || r.ApplicationStatusId != 6)))
             {
                 MessageHelper.MessageActiveApplication();
                 return false;
             }
-            // Проверка на то, что у владельца и авто нет действующих сертификатов
-            else if (App.DbContext.Certificates.Any(c =>
-                c.IsActive == 1 && (c.OwnerVehicle.OwnerId == owner.OwnerId || c.OwnerVehicle.VehicleId == vehicle.VehicleId)))
+            // Проверка на то, что у владельца и авто уже нет сертификата
+            else if (App.DbContext.Certificates.Any(r => 
+                r.Application.OwnerId == owner.OwnerId && 
+                r.Application.VehicleId == vehicle.VehicleId && 
+                r.IsActive == 0))
             {
-                MessageHelper.MessageActiveApplication();
+                MessageHelper.MessageCerrentSertificate();
+                return false;
+            }
+            // Проверка на то, что у авто нет другого владельца
+            else if (App.DbContext.Certificates.Any(r =>
+                r.Application.VehicleId == vehicle.VehicleId &&
+                r.IsActive == 0))
+            {
+                MessageHelper.MessageCerrentOwner();
                 return false;
             }
             // Если ошибок нет, то возвращаем true

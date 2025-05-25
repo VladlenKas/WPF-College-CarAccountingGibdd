@@ -1256,4 +1256,9 @@
         </Setter>
     </Style>
     <!--#endregion-->
+
+    <!--#region Карточки -->
+    <Style TargetType="Border" x:Key="Border.Card">
+    </Style>
+    <!--#endregion-->
 </ResourceDictionary>

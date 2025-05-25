@@ -39,6 +39,16 @@ namespace CarAccountingGibdd.Classes
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
         }
+
+        // Предупреждение о пустых полях
+        public static void MessageCerrentOwner()
+        {
+            MessageBox.Show($"Данное транспортное средство уже имеет владельца и" +
+                $" сведетельство о регистрации ТС. Подать заявку невозможно",
+                "Предупреждение",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+        }
         #endregion
 
         #region Подтверждения
@@ -59,8 +69,9 @@ namespace CarAccountingGibdd.Classes
         // Подтверждение добавления ЗАЯВКИ
         public static bool ConfirmSaveApplication()
         {
-            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно? Внести изменения будет невозомжно.",
-                "Вопрос",
+            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно? " +
+                "Внести изменения после принятия заявки на осмотр инспектором будет невозомжно.",
+                "Подтверждение",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 
@@ -83,7 +94,7 @@ namespace CarAccountingGibdd.Classes
         public static bool ConfirmSave()
         {
             var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно?",
-                "Вопрос",
+                "Подтверждение",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 

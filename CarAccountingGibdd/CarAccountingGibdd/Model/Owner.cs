@@ -30,6 +30,4 @@ public partial class Owner
     public sbyte Deleted { get; set; }
 
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
-
-    public virtual ICollection<OwnerVehicle> OwnerVehicles { get; set; } = new List<OwnerVehicle>();
 }

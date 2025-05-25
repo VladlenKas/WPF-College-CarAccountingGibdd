@@ -38,7 +38,6 @@
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
                            Text="Справочники"
-                           Margin="0 10 0 5"
                            FontWeight="SemiBold"/>
                 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
@@ -46,21 +45,21 @@
                              Content="Владельцы"
                              Tag="userOutline"
                              GroupName="navItems"
-                             Margin="0 0 0 10"
+                             Margin="0 5"
                              Checked="OwnerRButton_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Автомобили"
                              Tag="carOutline"
                              GroupName="navItems"
-                             Margin="0 0 0 10"
+                             Margin="0 0 0 5"
                              Checked="VehicleRButton_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Сотруники"
                              Tag="AccountTieHatOutline"
                              GroupName="navItems"
-                             Margin="0 0 0 10"
+                             Margin="0 0 0 5"
                              Checked="EmployeeRButton_Checked"/>
                 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"

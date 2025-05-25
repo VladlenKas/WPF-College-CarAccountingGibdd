@@ -1,11 +1,11 @@
-﻿<Window x:Class="CarAccountingGibdd.Windows.NavWindowInspector"
+﻿<Window x:Class="CarAccountingGibdd.Windows.NavWindowOperator"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarAccountingGibdd.Windows"
         mc:Ignorable="d"
-        
+       
         xmlns:icons="http://materialdesigninxaml.net/winfx/xaml/themes"
         
         Height="900" Width="1610"   
@@ -47,13 +47,6 @@
                              Margin="0 5"
                              Checked="ApplicationRButton_Checked"/>
 
-                <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Осмотры"
-                             Tag="carSearchOutline"
-                             GroupName="navItems"
-                             Margin="0 0 0 5"
-                             Checked="InspectionRButton_Checked"/>
-
                 <!-- Справочные данные -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
@@ -70,34 +63,9 @@
                              Content="Автомобили"
                              Tag="carOutline"
                              GroupName="navItems"
-                             Margin="0 0 0 5"
+                             Margin="0 0 0 10"
                              Checked="VehicleRButton_Checked"/>
 
-                <!-- Отчеты -->
-                <TextBlock Style="{StaticResource TextBlock.Subtitle}"
-                           Foreground="#ffffff"
-                           Text="Документы"/>
-
-                <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Нарушения"
-                             Tag="ClipboardAlertOutline"
-                             GroupName="navItems"
-                             Margin="0 5"
-                             Checked="ValitionRButton_Checked"/>
-                
-                <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Сертификаты"
-                             Tag="certificateOutline"
-                             GroupName="navItems"
-                             Margin="0 0 0 5"
-                             Checked="CertificateRButton_Checked"/>
-                
-                <Button Style="{StaticResource Button.Navigator}"
-                        Content="Отчет"
-                        Tag="chartLine"
-                        Margin="0 0 0 10"
-                        Click="ReportButton_Click"/>
-                
                 <Separator Background="#ffffff"
                            Margin="0 0 0 10"/>
 
@@ -126,7 +94,7 @@
                                 Margin="0 0 0 28">
 
                         <icons:PackIcon Style="{StaticResource Icon.Large}"
-                                        Kind="shieldAccountOutline"
+                                        Kind="AccountCircleOutline"
                                         Margin="0 0 10 0"
                                         Foreground="{StaticResource Text.Secondary.Brush}"/>
 
@@ -137,7 +105,7 @@
                                        Name="FIcourier"/>
 
                             <TextBlock Style="{StaticResource TextBlock.Normal}"
-                                       Text="Администратор"/>
+                                       Text="Оператор"/>
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>

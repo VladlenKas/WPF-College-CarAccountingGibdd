@@ -79,6 +79,12 @@ namespace CarAccountingGibdd
                     navWindow.Show();
                     Close();
                 }
+                else if (employee.PostId == 3)
+                {
+                    NavWindowOperator navWindow = new(employee);
+                    navWindow.Show();
+                    Close();
+                }
                 else
                 {
                     MessageBox.Show("Неизвестная ошибка.",

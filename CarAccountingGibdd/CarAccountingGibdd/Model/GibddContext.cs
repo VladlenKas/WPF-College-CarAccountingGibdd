@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
@@ -32,8 +33,6 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<Owner> AllOwners { get; set; }
 
-    public virtual DbSet<OwnerVehicle> AllOwnerVehicles { get; set; }
-
     public virtual DbSet<Payment> Payments { get; set; }
 
     public virtual DbSet<PhotosVehicle> PhotosVehicles { get; set; }
@@ -44,31 +43,26 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<VehicleType> VehicleTypes { get; set; }
 
-    public virtual DbSet<Violation> AllViolations { get; set; }
+    public virtual DbSet<Violation> Violations { get; set; }
 
     public virtual DbSet<ViolationsInspection> ViolationsInspections { get; set; }
 
     #region Записи активные и с контекстом
     public IQueryable<Application> Applications => AllApplications
-        .Include(o =>  o.Owner)
+        .Include(o => o.Owner)
         .Include(v => v.Vehicle)
             .ThenInclude(vt => vt.VehicleType)
         .Include(a => a.Inspections)
-            .ThenInclude(i => i.Employee)
+            .ThenInclude(i => i.Inspector)
         .Include(a => a.Inspections)
             .ThenInclude(i => i.Status)
         .Include(a => a.Inspections)
             .ThenInclude(i => i.ViolationsInspections)
                 .ThenInclude(vi => vi.Violations)
         .Include(r => r.ApplicationStatus)
+        .Include(r => r.Payments)
+            .ThenInclude(r => r.Status)
         .AsSplitQuery(); // для оптимизации
-
-    public IQueryable<OwnerVehicle> OwnerVehicles => AllOwnerVehicles
-        .Include(o => o.Owner)
-        .Include(v => v.Vehicle)
-            .ThenInclude(vt => vt.VehicleType)
-        .Include(v => v.Vehicle)
-            .ThenInclude(p => p.PhotosVehicles);
 
     public IQueryable<Employee> Employees => AllEmployees.Where(r => r.Deleted != 1)
         .Include(r => r.Post);
@@ -83,13 +77,6 @@ public partial class GibddContext : DbContext
         .Include(r => r.PhotosVehicles)
         .Include(r => r.VehicleType);
 
-    public IQueryable<Violation> Violations => AllViolations.Where(r => r.Deleted != 1)
-        .Include(v => v.ViolationsInspections)
-            .ThenInclude(vi => vi.Inspection)
-                .ThenInclude(i => i.Employee)
-        .Include(v => v.ViolationsInspections)
-            .ThenInclude(vi => vi.Inspection)
-                .ThenInclude(i => i.Status);
 
     #endregion
 
@@ -111,6 +98,8 @@ public partial class GibddContext : DbContext
 
             entity.HasIndex(e => e.ApplicationStatusId, "fk_application_status_idx");
 
+            entity.HasIndex(e => e.OperatorId, "inspector_id_idx");
+
             entity.HasIndex(e => e.OwnerId, "owner_id_idx");
 
             entity.HasIndex(e => e.VehicleId, "vehicle_id_idx");
@@ -123,6 +112,7 @@ public partial class GibddContext : DbContext
             entity.Property(e => e.DatetimeSupply)
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_supply");
+            entity.Property(e => e.OperatorId).HasColumnName("operator_id");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
 
@@ -130,6 +120,10 @@ public partial class GibddContext : DbContext
                 .HasForeignKey(d => d.ApplicationStatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_application_status");
+
+            entity.HasOne(d => d.Operator).WithMany(p => p.Applications)
+                .HasForeignKey(d => d.OperatorId)
+                .HasConstraintName("operator_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Applications)
                 .HasForeignKey(d => d.OwnerId)
@@ -160,26 +154,22 @@ public partial class GibddContext : DbContext
 
             entity.ToTable("certificate");
 
-            entity.HasIndex(e => e.LicensePlate, "license_plate_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.ApplicationId, "fk_certificate_application");
 
             entity.HasIndex(e => e.Number, "number_UNIQUE").IsUnique();
 
-            entity.HasIndex(e => e.OwnerVehicleId, "owner_vehicle_id_idx");
-
             entity.Property(e => e.CertificateId).HasColumnName("certificate_id");
+            entity.Property(e => e.ApplicationId).HasColumnName("application_id");
             entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.LicensePlate)
-                .HasMaxLength(6)
-                .HasColumnName("license_plate");
+            entity.Property(e => e.IssueDate).HasColumnName("issue_date");
             entity.Property(e => e.Number)
                 .HasMaxLength(10)
                 .HasColumnName("number");
-            entity.Property(e => e.OwnerVehicleId).HasColumnName("owner_vehicle_id");
 
-            entity.HasOne(d => d.OwnerVehicle).WithMany(p => p.Certificates)
-                .HasForeignKey(d => d.OwnerVehicleId)
+            entity.HasOne(d => d.Application).WithMany(p => p.Certificates)
+                .HasForeignKey(d => d.ApplicationId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("owner_vehicle_id");
+                .HasConstraintName("fk_certificate_application");
         });
 
         modelBuilder.Entity<Department>(entity =>
@@ -258,7 +248,7 @@ public partial class GibddContext : DbContext
 
             entity.HasIndex(e => e.ApplicationId, "application_id_idx");
 
-            entity.HasIndex(e => e.EmployeeId, "employee_id_idx");
+            entity.HasIndex(e => e.InspectorId, "employee_id_idx");
 
             entity.HasIndex(e => e.StatusId, "result_id_idx");
 
@@ -267,7 +257,7 @@ public partial class GibddContext : DbContext
             entity.Property(e => e.DatetimeCompleted)
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_completed");
-            entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+            entity.Property(e => e.InspectorId).HasColumnName("inspector_id");
             entity.Property(e => e.NextDate).HasColumnName("next_date");
             entity.Property(e => e.StatusId).HasColumnName("status_id");
 
@@ -276,10 +266,10 @@ public partial class GibddContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("application_id");
 
-            entity.HasOne(d => d.Employee).WithMany(p => p.Inspections)
-                .HasForeignKey(d => d.EmployeeId)
+            entity.HasOne(d => d.Inspector).WithMany(p => p.Inspections)
+                .HasForeignKey(d => d.InspectorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("employee_id");
+                .HasConstraintName("inspector_id");
 
             entity.HasOne(d => d.Status).WithMany(p => p.Inspections)
                 .HasForeignKey(d => d.StatusId)
@@ -332,32 +322,6 @@ public partial class GibddContext : DbContext
                 .HasColumnName("phone");
         });
 
-        modelBuilder.Entity<OwnerVehicle>(entity =>
-        {
-            entity.HasKey(e => e.OwnerVehicleId).HasName("PRIMARY");
-
-            entity.ToTable("owner_vehicle");
-
-            entity.HasIndex(e => e.OwnerId, "owner_id_idx");
-
-            entity.HasIndex(e => e.VehicleId, "vehicle_id_idx");
-
-            entity.Property(e => e.OwnerVehicleId).HasColumnName("owner_vehicle_id");
-            entity.Property(e => e.Deleted).HasColumnName("deleted");
-            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
-            entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
-
-            entity.HasOne(d => d.Owner).WithMany(p => p.OwnerVehicles)
-                .HasForeignKey(d => d.OwnerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("owner_fk");
-
-            entity.HasOne(d => d.Vehicle).WithMany(p => p.OwnerVehicles)
-                .HasForeignKey(d => d.VehicleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("vehicle_fk");
-        });
-
         modelBuilder.Entity<Payment>(entity =>
         {
             entity.HasKey(e => e.PaymentId).HasName("PRIMARY");
@@ -366,7 +330,10 @@ public partial class GibddContext : DbContext
 
             entity.HasIndex(e => e.ApplicationId, "application_id_idx");
 
+            entity.HasIndex(e => e.PaymentId, "payment_id_idx");
+
             entity.Property(e => e.PaymentId).HasColumnName("payment_id");
+            entity.Property(e => e.StatusId).HasColumnName("status_id");
             entity.Property(e => e.Amount)
                 .HasPrecision(10, 2)
                 .HasColumnName("amount");
@@ -383,6 +350,23 @@ public partial class GibddContext : DbContext
                 .HasForeignKey(d => d.ApplicationId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fkey_application");
+
+            entity.HasOne(d => d.Status).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.StatusId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("status_id");
+        });
+
+        modelBuilder.Entity<PaymentStatus>(entity =>
+        {
+            entity.HasKey(e => e.PaymentStatusId).HasName("PRIMARY");
+
+            entity.ToTable("payment_status");
+
+            entity.Property(e => e.PaymentStatusId).HasColumnName("payment_status_id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(45)
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<PhotosVehicle>(entity =>

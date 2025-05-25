@@ -9,6 +9,8 @@ public partial class Payment
 
     public int ApplicationId { get; set; }
 
+    public int StatusId { get; set; }
+
     public sbyte PaymentMethod { get; set; }
 
     public string? BankName { get; set; }
@@ -18,4 +20,6 @@ public partial class Payment
     public DateTime PaymentDatetime { get; set; }
 
     public virtual Application Application { get; set; } = null!;
+
+    public virtual PaymentStatus Status { get; set; } = null!;
 }

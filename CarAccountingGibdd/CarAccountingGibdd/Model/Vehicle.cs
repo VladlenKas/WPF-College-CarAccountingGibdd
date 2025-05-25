@@ -27,18 +27,16 @@ public partial class Vehicle
 
     public sbyte Deleted { get; set; }
 
+    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
+
+    public virtual ICollection<PhotosVehicle> PhotosVehicles { get; set; } = new List<PhotosVehicle>();
+
+    public virtual VehicleType VehicleType { get; set; } = null!;
+
     public string UsedValueString => Used switch
     {
         1 => "Нет",
         0 => "Да",
         _ => "NULL VALUE"
     };
-
-    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
-
-    public virtual ICollection<OwnerVehicle> OwnerVehicles { get; set; } = new List<OwnerVehicle>();
-
-    public virtual ICollection<PhotosVehicle> PhotosVehicles { get; set; } = new List<PhotosVehicle>();
-
-    public virtual VehicleType VehicleType { get; set; } = null!;
 }
