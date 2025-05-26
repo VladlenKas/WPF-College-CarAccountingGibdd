@@ -6,114 +6,113 @@
              xmlns:local="clr-namespace:CarAccountingGibdd.Controls"
              mc:Ignorable="d">
     
-    <Grid Margin="0 0 16 16">
+    <Button Margin="0 0 16 16"
+            Style="{StaticResource Button.Card}"
+            Click="Card_Click">
+        <Grid>
+            <Border>
+                <Border.Effect>
+                    <StaticResource ResourceKey="Shadow.Small.Effect"/>
+                </Border.Effect>
+            </Border>
 
-        <Border>
-            <Border.Effect>
-                <StaticResource ResourceKey="Shadow.Small.Effect"/>
-            </Border.Effect>
-        </Border>
+            <Border CornerRadius="10">
 
-        <Border Background="{StaticResource Background.Control.Brush}"
-                BorderBrush="{StaticResource Card.Border.Static.Brush}"
-                BorderThickness="1"
-                Padding="24"
-                CornerRadius="10">
-            
-            <DockPanel LastChildFill="False"
-                       Width="310">
+                <DockPanel LastChildFill="False"
+                           Width="310">
 
-                <!-- Заголовок -->
-                <TextBlock Style="{StaticResource TextBlock.H2}"
-                           DockPanel.Dock="Top"
-                           Margin="0 0 0 24">
+                    <!-- Заголовок -->
+                    <TextBlock Style="{StaticResource TextBlock.H2}"
+                               DockPanel.Dock="Top"
+                               Margin="0 0 0 24">
                     <Run Text="Заявка"/>
                     <Run Text="{Binding ApplicationId, StringFormat={}№{0}}"/>
-                </TextBlock>
-                
-                <!-- Описание -->
-                <TextBlock DockPanel.Dock="Top"
-                           Margin="0 0 0 12"
-                           TextWrapping="Wrap">
+                    </TextBlock>
+
+                    <!-- Описание -->
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="0 0 0 12"
+                               TextWrapping="Wrap">
                     <Run Text="Владелец:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Owner.FIname, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
-                </TextBlock>
-                
-                <TextBlock DockPanel.Dock="Top"
-                           Margin="0 0 0 12"
-                           TextWrapping="Wrap">
+                    </TextBlock>
+
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="0 0 0 12"
+                               TextWrapping="Wrap">
                     <Run Text="Телефон:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Owner.Phone}"
                          Style="{StaticResource Run.Description}"/>
-                </TextBlock>
+                    </TextBlock>
 
-                <TextBlock DockPanel.Dock="Top"
-                           Margin="0 0 0 12"
-                           TextWrapping="Wrap">
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="0 0 0 12"
+                               TextWrapping="Wrap">
                     <Run Text="Автомобиль:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Vehicle.Info, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
-                </TextBlock>
+                    </TextBlock>
 
-                <TextBlock DockPanel.Dock="Top"
-                           Margin="0 0 0 12"
-                           TextWrapping="Wrap">
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="0 0 0 12"
+                               TextWrapping="Wrap">
                     <Run Text="ВИН:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Vehicle.Vin}"
                          Style="{StaticResource Run.Description}"/>
-                </TextBlock>
+                    </TextBlock>
 
-                <TextBlock DockPanel.Dock="Top"
-                           Margin="0 0 0 12"
-                           TextWrapping="Wrap">
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="0 0 0 12"
+                               TextWrapping="Wrap">
                     <Run Text="Дата подачи:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding DatetimeSupply, StringFormat={}{0:dd.MM.yyyy}}"
                          Style="{StaticResource Run.Description}"/>
-                </TextBlock>
+                    </TextBlock>
 
-                <TextBlock DockPanel.Dock="Top"
-                           Margin="0 0 0 24"
-                           TextWrapping="Wrap">
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="0 0 0 24"
+                               TextWrapping="Wrap">
                     <Run Text="Статус:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding ApplicationStatus.Name}"
                          Style="{StaticResource Run.Description}"/>
-                </TextBlock>
+                    </TextBlock>
 
-                <!-- Кнопки -->
-                <DockPanel DockPanel.Dock="Bottom"
-                           Visibility="Collapsed"
-                           Name="buttonsDP"
-                           Width="Auto">
+                    <!-- Кнопки -->
+                    <DockPanel DockPanel.Dock="Bottom"
+                               Visibility="Visible"
+                               Name="buttonsDP"
+                               Width="Auto">
 
-                    <Button Style="{StaticResource Button.Icon.Large}"
-                            Tag="closeCircleOutline"
-                            DockPanel.Dock="Right"
-                            Click="Cancel_Click"/>
-                    
-                    <Button Style="{StaticResource Button.Icon.Large}"
-                            Margin="0 0 12 0"
-                            Tag="infoOutline"
-                            DockPanel.Dock="Right"
-                            Click="GetInfo_Click"/>
-                    
+                        <Button Style="{StaticResource Button.Icon.Large}"
+                                Tag="closeCircleOutline"
+                                DockPanel.Dock="Right"
+                                Click="Cancel_Click"/>
+
+                        <Button Style="{StaticResource Button.Icon.Large}"
+                                Margin="0 0 12 0"
+                                Tag="infoOutline"
+                                DockPanel.Dock="Right"
+                                Click="GetInfo_Click"/>
+
+                        <!-- Смена статуса -->
+                        <Button Style="{StaticResource Button.Primary.Icon}"
+                                Margin="0 0 12 0"
+                                Content="Подтвердить"
+                                Tag="check"
+                                Click="ToAccept_Click"/>
+                    </DockPanel>
+
                     <!-- Смена статуса -->
                     <Button Style="{StaticResource Button.Primary.Icon}"
-                            Margin="0 0 12 0"
-                            Content="Принять"
-                            Tag="check"
-                            Click="ToAccept_Click"/>
+                            DockPanel.Dock="Bottom"
+                            Visibility="Collapsed"
+                            Name="infoBTN"
+                            Content="Информация"
+                            Tag="closeCircleOutline"
+                            Click="GetInfo_Click"/>
                 </DockPanel>
-
-                <!-- Смена статуса -->
-                <Button Style="{StaticResource Button.Primary.Icon}"
-                        DockPanel.Dock="Bottom"
-                        Visibility="Collapsed"
-                        Name="infoBTN"
-                        Content="Информация"
-                        Tag="closeCircleOutline"
-                        Click="GetInfo_Click"/>   
-            </DockPanel>
-        </Border>
-    </Grid>
+            </Border>
+        </Grid>
+    </Button>
 </UserControl>

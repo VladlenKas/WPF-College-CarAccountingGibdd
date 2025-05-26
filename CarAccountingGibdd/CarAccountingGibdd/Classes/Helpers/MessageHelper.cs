@@ -17,14 +17,24 @@ namespace CarAccountingGibdd.Classes
                 "Предупреждение",
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
-        }        
-        
+        }
+
+        // Предупреждение о пустой или нулевой цене
+        public static void MessageNullCost()
+        {
+            MessageBox.Show($"Данных средств недостаточно для оплаты гос. пошлины!" +
+                $"\nПожалуйста, укажите другую сумму",
+                "Предупреждение",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+        }
+
         // Предупреждение о пустых полях
         public static void MessageActiveApplication()
         {
             MessageBox.Show($"В настоящее время выбранное транспортное средство уже имеет" +
                 $" действующую заявку. Гражданин не может подавать сразу несколько" +
-                $" заявок на одно транспортное средство.",
+                $" заявок на одно транспортное средство",
                 "Предупреждение",
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
@@ -70,7 +80,7 @@ namespace CarAccountingGibdd.Classes
         public static bool ConfirmSaveApplication()
         {
             var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно? " +
-                "Внести изменения после принятия заявки на осмотр инспектором будет невозомжно.",
+                "Внести изменения после принятия заявки на осмотр инспектором будет невозомжно",
                 "Подтверждение",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);

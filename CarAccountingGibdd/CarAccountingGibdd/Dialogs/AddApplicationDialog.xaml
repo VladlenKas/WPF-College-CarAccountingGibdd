@@ -10,7 +10,7 @@
         xmlns:components="clr-namespace:CarAccountingGibdd.Components"
         
         SizeToContent="Height"
-        MinHeight="650"
+        MinHeight="750"
         MinWidth="450" Width="450"
         Title="Формирование новой заявки" 
         Style="{StaticResource Window.Ordinary}"
@@ -33,9 +33,8 @@
             <!-- Подзаголовок -->
             <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                        Margin="0 0 0 24"
-                       Text="Выберите гражданина и его автомобиль, для которого необходимо произвести осмотр.
-                       После формирования заявки, изменения внести будет НЕВОЗМОЖНО!"
-                       Opacity="0.5"
+                       Text="Внимательно заполните данные и произведите оплату. Без нее формирование заявки невозможно!"
+                       Foreground="{StaticResource Text.Secondary.Brush}"
                        DockPanel.Dock="Top"/>
 
             <components:AutoCompleteTextBox Placeholder="Владелец (ФИ, паспорт)"
@@ -48,9 +47,48 @@
             <components:AutoCompleteTextBox Placeholder="Автомобиль (марка, модель, год, цвет)"
                                             DisplayMemberPath="Info"
                                             x:Name="vehicleATB"
-                                            Margin="0 0 0 40"
+                                            Margin="0 0 0 24"
                                             DockPanel.Dock="Top"
                                             behaviors:TextBoxValidationBehavior.ValidationType="CyrillicAndNumbers"/>
+
+            <ComboBox Name="paymentCB"
+                      SelectionChanged="PaymentCB_SelectionChanged"
+                      Tag="Выберите способ оплаты"
+                      Margin="0 0 0 12"
+                      DockPanel.Dock="Top" Cursor="Arrow"/>
+            
+            <Grid DockPanel.Dock="Top"
+                  Margin="0 0 0 24">
+
+                <!-- Здесь область с текстбоксом при оплате налом -->
+                <TextBox Tag="Введите сумму наличных"
+                         x:Name="cashPaymentTB"
+                         MaxLength="4"
+                         Visibility="Collapsed"
+                         TextChanged="CashPaymentTB_TextChanged"
+                         behaviors:TextBoxValidationBehavior.ValidationType="Numbers"/>
+
+                <!-- Здесь область с комбобоксом при оплате безналом -->
+                <ComboBox Tag="Выберите банк"
+                          x:Name="bankPaymentCB"
+                          Visibility="Collapsed"/>
+            </Grid>
+
+            <TextBlock Text="Итого к оплате: 400 р. *"
+                       DockPanel.Dock="Top"
+                       Style="{StaticResource TextBlock.H6}"
+                       Margin="0 0 0 4"/>
+
+            <TextBlock DockPanel.Dock="Top"
+                       Style="{StaticResource TextBlock.H6}">
+                <Run Text="Сдача:" Style="{StaticResource Run.H6}"/>
+                <Run Text="{Binding ChangeForPayment}" Style="{StaticResource Run.H6}"/>
+            </TextBlock>
+
+            <TextBlock DockPanel.Dock="Top"
+                       Text="* - фиксированная сумма гос. пошлины при постанвке автомобиля на учет в ГИБДД"
+                       Opacity="0.5"
+                       Style="{StaticResource TextBlock.Subtitle}"/>
 
             <Button Style="{StaticResource Button.Ordinary}"
                     DockPanel.Dock="Bottom"

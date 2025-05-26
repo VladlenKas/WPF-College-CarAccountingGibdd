@@ -27,7 +27,7 @@
                                             Kind="ChevronDown"
                                             Width="24"
                                             Height="24"
-                                            Foreground="{StaticResource Text.Secondary.Brush}"
+                                            Foreground="{StaticResource Text.Static.Brush}"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"/>
 
@@ -37,6 +37,10 @@
 
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="arrowIcon" Property="Kind" Value="ChevronUp"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="arrowIcon" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
                             </Trigger>
 
                         </ControlTemplate.Triggers>

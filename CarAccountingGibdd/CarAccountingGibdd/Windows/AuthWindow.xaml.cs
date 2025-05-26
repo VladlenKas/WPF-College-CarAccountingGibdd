@@ -88,7 +88,7 @@ namespace CarAccountingGibdd
                 else
                 {
                     MessageBox.Show("Неизвестная ошибка.",
-                        "Ошибка авторизации",
+                        "Ошибка",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }

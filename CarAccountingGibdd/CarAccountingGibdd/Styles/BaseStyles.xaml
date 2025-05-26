@@ -88,6 +88,13 @@
         <Setter Property="Opacity" Value="0.8"/>
     </Style>
 
+    <Style TargetType="{x:Type Run}" x:Key="Run.H6">
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
+    </Style>    
+    
     <Style TargetType="{x:Type Run}" x:Key="Run.Subtitle">
         <Setter Property="FontFamily" Value="SF Pro Text"/>
         <Setter Property="FontSize" Value="16"/>
@@ -718,6 +725,54 @@
         </Setter>
     </Style>
     <!--#endregion-->
+    
+    <!--#region Карточка -->
+    <Style TargetType="{x:Type Button}" x:Key="Button.Card">
+        <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Card.Border.Static.Brush}"/>
+        <Setter Property="Padding" Value="24"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="10">
+
+                        <ContentPresenter VerticalAlignment="Center"
+                                          HorizontalAlignment="Center">
+                        </ContentPresenter>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource Button.Primary.Border.Hover.Brush}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource Button.Primary.Border.Pressed.Brush}"/>
+                            <Setter Property="Opacity" Value="0.75"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <TranslateTransform Y="1"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+
+                        <!-- Триггер для неактивной кнопки -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
     <!--#endregion-->
 
     <!--#region Чек боксы -->
@@ -1144,24 +1199,279 @@
         </Setter>
     </Style>
     <!--#endregion-->
-    
+
+    <!--#region Стандартный стиль комбобокса -->
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border.Static.Brush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Padding" Value="18 0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Arrow"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10"
+                                SnapsToDevicePixels="True">
+
+                            <Grid>
+                                <ContentPresenter x:Name="ContentSite"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Center"
+                                                  Content="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  ContentStringFormat="{TemplateBinding SelectedValue}"/>
+
+                                <TextBlock x:Name="placeholderText"
+                                           Padding="20 0"
+                                           IsHitTestVisible="False"
+                                           Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                           FontFamily="SF Pro Text"
+                                           Visibility="Collapsed"
+                                           FontSize="14"
+                                           Foreground="{StaticResource Text.Static.Brush}"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"/>
+
+                                <icons:PackIcon x:Name="arrowIcon"
+                                                Kind="ChevronDown"
+                                                Width="24"
+                                                Height="24"
+                                                Foreground="{StaticResource Text.Static.Brush}"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Margin="0 0 12 0"/>
+
+                                <ToggleButton x:Name="toggleButton"
+                                              Opacity="0"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              Focusable="False"
+                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ClickMode="Press"/>
+                            </Grid>
+                        </Border>
+
+                        <Popup Name="Popup"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               Focusable="False"
+                               PopupAnimation="Slide"
+                               AllowsTransparency="True"
+                               Placement="Bottom">
+                            <Border x:Name="dropDownBorder"
+                                    Background="{StaticResource Background.Control.Brush}"
+                                    CornerRadius="10"
+                                    Margin="0 4 0 0"
+                                    BorderThickness="1"
+                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    MinWidth="{TemplateBinding ActualWidth}"
+                                    BorderBrush="{StaticResource Border.Focused.Brush}">
+                                <ScrollViewer>
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="placeholderText" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+                            <Setter TargetName="arrowIcon" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
+                        </Trigger>
+                        
+                        <!-- Placeholder Text -->
+                        <Trigger Property="SelectedItem" Value="{x:Null}">
+                            <Setter TargetName="placeholderText" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+
+                        <!-- Hover State -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="arrowIcon" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                        </Trigger>
+
+                        <!-- Dropdown Opened -->
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                        </Trigger>
+
+                        <Trigger SourceName="toggleButton" Property="IsChecked" Value="True">
+                            <Setter TargetName="arrowIcon" Property="Kind" Value="ChevronUp"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Стандартный стиль комбобокса со свойством name -->
+    <Style TargetType="{x:Type ComboBox}" x:Key="ComboBox.Name">
+        <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border.Static.Brush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Padding" Value="18 0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Arrow"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10"
+                                SnapsToDevicePixels="True">
+
+                            <Grid>
+                                <ContentPresenter x:Name="ContentSite"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Center"
+                                                  Content="{Binding SelectedItem.Name, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  ContentStringFormat="{TemplateBinding SelectedValue}"/>
+
+                                <TextBlock x:Name="placeholderText"
+                                           Padding="20 0"
+                                           IsHitTestVisible="False"
+                                           Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                           FontFamily="SF Pro Text"
+                                           Visibility="Collapsed"
+                                           FontSize="14"
+                                           Foreground="{StaticResource Text.Static.Brush}"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"/>
+
+                                <icons:PackIcon x:Name="arrowIcon"
+                                                Kind="ChevronDown"
+                                                Width="24"
+                                                Height="24"
+                                                Foreground="{StaticResource Text.Secondary.Brush}"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Margin="0 0 12 0"/>
+
+                                <ToggleButton x:Name="toggleButton"
+                                              Opacity="0"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              Focusable="False"
+                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ClickMode="Press"/>
+                            </Grid>
+                        </Border>
+
+                        <Popup Name="Popup"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               Focusable="False"
+                               PopupAnimation="Slide"
+                               AllowsTransparency="True"
+                               Placement="Bottom">
+                            <Border x:Name="dropDownBorder"
+                                    Background="Transparent"
+                                    CornerRadius="10"
+                                    Margin="0 4 0 0"
+                                    BorderThickness="1"
+                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    MinWidth="{TemplateBinding ActualWidth}"
+                                    BorderBrush="Transparent">
+                                <ScrollViewer>
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="placeholderText" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
+                        </Trigger>
+
+                        <!-- Placeholder Text -->
+                        <Trigger Property="SelectedItem" Value="{x:Null}">
+                            <Setter TargetName="placeholderText" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+
+                        <!-- Hover State -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="arrowIcon" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                        </Trigger>
+
+                        <!-- Dropdown Opened -->
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                        </Trigger>
+
+                        <Trigger SourceName="toggleButton" Property="IsChecked" Value="True">
+                            <Setter TargetName="arrowIcon" Property="Kind" Value="ChevronUp"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
     <!--#region Стандартный стиль объектов комбобокса -->
     <Style TargetType="{x:Type ComboBoxItem}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="FontFamily" Value="SF Pro Text"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                    <Border Background="{TemplateBinding Background}"
+                    <Border x:Name="border"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
                             Padding="18 10"
                             CornerRadius="10">
                         <ContentPresenter/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsHighlighted" Value="True">
-                            <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Background.Window.Brush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
                         </Trigger>
+
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Background.Window.Brush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Primary.Static.Brush}"/>
+                        </Trigger>
+                        
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1254,11 +1564,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-    <!--#endregion-->
-
-    <!--#region Карточки -->
-    <Style TargetType="Border" x:Key="Border.Card">
     </Style>
     <!--#endregion-->
 </ResourceDictionary>

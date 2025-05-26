@@ -58,20 +58,29 @@ namespace CarAccountingGibdd.Controls
         }
 
         // Обработчики событий
+        private void Card_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            InfoApplicationDialog dialog = new(_application);
+            ComponentsHelper.ShowDialogWindowDark(dialog);
+        }
+
         private void GetInfo_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            e.Handled = true; // Останавливаем всплытие события
             InfoApplicationDialog dialog = new(_application);
             ComponentsHelper.ShowDialogWindowDark(dialog);
         }
 
         private void Cancel_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            e.Handled = true; // Останавливаем всплытие события
             // Добавиь логику отмены
             //ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }
 
         private void ToAccept_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            e.Handled = true; // Останавливаем всплытие события
             // Добавиь логику принятия
             //ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }

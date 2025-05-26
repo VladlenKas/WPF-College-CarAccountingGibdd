@@ -10,7 +10,7 @@ namespace CarAccountingGibdd.Classes.Services
     public class ApplicationService
     {
         // Добавление
-        public void CreateApplication(Owner owner, Vehicle vehicle)
+        public void CreateApplication(Owner owner, Vehicle vehicle, int paymentMethod, int change, string bank)
         {
             Application application = new()
             {
@@ -22,15 +22,34 @@ namespace CarAccountingGibdd.Classes.Services
 
             App.DbContext.Add(application);
             App.DbContext.SaveChanges();
+
+            Payment payment = new Payment()
+            {
+                PaymentMethod = (sbyte)paymentMethod,
+                BankName = bank,
+                ApplicationId = application.ApplicationId,
+                Amount = 400,
+                PaymentDatetime = DateTime.Now,
+                StatusId = 1,
+            };
+
+            App.DbContext.Add(payment);
+            App.DbContext.SaveChanges();
         }
 
         // Проверка (ПРОВЕРИТЬ РАБОТУ!)
-        public bool Check(Owner owner, Vehicle vehicle)
+        public bool Check(Owner owner, Vehicle vehicle, int paymentMethod, int change, string bank)
         {
             // Проверка на пустые поля
-            if (owner == null || vehicle == null)
+            if (owner == null || vehicle == null ||
+               (paymentMethod == 0 && bank == null))
             {
                 MessageHelper.MessageNullFields();
+                return false;
+            }
+            else if (paymentMethod == 1 && change < 0)
+            {
+                MessageHelper.MessageNullCost();
                 return false;
             }
             // Проверка на то, что действующих заявок нет
