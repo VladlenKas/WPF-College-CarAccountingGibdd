@@ -52,13 +52,8 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             cardsIC.Items.Clear();
             foreach (var application in applications)
             {
-                var card = new ApplicationCard(application);
+                var card = new ApplicationCard(application, _operator);
                 card.ApplicationToAccept += ApplicationToAccept;
-
-                if (application.ApplicationStatusId != 1)
-                {
-                    card.Opacity = 0.5;
-                }
                 cardsIC.Items.Add(card);
             }
         }

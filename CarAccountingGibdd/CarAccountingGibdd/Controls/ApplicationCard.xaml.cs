@@ -29,28 +29,42 @@ namespace CarAccountingGibdd.Controls
 
         // Поля
         private Application _application;
+        private Employee _employee;
 
         // Конструктор
-        public ApplicationCard(Application application)
+        public ApplicationCard(Application application, Employee employee)
         {
             InitializeComponent();
 
             _application = application;
-            // Если осмотр не назначен
-            if (_application.ApplicationStatusId == 1)
-            {
-                buttonsDP.Visibility = System.Windows.Visibility.Visible;
-            }
-            // Если назначен или уже был
-            else
-            {
-                infoBTN.Visibility = System.Windows.Visibility.Visible;
-                this.Opacity = 0.5;
-            }
+            _employee = employee;
+
+            DifferentiationFunctionality();
             LoadCardData();
         }
 
         // Свойства
+        private void DifferentiationFunctionality()
+        {
+            // Разграничиваем функционал по должности и статусам
+            int post = _employee.PostId;
+            int status = _application.ApplicationStatusId;
+
+            if (post == 2 && status == 2) // инспектор, если еще нет осмотра
+            {
+                acceptBTN.Visibility = System.Windows.Visibility.Visible;
+            }
+            else if (post == 3 && status == 1) // оператор, если еще не подтверждена
+            {
+                confirmationBTNS.Visibility = System.Windows.Visibility.Visible;
+            }
+            else // все остальные случаи
+            {
+                infoBTN.Visibility = System.Windows.Visibility.Visible;
+                Opacity = 0.5;
+            }
+        }
+
         private void LoadCardData()
         {
             App.DbContext.Attach(_application);
@@ -62,8 +76,8 @@ namespace CarAccountingGibdd.Controls
         {
             InfoApplicationDialog dialog = new(_application);
             ComponentsHelper.ShowDialogWindowDark(dialog);
-        }
-
+        }        
+        
         private void GetInfo_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             e.Handled = true; // Останавливаем всплытие события
@@ -71,18 +85,29 @@ namespace CarAccountingGibdd.Controls
             ComponentsHelper.ShowDialogWindowDark(dialog);
         }
 
+        private void Edit_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            e.Handled = true; // Останавливаем всплытие события
+            // Редактирование
+        }
+
         private void Cancel_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             e.Handled = true; // Останавливаем всплытие события
-            // Добавиь логику отмены
-            //ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
+            // Добавить логику отмены
+            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }
 
         private void ToAccept_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             e.Handled = true; // Останавливаем всплытие события
-            // Добавиь логику принятия
+            // Добавить логику принятия
             //ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
+        }
+
+        private void AcceptBTN_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
         }
     }
 }

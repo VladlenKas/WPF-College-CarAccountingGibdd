@@ -78,39 +78,51 @@
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
-                    <!-- Кнопки -->
-                    <DockPanel DockPanel.Dock="Bottom"
-                               Visibility="Visible"
-                               Name="buttonsDP"
-                               Width="Auto">
+                    <!-- КНОПКИ -->
+                    <Grid DockPanel.Dock="Bottom"
+                          Width="Auto">
+                        
+                        <!-- ОПЕРАТОР (подтверждение) -->
+                        <DockPanel Name="confirmationBTNS"
+                                   Visibility="Collapsed">
 
-                        <Button Style="{StaticResource Button.Icon.Large}"
-                                Tag="closeCircleOutline"
-                                DockPanel.Dock="Right"
-                                Click="Cancel_Click"/>
+                            <Button Style="{StaticResource Button.Icon.Large}"
+                                    Tag="closeCircleOutline"
+                                    DockPanel.Dock="Right"
+                                    Click="Cancel_Click"/>
 
-                        <Button Style="{StaticResource Button.Icon.Large}"
-                                Margin="0 0 12 0"
-                                Tag="infoOutline"
-                                DockPanel.Dock="Right"
-                                Click="GetInfo_Click"/>
+                            <Button Style="{StaticResource Button.Icon.Large}"
+                                    Margin="0 0 12 0"
+                                    Tag="editOutline"
+                                    DockPanel.Dock="Right"
+                                    Click="Edit_Click"/>
 
-                        <!-- Смена статуса -->
+                            <!-- Смена статуса -->
+                            <Button Style="{StaticResource Button.Primary.Icon}"
+                                    Margin="0 0 12 0"
+                                    Content="Подтвердить"
+                                    Tag="check"
+                                    Click="ToAccept_Click"/>
+                        </DockPanel>
+
+                        <!-- ИНСПЕКТОР (принятие)  -->
                         <Button Style="{StaticResource Button.Primary.Icon}"
-                                Margin="0 0 12 0"
-                                Content="Подтвердить"
+                                DockPanel.Dock="Bottom"
+                                Visibility="Collapsed"
+                                Name="acceptBTN"
+                                Content="Принять на осмотр"
                                 Tag="check"
-                                Click="ToAccept_Click"/>
-                    </DockPanel>
+                                Click="AcceptBTN_Click"/>                        
 
-                    <!-- Смена статуса -->
-                    <Button Style="{StaticResource Button.Primary.Icon}"
-                            DockPanel.Dock="Bottom"
-                            Visibility="Collapsed"
-                            Name="infoBTN"
-                            Content="Информация"
-                            Tag="closeCircleOutline"
-                            Click="GetInfo_Click"/>
+                        <!-- ВСЕ (инфо) (прозрачность 50%) -->
+                        <Button Style="{StaticResource Button.Primary.Icon}"
+                                DockPanel.Dock="Bottom"
+                                Visibility="Collapsed"
+                                Name="infoBTN"
+                                Content="Информация"
+                                Tag="infoCircleOutline"
+                                Click="GetInfo_Click"/>
+                    </Grid>
                 </DockPanel>
             </Border>
         </Grid>

@@ -25,11 +25,8 @@ namespace CarAccountingGibdd.Dialogs
     public partial class AddApplicationDialog : Window, INotifyPropertyChanged
     {
         // Поля и свойства
-        private ApplicationService ApplicationService => new ApplicationService();
-        public bool Saved { get; private set; }
-
-        // Свойства для контекста
-        public string ChangeForPayment { get; set; }
+        public bool Saved { get; private set; } // Флаг сохранения
+        public string ChangeForPayment { get; set; } // Свойства для контекста
 
         // Конструктор
         public AddApplicationDialog()
@@ -45,15 +42,20 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private void CreateApplication(Owner owner, Vehicle vehicle)
+        private void CreateApplication()
         {
             // Получаем данные для платежа
+            Owner owner = (Owner)ownerATB.SelectedItem;
+            Vehicle vehicle = (Vehicle)vehicleATB.SelectedItem;
             int index = paymentCB.SelectedIndex;
-            string bank = bankPaymentCB.SelectedValue?.ToString();
+            string? bank = bankPaymentCB.SelectedValue?.ToString();
             int change = CalculateChange();
 
+            // Создание экземпляра сервиса для обработки заявки
+            ApplicationService ApplicationService = new(owner, vehicle, index, change, bank);
+
             // Проверка
-            bool notError = ApplicationService.Check(owner, vehicle, index, change, bank);
+            bool notError = ApplicationService.Check();
             if (!notError) return;
 
             // Подтверждение 
@@ -61,7 +63,7 @@ namespace CarAccountingGibdd.Dialogs
             if (!accept) return;
 
             // Формирование 
-            ApplicationService.CreateApplication(owner, vehicle, index, change, bank);
+            ApplicationService.CreateApplication();
             Saved = true;
             Close();
         }
@@ -85,13 +87,7 @@ namespace CarAccountingGibdd.Dialogs
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e)
-        {
-            Owner owner = (Owner)ownerATB.SelectedItem;
-            Vehicle vehicle = (Vehicle)vehicleATB.SelectedItem;
-
-            CreateApplication(owner, vehicle);
-        }
+        private void Add_Click(object sender, RoutedEventArgs e) => CreateApplication();
 
         private void PaymentCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
