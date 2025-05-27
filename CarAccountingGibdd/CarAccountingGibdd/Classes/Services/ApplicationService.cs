@@ -13,19 +13,27 @@ namespace CarAccountingGibdd.Classes.Services
         private readonly Vehicle _vehicle;
         private readonly int _paymentMethod;
         private readonly int _change;
-        private readonly string? _bank;
+        private readonly string? _bankName;
 
-        public ApplicationService(Owner owner, Vehicle vehicle, int paymentMethod, int change, string? bank)
+        // Конструктор для добавления
+        public ApplicationService(Owner owner, Vehicle vehicle, int paymentMethod, int change, string? bankName) 
         {
             _owner = owner;
             _vehicle = vehicle;
             _paymentMethod = paymentMethod;
             _change = change;
-            _bank = bank;
+            _bankName = bankName;
+        }
+
+        // Конструктор для редактирования
+        public ApplicationService(Owner owner, Vehicle vehicle) 
+        {
+            _owner = owner;
+            _vehicle = vehicle;
         }
 
         // Добавление
-        public void CreateApplication()
+        public void Create()
         {
             Application application = new()
             {
@@ -41,7 +49,7 @@ namespace CarAccountingGibdd.Classes.Services
             Payment payment = new()
             {
                 PaymentMethod = (sbyte)_paymentMethod,
-                BankName = _bank,
+                BankName = _bankName,
                 ApplicationId = application.ApplicationId,
                 Amount = 400,
                 PaymentDatetime = DateTime.Now,
@@ -52,11 +60,128 @@ namespace CarAccountingGibdd.Classes.Services
             App.DbContext.SaveChanges();
         }
 
-        // Проверка (добавить редактирование, ПРОВЕРИТЬ РАБОТУ!)
-        public bool Check(Application? application = null)
+        // Редактирование
+        public void Edit(Application application)
+        {
+            application.OwnerId = _owner.OwnerId;
+            application.VehicleId = _vehicle.VehicleId;
+
+            App.DbContext.Update(application);
+            App.DbContext.SaveChanges();
+        }
+
+        // Подтверждение
+        public static void Confirm(Application application, Employee @operator)
+        {
+            application.ApplicationStatusId = 2;
+            application.OperatorId = @operator.EmployeeId;
+            application.DatetimeConfirm = DateTime.Now;
+
+            App.DbContext.Update(application);
+            App.DbContext.SaveChanges();
+        }
+
+        // Принятие на инспекцию
+        public static void Accept(Application application, Employee inspector, DateTime dateTimePlanned)
+        {
+            application.ApplicationStatusId = 3;
+            application.DatetimeAccept = DateTime.Now;
+
+            App.DbContext.Update(application);
+            App.DbContext.SaveChanges();
+
+            Inspection inspection = new()
+            {
+                ApplicationId = application.ApplicationId,
+                InspectionId = inspector.EmployeeId,
+                StatusId = 1,
+                DatetimePlanned = dateTimePlanned,
+            };
+
+            App.DbContext.Add(inspection);
+            App.DbContext.SaveChanges();
+        }
+
+        // Отклонение
+        public static void Reject(Application application, Employee @operator)
+        {
+            application.ApplicationStatusId = 6;
+            application.OperatorId = @operator.EmployeeId;
+            application.DatetimeConfirm = DateTime.Now;
+
+            App.DbContext.Update(application);
+            App.DbContext.SaveChanges();
+        }
+
+        // Проверка для редактирования
+        public bool Check(Application application)
         {
             // Проверки на пустые поля
-            bool nullFields = _owner == null || _vehicle == null || _paymentMethod == -1 || (_paymentMethod == 0 && _bank == null);
+            bool nullFields = _owner == null || _vehicle == null;
+
+            if (nullFields)
+            {
+                MessageHelper.MessageNullFields();
+                return false;
+            }
+
+            // Проверка на то, что действующих заявок нет
+            bool hasActiveApplication = App.DbContext.Applications.Any(r =>
+                (r.Vehicle.VehicleId == _vehicle.VehicleId) &&
+                (r.ApplicationStatusId != 5 || r.ApplicationStatusId != 6) &&
+                (r.ApplicationId != application.ApplicationId)); 
+
+            if (hasActiveApplication)
+            {
+                MessageHelper.MessageActiveApplication();
+                return false;
+            }
+
+            // Проверка на то, что у владельца и авто уже нет сертификата
+            bool hasCertificate = App.DbContext.Certificates.Any(r =>
+                r.Application.OwnerId == _owner.OwnerId &&
+                r.Application.VehicleId == _vehicle.VehicleId &&
+                r.IsActive == 0 &&
+                (r.ApplicationId != application.ApplicationId));
+
+            if (hasCertificate)
+            {
+                MessageHelper.MessageCerrentSertificate();
+                return false;
+            }
+
+            // Проверка на то, что у авто нет другого владельца
+            bool hasOtherOwner = App.DbContext.Certificates.Any(r =>
+                r.Application.VehicleId == _vehicle.VehicleId &&
+                r.IsActive == 0 &&
+                (r.ApplicationId != application.ApplicationId));
+
+            if (hasOtherOwner)
+            {
+                MessageHelper.MessageCerrentOwner();
+                return false;
+            }
+
+            // Проверка на изменения 
+            bool noChanges = application != null &&
+                application.OwnerId == _owner.OwnerId &&
+                application.VehicleId == _vehicle.VehicleId;
+
+            if (noChanges)
+            {
+                MessageHelper.MessageNotChanges();
+                return false;
+            }
+
+            // Если ошибок нет, то возвращаем true
+            return true;
+        }
+
+        // Проверка для добавления
+        public bool Check()
+        {
+            // Проверки на пустые поля
+            bool nullFields = _owner == null || _vehicle == null || _paymentMethod == -1 || (_paymentMethod == 0 && _bankName == null);
             bool nullPay = _paymentMethod == 1 && _change < 0;
 
             if (nullFields)
@@ -74,8 +199,7 @@ namespace CarAccountingGibdd.Classes.Services
             // Проверка на то, что действующих заявок нет
             bool hasActiveApplication = App.DbContext.Applications.Any(r =>
                 (r.Vehicle.VehicleId == _vehicle.VehicleId) &&
-                (r.ApplicationStatusId != 5 || r.ApplicationStatusId != 6) &&
-                (application == null || r.ApplicationId != application.ApplicationId));
+                (r.ApplicationStatusId != 5 || r.ApplicationStatusId != 6));
 
             if (hasActiveApplication)
             {
@@ -87,8 +211,7 @@ namespace CarAccountingGibdd.Classes.Services
             bool hasCertificate = App.DbContext.Certificates.Any(r =>
                 r.Application.OwnerId == _owner.OwnerId &&
                 r.Application.VehicleId == _vehicle.VehicleId &&
-                r.IsActive == 0 &&
-                (application == null || r.ApplicationId != application.ApplicationId));
+                r.IsActive == 0);
 
             if (hasCertificate)
             {
@@ -99,8 +222,7 @@ namespace CarAccountingGibdd.Classes.Services
             // Проверка на то, что у авто нет другого владельца
             bool hasOtherOwner = App.DbContext.Certificates.Any(r =>
                 r.Application.VehicleId == _vehicle.VehicleId &&
-                r.IsActive == 0 &&
-                (application == null || r.ApplicationId != application.ApplicationId));
+                r.IsActive == 0);
 
             if (hasOtherOwner)
             {

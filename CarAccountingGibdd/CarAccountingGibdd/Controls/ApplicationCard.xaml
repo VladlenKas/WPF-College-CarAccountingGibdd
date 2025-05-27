@@ -89,7 +89,7 @@
                             <Button Style="{StaticResource Button.Icon.Large}"
                                     Tag="closeCircleOutline"
                                     DockPanel.Dock="Right"
-                                    Click="Cancel_Click"/>
+                                    Click="Reject_Click"/>
 
                             <Button Style="{StaticResource Button.Icon.Large}"
                                     Margin="0 0 12 0"
@@ -102,17 +102,17 @@
                                     Margin="0 0 12 0"
                                     Content="Подтвердить"
                                     Tag="check"
-                                    Click="ToAccept_Click"/>
+                                    Click="Confirm_Click"/>
                         </DockPanel>
 
                         <!-- ИНСПЕКТОР (принятие)  -->
                         <Button Style="{StaticResource Button.Primary.Icon}"
                                 DockPanel.Dock="Bottom"
                                 Visibility="Collapsed"
-                                Name="acceptBTN"
+                                Name="acceptForInspectionBTN"
                                 Content="Принять на осмотр"
                                 Tag="check"
-                                Click="AcceptBTN_Click"/>                        
+                                Click="AcceptForInspectionBTN_Click"/>                        
 
                         <!-- ВСЕ (инфо) (прозрачность 50%) -->
                         <Button Style="{StaticResource Button.Primary.Icon}"

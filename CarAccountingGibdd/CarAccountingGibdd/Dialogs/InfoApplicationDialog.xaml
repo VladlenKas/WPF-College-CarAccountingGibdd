@@ -11,7 +11,7 @@
         Title="Информация по заявке" 
         SizeToContent="Height"
         MinHeight="610"
-        MinWidth="600" Width="900"
+        MinWidth="700" Width="1000"
         Style="{StaticResource Window.Ordinary}"
         WindowStartupLocation="CenterScreen">
 
@@ -180,16 +180,26 @@
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
-                    <Run Text="Дата и время подачи:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding DatetimeSupply, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}"
+                    <Run Text="Дата подачи:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="{Binding DatetimeSupply, StringFormat={}{0:dd.MM.yyyy HH:mm}}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
-                    <Run Text="Дата и время принятия:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding DatetimeAccept, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}, TargetNullValue='Не принята'}"
+                    <Run Text="Дата подтверждения:" 
+                         Style="{StaticResource Run.Subtitle}"
+                         Name="dateTimeConfirmTB"/>
+                    <Run Text="{Binding DatetimeConfirm, StringFormat={}{0:dd.MM.yyyy HH:mm}, TargetNullValue='Не подтверждена'}"
+                         Style="{StaticResource Run.Description}"/>
+                    </TextBlock>
+
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="0 0 0 12"
+                               TextWrapping="Wrap">
+                    <Run Text="Дата принятия на осмотр:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="{Binding DatetimeAccept, StringFormat={}{0:dd.MM.yyyy HH:mm}, TargetNullValue='Не принята'}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 

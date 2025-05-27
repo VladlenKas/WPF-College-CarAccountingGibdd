@@ -17,6 +17,8 @@ public partial class Application
 
     public DateTime DatetimeSupply { get; set; }
 
+    public DateTime? DatetimeConfirm { get; set; }
+
     public DateTime? DatetimeAccept { get; set; }
 
     public virtual ApplicationStatus ApplicationStatus { get; set; } = null!;

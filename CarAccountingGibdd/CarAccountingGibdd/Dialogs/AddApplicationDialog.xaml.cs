@@ -32,6 +32,7 @@ namespace CarAccountingGibdd.Dialogs
         public AddApplicationDialog()
         {
             InitializeComponent();
+
             ownerATB.ItemsSource = App.DbContext.Owners;
             vehicleATB.ItemsSource = App.DbContext.Vehicles;
             paymentCB.ItemsSource = new[] { "Безналичный", "Наличный" };
@@ -48,14 +49,14 @@ namespace CarAccountingGibdd.Dialogs
             Owner owner = (Owner)ownerATB.SelectedItem;
             Vehicle vehicle = (Vehicle)vehicleATB.SelectedItem;
             int index = paymentCB.SelectedIndex;
-            string? bank = bankPaymentCB.SelectedValue?.ToString();
-            int change = CalculateChange();
+            int change = AmountChanged();
+            string? bank = index == 1 ? string.Empty : bankPaymentCB.SelectedValue?.ToString();
 
             // Создание экземпляра сервиса для обработки заявки
-            ApplicationService ApplicationService = new(owner, vehicle, index, change, bank);
+            ApplicationService applicationService = new(owner, vehicle, index, change, bank);
 
             // Проверка
-            bool notError = ApplicationService.Check();
+            bool notError = applicationService.Check();
             if (!notError) return;
 
             // Подтверждение 
@@ -63,27 +64,29 @@ namespace CarAccountingGibdd.Dialogs
             if (!accept) return;
 
             // Формирование 
-            ApplicationService.CreateApplication();
+            applicationService.Create();
             Saved = true;
             Close();
         }
 
-        private void AmountChanged()
+        private int AmountChanged()
         {
-            int change = CalculateChange();
-             
+            int index = paymentCB.SelectedIndex;
+            int change = 0;
+
+            if (index == 1)
+            {
+                string text = cashPaymentTB.Text;
+                int amount = TypeHelper.IntParse(text);
+                change = amount - 400;
+            }
+
             ChangeForPayment = $"{change} р.";
             OnPropertyChanged(nameof(ChangeForPayment));
-        }
-
-        private int CalculateChange()
-        {
-            string text = cashPaymentTB.Text;
-            int amount = TypeHelper.IntParse(text);
-            int change = amount - 400;
 
             return change;
         }
+
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
@@ -92,28 +95,20 @@ namespace CarAccountingGibdd.Dialogs
         private void PaymentCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int index = paymentCB.SelectedIndex;
+
             if (index == 0)
             {
                 bankPaymentCB.Visibility = Visibility.Visible;
                 cashPaymentTB.Visibility = Visibility.Collapsed;
-                // Меняем цену и обновляем видимость
-                ChangeForPayment = "0";
-                OnPropertyChanged(nameof(ChangeForPayment)); 
             }
-            else if (index == 1)
+
+            if (index == 1)
             {
                 bankPaymentCB.Visibility = Visibility.Collapsed;
                 cashPaymentTB.Visibility = Visibility.Visible;
-                // Меняем цену и обновляем видимость
-                AmountChanged();
             }
-            else
-            {
-                MessageBox.Show("Неизвестная ошибка.",
-                    "Ошибка",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
+
+            AmountChanged();
         }
 
         private void CashPaymentTB_TextChanged(object sender, TextChangedEventArgs e) => AmountChanged();

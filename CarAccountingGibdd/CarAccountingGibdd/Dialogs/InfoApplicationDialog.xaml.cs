@@ -25,11 +25,13 @@ namespace CarAccountingGibdd.Dialogs
         {
             InitializeComponent();
             DataContext = application;
+
+            if (application.ApplicationStatusId == 6)
+            {
+                dateTimeConfirmTB.Text = "Дата и время отклонения:";
+            }
         }
 
-        private void ExitBTN_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        private void ExitBTN_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

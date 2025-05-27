@@ -59,6 +59,15 @@ namespace CarAccountingGibdd.Classes
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
         }
+
+        // Сообщение о том, что изменения не были внесены
+        public static void MessageNotChanges()
+        {
+            MessageBox.Show($"Вы не внесли изменений",
+                "Уведомление",
+                MessageBoxButton.OK,
+                MessageBoxImage.Question);
+        }
         #endregion
 
         #region Подтверждения
@@ -76,11 +85,56 @@ namespace CarAccountingGibdd.Classes
             }
         }
 
+        // Подтверждение добавления
+        public static bool ConfirmSave()
+        {
+            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно?",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("Добавление прошло успешно",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool ConfirmEdit()
+        {
+            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно?",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("Изменение прошло успешно",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         // Подтверждение добавления ЗАЯВКИ
         public static bool ConfirmSaveApplication()
         {
             var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно? " +
-                "Внести изменения после принятия заявки на осмотр инспектором будет невозомжно",
+                "После одобрения заявки внести изменения будет НЕВОЗМОЖНО!",
                 "Подтверждение",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
@@ -100,17 +154,92 @@ namespace CarAccountingGibdd.Classes
             }
         }
 
-        // Подтверждение добавления
-        public static bool ConfirmSave()
+        // Подтверждение редактирования ЗАЯВКИ
+        public static bool ConfirmEditApplication()
         {
-            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно?",
+            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно? " +
+                "После одобрения заявки внести изменения будет НЕВОЗМОЖНО!",
                 "Подтверждение",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 
             if (resultChanged == MessageBoxResult.Yes)
             {
-                MessageBox.Show("Добавление прошло успешно",
+                MessageBox.Show("Редактирование заявки прошло успешно",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Подтверждение отклонения ЗАЯВКИ
+        public static bool ConfirmRejectApplication()
+        {
+            var resultChanged = MessageBox.Show("Вы уверены, что хотите отклонить заявку? " +
+                "Данное действие отменить НЕВОЗМОЖНО!",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("Заявка октлонена успешно",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Подтверждение подтверждения ЗАЯВКИ
+        public static bool ConfirmApplication()
+        {
+            var resultChanged = MessageBox.Show("Вы уверены, что хотите подтвердить заявку? " +
+                "После данного действия заявка будет доступна для проведения инспекции ТС!",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("Заявка подтверждена успешно",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Подтверждение принятия ЗАЯВКИ на проведение инспекции 
+        public static bool ConfirmAcceptForInspectionApplication()
+        {
+            var resultChanged = MessageBox.Show("Вы уверены, что хотите принять заявку? " +
+                "После данного действия будут запланированы дата и время для проведения инспекции, " +
+                "которую необходимо будет провести! В случае неявки гражданина, заявка и инспекция " +
+                "будут автоматически анулированы",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("Заявка на проведение инспекции принята успешно",
                     "Успех",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);

@@ -13,9 +13,9 @@ public partial class Inspection
 
     public int StatusId { get; set; }
 
-    public DateTime DatetimeCompleted { get; set; }
+    public DateTime DatetimePlanned { get; set; }
 
-    public DateOnly? NextDate { get; set; }
+    public DateTime? DatetimeCompleted { get; set; }
 
     public virtual Application Application { get; set; } = null!;
 

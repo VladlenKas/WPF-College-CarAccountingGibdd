@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
@@ -52,16 +53,17 @@ public partial class GibddContext : DbContext
         .Include(o => o.Owner)
         .Include(v => v.Vehicle)
             .ThenInclude(vt => vt.VehicleType)
-        .Include(a => a.Inspections)
+        .Include(ins => ins.Inspections)
             .ThenInclude(i => i.Inspector)
-        .Include(a => a.Inspections)
-            .ThenInclude(i => i.Status)
-        .Include(a => a.Inspections)
-            .ThenInclude(i => i.ViolationsInspections)
-                .ThenInclude(vi => vi.Violations)
-        .Include(r => r.ApplicationStatus)
-        .Include(r => r.Payments)
-            .ThenInclude(r => r.Status)
+        .Include(ins => ins.Inspections)
+            .ThenInclude(s => s.Status)
+        .Include(ins => ins.Inspections)
+            .ThenInclude(vi => vi.ViolationsInspections)
+                .ThenInclude(v => v.Violations)
+        .Include(a => a.ApplicationStatus)
+        .Include(p => p.Payments)
+            .ThenInclude(s => s.Status)
+        .Include(op => op.Operator)
         .AsSplitQuery(); // для оптимизации
 
     public IQueryable<Employee> Employees => AllEmployees.Where(r => r.Deleted != 1)
@@ -106,12 +108,15 @@ public partial class GibddContext : DbContext
 
             entity.Property(e => e.ApplicationId).HasColumnName("application_id");
             entity.Property(e => e.ApplicationStatusId).HasColumnName("application_status_id");
+            entity.Property(e => e.DatetimeConfirm)
+                .HasColumnType("datetime")
+                .HasColumnName("datetime_confirm");
+            entity.Property(e => e.DatetimeSupply)
+                .HasColumnType("datetime")
+                .HasColumnName("datetime_supply");            
             entity.Property(e => e.DatetimeAccept)
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_accept");
-            entity.Property(e => e.DatetimeSupply)
-                .HasColumnType("datetime")
-                .HasColumnName("datetime_supply");
             entity.Property(e => e.OperatorId).HasColumnName("operator_id");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
@@ -258,7 +263,9 @@ public partial class GibddContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_completed");
             entity.Property(e => e.InspectorId).HasColumnName("inspector_id");
-            entity.Property(e => e.NextDate).HasColumnName("next_date");
+            entity.Property(e => e.DatetimePlanned)
+                .HasColumnType("datetime")
+                .HasColumnName("datetime_planned");
             entity.Property(e => e.StatusId).HasColumnName("status_id");
 
             entity.HasOne(d => d.Application).WithMany(p => p.Inspections)

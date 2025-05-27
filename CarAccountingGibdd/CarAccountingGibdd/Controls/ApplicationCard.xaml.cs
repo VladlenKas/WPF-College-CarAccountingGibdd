@@ -1,4 +1,5 @@
 ﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Dialogs;
 using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +53,7 @@ namespace CarAccountingGibdd.Controls
 
             if (post == 2 && status == 2) // инспектор, если еще нет осмотра
             {
-                acceptBTN.Visibility = System.Windows.Visibility.Visible;
+                acceptForInspectionBTN.Visibility = System.Windows.Visibility.Visible;
             }
             else if (post == 3 && status == 1) // оператор, если еще не подтверждена
             {
@@ -81,6 +82,7 @@ namespace CarAccountingGibdd.Controls
         private void GetInfo_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             e.Handled = true; // Останавливаем всплытие события
+
             InfoApplicationDialog dialog = new(_application);
             ComponentsHelper.ShowDialogWindowDark(dialog);
         }
@@ -88,26 +90,43 @@ namespace CarAccountingGibdd.Controls
         private void Edit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             e.Handled = true; // Останавливаем всплытие события
-            // Редактирование
-        }
 
-        private void Cancel_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            e.Handled = true; // Останавливаем всплытие события
-            // Добавить логику отмены
+            EditApplicationDialog dialog = new(_application);
+            ComponentsHelper.ShowDialogWindowDark(dialog);
+
+            if (!dialog.Saved) return;
             ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }
 
-        private void ToAccept_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Reject_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             e.Handled = true; // Останавливаем всплытие события
-            // Добавить логику принятия
-            //ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
+
+            bool accept = MessageHelper.ConfirmRejectApplication();
+            if (accept) ApplicationService.Reject(_application, _employee);
+
+            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }
 
-        private void AcceptBTN_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Confirm_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            e.Handled = true; // Останавливаем всплытие события
 
+            bool accept = MessageHelper.ConfirmApplication();
+            if (accept) ApplicationService.Confirm(_application, _employee);
+
+            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
+        }
+
+        private void AcceptForInspectionBTN_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            e.Handled = true; // Останавливаем всплытие события
+
+            // Перенести 2 строчки кода ниже в диалоговое окно с выбором даты для проведения инспекции ТС
+            /*bool accept = MessageHelper.ConfirmAcceptForInspectionApplication();
+            if (accept) ApplicationService.AcceptForInspection(_application);
+
+            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });*/
         }
     }
 }
