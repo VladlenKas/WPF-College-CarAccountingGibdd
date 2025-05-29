@@ -113,6 +113,32 @@ namespace CarAccountingGibdd.Classes.Services
             App.DbContext.SaveChanges();
         }
 
+        // Просрочка 
+        private static void Overdue(List<Inspection> overdueInspections)
+        {
+            var violationsToAdd = new List<ViolationsInspection>();
+
+            overdueInspections.ForEach(s =>
+            {
+                // Обновляем инспекцию
+                s.StatusId = 5;
+                s.Application.ApplicationStatusId = 5;
+                s.DatetimeCompleted = s.DatetimePlanned.AddHours(2);
+
+                // Создаём нарушение
+                violationsToAdd.Add(new ViolationsInspection
+                {
+                    InspectionId = s.InspectionId,
+                    ViolationsId = 1
+                });
+            });
+
+            // Обновляем и сохраняем всё одним запросом
+            App.DbContext.AddRange(violationsToAdd);
+            App.DbContext.UpdateRange(overdueInspections);
+            App.DbContext.SaveChanges();
+        }
+
         // Проверка для редактирования
         public bool Check(Application application)
         {
@@ -232,6 +258,23 @@ namespace CarAccountingGibdd.Classes.Services
 
             // Если ошибок нет, то возвращаем true
             return true;
+        }
+
+        // Проверка просрочки
+        public static void HasOverdueInspections()
+        {
+            List<Inspection> overdueInspections = App.DbContext.Inspections
+                .Where(d => 
+                    d.DatetimePlanned.AddHours(2) < DateTime.Now &&
+                    d.StatusId != 5)
+                .ToList();
+
+            bool hasOverdueInspections = overdueInspections.Count > 0;
+
+            if (hasOverdueInspections)
+            {
+                Overdue(overdueInspections);
+            }
         }
     }
 }

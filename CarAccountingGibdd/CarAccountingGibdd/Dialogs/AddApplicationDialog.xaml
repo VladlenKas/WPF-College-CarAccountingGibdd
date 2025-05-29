@@ -86,7 +86,7 @@
             </TextBlock>
 
             <TextBlock DockPanel.Dock="Top"
-                       Text="* - фиксированная сумма гос. пошлины при постанвке автомобиля на учет в ГИБДД"
+                       Text="* - фиксированная сумма гос. пошлины при постановке автомобиля на учет в ГИБДД"
                        Opacity="0.5"
                        Style="{StaticResource TextBlock.Subtitle}"/>
 

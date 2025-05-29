@@ -26,9 +26,9 @@ namespace CarAccountingGibdd.Dialogs
             InitializeComponent();
             DataContext = application;
 
-            if (application.ApplicationStatusId == 6)
+            if (application.ApplicationStatusId == 6) // Если заявка отклонена
             {
-                dateTimeConfirmTB.Text = "Дата и время отклонения:";
+                datetimeConfirmTB.Text = "Дата и время отклонения:";
             }
         }
 

@@ -7,7 +7,7 @@ public partial class Violation
 {
     public int ViolationsId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string Description { get; set; } = null!;
 
     public sbyte Deleted { get; set; }
 

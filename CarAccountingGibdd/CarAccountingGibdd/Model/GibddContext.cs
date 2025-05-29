@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
@@ -28,7 +29,7 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<Employee> AllEmployees { get; set; }
 
-    public virtual DbSet<Inspection> Inspections { get; set; }
+    public virtual DbSet<Inspection> AllInspections { get; set; }
 
     public virtual DbSet<InspectionStatus> InspectionStatuses { get; set; }
 
@@ -49,6 +50,10 @@ public partial class GibddContext : DbContext
     public virtual DbSet<ViolationsInspection> ViolationsInspections { get; set; }
 
     #region Записи активные и с контекстом
+
+    public IQueryable<Inspection> Inspections => AllInspections
+        .Include(a => a.Application);
+
     public IQueryable<Application> Applications => AllApplications
         .Include(o => o.Owner)
         .Include(v => v.Vehicle)
@@ -57,9 +62,6 @@ public partial class GibddContext : DbContext
             .ThenInclude(i => i.Inspector)
         .Include(ins => ins.Inspections)
             .ThenInclude(s => s.Status)
-        .Include(ins => ins.Inspections)
-            .ThenInclude(vi => vi.ViolationsInspections)
-                .ThenInclude(v => v.Violations)
         .Include(a => a.ApplicationStatus)
         .Include(p => p.Payments)
             .ThenInclude(s => s.Status)
@@ -78,7 +80,6 @@ public partial class GibddContext : DbContext
     public IQueryable<Vehicle> Vehicles => AllVehicles.Where(r => r.Deleted != 1)
         .Include(r => r.PhotosVehicles)
         .Include(r => r.VehicleType);
-
 
     #endregion
 
@@ -467,9 +468,9 @@ public partial class GibddContext : DbContext
 
             entity.Property(e => e.ViolationsId).HasColumnName("violations_id");
             entity.Property(e => e.Deleted).HasColumnName("deleted");
-            entity.Property(e => e.Name)
+            entity.Property(e => e.Description)
                 .HasMaxLength(90)
-                .HasColumnName("name");
+                .HasColumnName("description");
         });
 
         modelBuilder.Entity<ViolationsInspection>(entity =>

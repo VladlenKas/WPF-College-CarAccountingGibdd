@@ -13,7 +13,7 @@ namespace CarAccountingGibdd
         // Окно текущего меню
         public static Window MenuWindow { get; set; } = null!;
         
-        // Быстрое получения контекста бд
+        // Быстрое получения актуального контекста бд
         private static readonly GibddContext _instance = new GibddContext();
         public static GibddContext DbContext => _instance;
 

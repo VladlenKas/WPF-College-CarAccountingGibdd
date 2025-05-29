@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CarAccountingGibdd.Classes.Services;
 
 namespace CarAccountingGibdd
 {
@@ -21,7 +22,6 @@ namespace CarAccountingGibdd
     public partial class AuthWindow : Window
     {
         // Поля и свойства
-        private GibddContext _dbContext;
         private string Login => loginTB.Text;
         private string Password => ComponentsHelper.GetPassword(PassPB, PassTB);
 
@@ -29,16 +29,14 @@ namespace CarAccountingGibdd
         public AuthWindow()
         {
             InitializeComponent();
-            _dbContext = new();
+            ApplicationService.HasOverdueInspections(); // Проверка на просроченные записи
         }
 
         // Методы
         private Employee? Authenticate(string login, string password)
-        {
-            _dbContext.Employees.Include(r => r.Post).Load();
-
-            return _dbContext.Employees.SingleOrDefault(r =>
-            r.Login == login && r.Password == password);
+         {
+            return App.DbContext.Employees.SingleOrDefault(r =>
+                r.Login == login && r.Password == password);
         }
 
         private void Auth()
@@ -54,7 +52,7 @@ namespace CarAccountingGibdd
             if (employee == null)
             {
                 // Если пользователь не найден
-                MessageBox.Show("Пользователь с указанными данными не найден. Проверьте логин и пароль.",
+                MessageBox.Show("Пользователь с указанными данными не найден. Проверьте логин и пароль",
                                 "Ошибка авторизации",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
@@ -67,48 +65,34 @@ namespace CarAccountingGibdd
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Information);
 
-                if (employee.PostId == 1)
+                switch (employee.PostId)
                 {
-                    NavWindowAdmin navWindow = new(employee);
-                    navWindow.Show();
-                    Close();
-                }
-                else if (employee.PostId == 2)
-                {
-                    NavWindowInspector navWindow = new(employee);
-                    navWindow.Show();
-                    Close();
-                }
-                else if (employee.PostId == 3)
-                {
-                    NavWindowOperator navWindow = new(employee);
-                    navWindow.Show();
-                    Close();
-                }
-                else
-                {
-                    MessageBox.Show("Неизвестная ошибка.",
-                        "Ошибка",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                    case 1:
+                        NavWindowAdmin adminNavWindow = new(employee);
+                        adminNavWindow.Show();
+                        Close();
+                        break;
+
+                    case 2:
+                        NavWindowInspector inspectorNavWindow = new(employee);
+                        inspectorNavWindow.Show();
+                        Close();
+                        break;
+
+                    case 3:
+                        NavWindowOperator operatorNavWindow = new(employee);
+                        operatorNavWindow.Show();
+                        Close();
+                        break;
                 }
             }
         }
 
-        // Тригеры
-        private void Login_Click(object sender, RoutedEventArgs e)
-        {
-            Auth();
-        }
+        // Обработчики событий
+        private void Login_Click(object sender, RoutedEventArgs e) => Auth();
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            MessageHelper.ConfirmExit(this);
-        }
+        private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void VisibilityPassword_Click(object sender, RoutedEventArgs e)
-        {
-            ComponentsHelper.ToggleVisibility(sender, PassPB, PassTB);
-        }
+        private void VisibilityPassword_Click(object sender, RoutedEventArgs e) => ComponentsHelper.ToggleVisibility(sender, PassPB, PassTB);
     }
 }
