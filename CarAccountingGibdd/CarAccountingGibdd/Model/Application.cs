@@ -49,5 +49,8 @@ public partial class Application
 
     public string InspectionNumber =>
         Inspections?.FirstOrDefault()?.InspectionId.ToString() ?? "Отсутствует";
+    
+    public string InspectionDate =>
+        Inspections?.FirstOrDefault()?.DatetimePlanned.ToString() ?? "Отсутствует";
 
 }

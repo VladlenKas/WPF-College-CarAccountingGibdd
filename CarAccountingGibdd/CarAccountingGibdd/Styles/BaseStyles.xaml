@@ -56,18 +56,25 @@
         <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
     </Style>
 
-    <Style TargetType="{x:Type TextBlock}" x:Key="TextBlock.H6">
-        <Setter Property="FontFamily" Value="SF Pro Text"/>
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontWeight" Value="Medium"/>
-        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
-    </Style>
-
     <Style TargetType="{x:Type TextBlock}" x:Key="TextBlock.H2">
         <Setter Property="FontFamily" Value="SF Pro Text"/>
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" x:Key="TextBlock.H3">
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" x:Key="TextBlock.H6">
+        <Setter Property="FontFamily" Value="SF Pro Text"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="TextBlock.Normal">
