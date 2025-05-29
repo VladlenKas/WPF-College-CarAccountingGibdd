@@ -28,7 +28,7 @@
                        Margin="0 0 0 16"
                        TextWrapping="Wrap">
                 <Run Text="Редактирование заявки"/>
-                <Run Text="{Binding ApplicationNumber}"/>
+                <Run Text="{Binding ApplicationNumber, StringFormat={}№{0}}"/>
             </TextBlock>
 
             <!-- Подзаголовок -->

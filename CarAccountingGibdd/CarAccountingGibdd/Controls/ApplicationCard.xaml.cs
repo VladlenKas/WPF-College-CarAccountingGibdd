@@ -122,11 +122,11 @@ namespace CarAccountingGibdd.Controls
         {
             e.Handled = true; // Останавливаем всплытие события
 
-            // Перенести 2 строчки кода ниже в диалоговое окно с выбором даты для проведения инспекции ТС
-            /*bool accept = MessageHelper.ConfirmAcceptForInspectionApplication();
-            if (accept) ApplicationService.AcceptForInspection(_application);
+            AcceptApplicationDialog dialog = new(_application, _employee);
+            ComponentsHelper.ShowDialogWindowDark(dialog);
 
-            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });*/
+            if (!dialog.Saved) return;
+            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }
     }
 }

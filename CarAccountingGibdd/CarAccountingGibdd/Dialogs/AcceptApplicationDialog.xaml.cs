@@ -1,0 +1,155 @@
+﻿using CarAccountingGibdd.Classes.Services;
+using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Model;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace CarAccountingGibdd.Dialogs
+{
+    /// <summary>
+    /// Логика взаимодействия для AcceptApplicationDialog.xaml
+    /// </summary>
+    public partial class AcceptApplicationDialog : Window
+    {
+        // Поля 
+        private DateTime? selectedDate;
+        private DateTime? selectedTime;
+
+        private Model.Application _application;
+        private Employee _inspector;
+
+        // Свойства
+        public bool Saved { get; private set; } // Флаг сохранения
+
+        // Конструктор
+        public AcceptApplicationDialog(Model.Application application, Employee inspector)
+        {
+            InitializeComponent();
+
+            _application = application;
+            _inspector = inspector;
+
+            List<DateTime> days = GetNext30DaysList();
+            dateCB.ItemsSource = days;
+        }
+
+        // Методы
+        private static List<DateTime> GetNext30DaysList()
+        {
+            List<DateTime> dateList = new List<DateTime>();
+            DateTime currentDate = DateTime.Today;
+
+            // Заполняем лист датами на месяц вперед
+            for (int i = 0; i < 30; i++)
+            {
+                dateList.Add(currentDate.AddDays(i));
+            }
+
+            return dateList;
+        }
+
+        private void VisibleTimeComboBox()
+        {
+            // Очищаем комбобокс
+            timeCB.ItemsSource = null;
+            timeCB.Visibility = Visibility.Visible; // Делаем комбобокс со слотами видимым
+
+            // Получаем выбранную дату
+            selectedDate = (DateTime?)dateCB.SelectedItem;
+
+            // Получаем все заплнированные инспекции в этот день
+            List<DateTime> plannedTimes = App.DbContext.Inspections
+                .Where(r => r.DatetimePlanned.Date == selectedDate.Value.Date)
+                .Select(r => r.DatetimePlanned)
+                .ToList();
+
+            // Базовые временные слоты (в формате часов)
+            List<TimeSpan> timeSlots = new List<TimeSpan>
+            {
+                new TimeSpan(10, 0, 0), // 10:00
+                new TimeSpan(12, 0, 0), // 12:00
+                new TimeSpan(14, 0, 0), // 14:00
+                new TimeSpan(16, 0, 0)  // 16:00
+            };
+
+            // Создаем полные DateTime (дата + время)
+            List<DateTime> allSlots = timeSlots
+                .Select(time => selectedDate.Value.Date.Add(time)) // Комбинируем дату и время
+                .ToList();
+
+            // Получаем занятые слоты на эту дату
+            List<DateTime> bookedSlots = App.DbContext.Inspections
+                .Where(i => i.InspectorId == _inspector.EmployeeId)
+                .Where(r => r.DatetimePlanned.Date == selectedDate.Value.Date)
+                .Select(r => r.DatetimePlanned)
+                .ToList();
+
+            // Фильтруем доступные слоты
+            List<DateTime> availableSlots = allSlots
+                .Where(slot => !bookedSlots.Any(booked =>
+                    booked.TimeOfDay == slot.TimeOfDay)) // Сравниваем только время
+                .ToList();
+
+            // Отображаем слоты либо выводим предупреждение
+            if (availableSlots.Count > 0)
+            {
+                timeCB.ItemsSource = availableSlots; // Показываем доступные слоты
+            }
+            else
+            {
+                MessageBox.Show("На выбранный день отсутствуют свободные слоты. Пожалуйста, выберите другой",
+                    "предупреждение",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+
+                timeCB.Visibility = Visibility.Collapsed; // Прячем комбобокс со слотами 
+            }
+        }
+
+        private void CreateApplication()
+        {
+            // Получаем инфо для инспекции
+            selectedDate = (DateTime?)dateCB.SelectedItem;
+            selectedTime = (DateTime?)timeCB.SelectedItem;
+
+            // Проверяем данные для формирования инспекции
+            bool hasNullFields = selectedDate == null || selectedTime == null;
+
+            if (hasNullFields)
+            {
+                MessageHelper.MessageNullFields();
+                return;
+            }
+
+            // Подтверждение 
+            bool accept = MessageHelper.ConfirmAcceptApplication();
+            if (!accept) return;
+
+            // Формирование 
+            ApplicationService.Accept(_application, _inspector, (DateTime)selectedTime);
+            Saved = true;
+            Close();
+        }
+
+
+        // Обработчики событий
+        private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
+
+        private void Add_Click(object sender, RoutedEventArgs e) => CreateApplication();
+
+        private void DateCB_SelectionChanged(object sender, SelectionChangedEventArgs e) => VisibleTimeComboBox();
+    }
+}

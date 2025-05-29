@@ -227,7 +227,7 @@ namespace CarAccountingGibdd.Classes
         }
 
         // Подтверждение принятия ЗАЯВКИ на проведение инспекции 
-        public static bool ConfirmAcceptForInspectionApplication()
+        public static bool ConfirmAcceptApplication()
         {
             var resultChanged = MessageBox.Show("Вы уверены, что хотите принять заявку? " +
                 "После данного действия будут запланированы дата и время для проведения инспекции, " +

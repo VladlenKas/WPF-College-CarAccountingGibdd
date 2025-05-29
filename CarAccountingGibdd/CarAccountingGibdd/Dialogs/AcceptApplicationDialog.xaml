@@ -1,0 +1,88 @@
+﻿<Window x:Class="CarAccountingGibdd.Dialogs.AcceptApplicationDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CarAccountingGibdd.Dialogs"
+        mc:Ignorable="d"
+       
+        xmlns:behaviors="clr-namespace:CarAccountingGibdd.Classes.Behaviors"
+        xmlns:components="clr-namespace:CarAccountingGibdd.Components"
+        
+        SizeToContent="Height"
+        MinHeight="650"
+        MinWidth="450" Width="450"
+        Title="Назначение заявки на плановую инспекцию" 
+        Style="{StaticResource Window.Ordinary}"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Name="grid"
+          Margin="35">
+
+        <DockPanel LastChildFill="False"
+                   MaxWidth="450">
+
+            <!-- Заголовок -->
+            <TextBlock Style="{StaticResource TextBlock.H2}"
+                       DockPanel.Dock="Top"
+                       Margin="0 0 0 16"
+                       TextWrapping="Wrap">
+                <Run Text="Назначение заявки на плановую инспекцию"/>
+                <Run Text="{Binding ApplicationNumber, StringFormat={}№{0}}"/>
+            </TextBlock>
+
+            <!-- Подзаголовок -->
+            <TextBlock Style="{StaticResource TextBlock.Subtitle}"
+                       Margin="0 0 0 24"
+                       Text="Выберите дату и время. Учтите, запись доступна на ближайшие 30 дней! При неявке владельца инспекция и заявка анулируются"
+                       Foreground="{StaticResource Text.Secondary.Brush}"
+                       DockPanel.Dock="Top"/>
+
+            <ComboBox Tag="Выберите дату"
+                      x:Name="dateCB"
+                      Margin="0 0 0 12"
+                      DockPanel.Dock="Top"
+                      DisplayMemberPath="{Binding StringFormat='dd.MM.yyyy'}"
+                      SelectionChanged="DateCB_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding StringFormat='dd.MM.yyyy'}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <ComboBox Tag="Выберите доступный слот *"
+                      Name="timeCB"
+                      Visibility="Collapsed"
+                      Margin="0 0 0 12"
+                      DisplayMemberPath="{Binding StringFormat='HH:mm'}"
+                      DockPanel.Dock="Top">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding StringFormat='HH:mm'}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock DockPanel.Dock="Top"
+                       Text="* - время проведения инспекции для ТС. Минимальный интервал между осмотрами составляет 2 часа."
+                       Opacity="0.5"
+                       Style="{StaticResource TextBlock.Subtitle}"
+                       Visibility="{Binding ElementName=timeCB, Path=Visibility}"/>
+
+            <Button Style="{StaticResource Button.Ordinary}"
+                    DockPanel.Dock="Bottom"
+                    Content="Выйти"
+                    Click="Exit_Click"/>
+
+            <Button Style="{StaticResource Button.Primary}"
+                    DockPanel.Dock="Bottom"
+                    Content="Сохранить"
+                    Margin="0 0 0 12"
+                    Click="Add_Click"/>
+
+        </DockPanel>
+
+    </Grid>
+
+</Window>

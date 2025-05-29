@@ -180,6 +180,14 @@
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
+                    <Run Text="Статус:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="{Binding ApplicationStatus.Name}"
+                         Style="{StaticResource Run.Description}"/>
+                    </TextBlock>
+
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="0 0 0 12"
+                               TextWrapping="Wrap">
                     <Run Text="Дата подачи:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding DatetimeSupply, StringFormat={}{0:dd.MM.yyyy HH:mm}}"
                          Style="{StaticResource Run.Description}"/>

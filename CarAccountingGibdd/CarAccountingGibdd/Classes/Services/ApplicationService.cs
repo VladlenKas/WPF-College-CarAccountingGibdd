@@ -93,7 +93,7 @@ namespace CarAccountingGibdd.Classes.Services
             Inspection inspection = new()
             {
                 ApplicationId = application.ApplicationId,
-                InspectionId = inspector.EmployeeId,
+                InspectorId = inspector.EmployeeId,
                 StatusId = 1,
                 DatetimePlanned = dateTimePlanned,
             };

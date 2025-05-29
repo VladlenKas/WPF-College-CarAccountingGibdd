@@ -110,6 +110,93 @@
     </Style>
     <!--#endregion-->
 
+    <!--#region Скроллы -->
+    <!-- Стиль для ScrollBar в ItemsControl-->
+    <Style TargetType="{x:Type ScrollViewer}" x:Key="ScrollViewer.Standart">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Контент -->
+                        <ScrollContentPresenter Grid.Column="0" Grid.Row="0"/>
+
+                        <!-- Вертикальный скроллбар -->
+                        <ScrollBar x:Name="PART_VerticalScrollBar"
+                                   Grid.Column="1"
+                                   Grid.Row="0"
+                                   Orientation="Vertical"
+                                   Value="{TemplateBinding VerticalOffset}"
+                                   Maximum="{TemplateBinding ScrollableHeight}"
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
+                            <ScrollBar.Style>
+                                <Style TargetType="{x:Type ScrollBar}">
+                                    <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                                <Grid>
+                                                    <Border CornerRadius="8"
+                                                            Background="{TemplateBinding Background}"/>
+                                                    <Track x:Name="PART_Track"
+                                                           IsDirectionReversed="True">
+                                                        <Track.Thumb>
+                                                            <Thumb>
+                                                                <Thumb.Style>
+                                                                    <Style TargetType="{x:Type Thumb}">
+                                                                        <Setter Property="Background" Value="{StaticResource Primary.Static.Brush}"/>
+                                                                        <Setter Property="Margin" Value="4.5"/>
+                                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate TargetType="{x:Type Thumb}">
+                                                                                    <Border CornerRadius="4"
+                                                                                            Background="{TemplateBinding Background}"
+                                                                                            BorderThickness="0">
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Style.Triggers>
+                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                <Setter Property="Background" Value="{StaticResource Primary.Hover.Brush}"/>
+                                                                                <!-- Серый при наведении -->
+                                                                            </Trigger>
+                                                                            <Trigger Property="IsDragging" Value="True">
+                                                                                <Setter Property="Background" Value="{StaticResource Primary.Pressed.Brush}"/>
+                                                                                <!-- Темно-серый при нажатии -->
+                                                                            </Trigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Thumb.Style>
+                                                            </Thumb>
+                                                        </Track.Thumb>
+                                                    </Track>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ScrollBar.Style>
+                        </ScrollBar>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
     <!--#region Текстовые поля -->
     <!--#region Поле для текста -->
     <Style TargetType="{x:Type TextBox}">
@@ -1279,7 +1366,7 @@
                                     MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                     MinWidth="{TemplateBinding ActualWidth}"
                                     BorderBrush="{StaticResource Border.Focused.Brush}">
-                                <ScrollViewer>
+                                <ScrollViewer Style="{StaticResource ScrollViewer.Standart}">
                                     <ItemsPresenter/>
                                 </ScrollViewer>
                             </Border>
@@ -1478,92 +1565,5 @@
         </Setter>
     </Style>
     <!--#endregion-->
-    <!--#endregion-->
-
-    <!--#region Скроллы -->
-    <!-- Стиль для ScrollBar в ItemsControl-->
-    <Style TargetType="{x:Type ScrollViewer}" x:Key="ScrollViewer.Standart">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <!-- Контент -->
-                        <ScrollContentPresenter Grid.Column="0" Grid.Row="0"/>
-
-                        <!-- Вертикальный скроллбар -->
-                        <ScrollBar x:Name="PART_VerticalScrollBar"
-                                   Grid.Column="1"
-                                   Grid.Row="0"
-                                   Orientation="Vertical"
-                                   Value="{TemplateBinding VerticalOffset}"
-                                   Maximum="{TemplateBinding ScrollableHeight}"
-                                   ViewportSize="{TemplateBinding ViewportHeight}"
-                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
-                            <ScrollBar.Style>
-                                <Style TargetType="{x:Type ScrollBar}">
-                                    <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ScrollBar}">
-                                                <Grid>
-                                                    <Border CornerRadius="8"
-                                                            Background="{TemplateBinding Background}"/>
-                                                    <Track x:Name="PART_Track"
-                                                           IsDirectionReversed="True">
-                                                        <Track.Thumb>
-                                                            <Thumb>
-                                                                <Thumb.Style>
-                                                                    <Style TargetType="{x:Type Thumb}">
-                                                                        <Setter Property="Background" Value="{StaticResource Primary.Static.Brush}"/>
-                                                                        <Setter Property="Margin" Value="4.5"/>
-                                                                        <Setter Property="BorderThickness" Value="0"/>
-                                                                        <Setter Property="Template">
-                                                                            <Setter.Value>
-                                                                                <ControlTemplate TargetType="{x:Type Thumb}">
-                                                                                    <Border CornerRadius="4"
-                                                                                            Background="{TemplateBinding Background}"
-                                                                                            BorderThickness="0">
-                                                                                    </Border>
-                                                                                </ControlTemplate>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Style.Triggers>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                <Setter Property="Background" Value="{StaticResource Primary.Hover.Brush}"/>
-                                                                                <!-- Серый при наведении -->
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsDragging" Value="True">
-                                                                                <Setter Property="Background" Value="{StaticResource Primary.Pressed.Brush}"/>
-                                                                                <!-- Темно-серый при нажатии -->
-                                                                            </Trigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </Thumb.Style>
-                                                            </Thumb>
-                                                        </Track.Thumb>
-                                                    </Track>
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ScrollBar.Style>
-                        </ScrollBar>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     <!--#endregion-->
 </ResourceDictionary>
