@@ -126,7 +126,7 @@
                                 Margin="0 0 0 28">
 
                         <icons:PackIcon Style="{StaticResource Icon.Large}"
-                                        Kind="shieldAccountOutline"
+                                        Kind="AccountTieHat"
                                         Margin="0 0 10 0"
                                         Foreground="{StaticResource Text.Secondary.Brush}"/>
 
@@ -137,7 +137,7 @@
                                        Name="FIcourier"/>
 
                             <TextBlock Style="{StaticResource TextBlock.Normal}"
-                                       Text="Администратор"/>
+                                       Text="Инспектор"/>
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>

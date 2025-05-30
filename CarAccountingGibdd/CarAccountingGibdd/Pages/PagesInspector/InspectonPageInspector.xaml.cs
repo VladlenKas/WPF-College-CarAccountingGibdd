@@ -1,4 +1,8 @@
-﻿using System;
+﻿using CarAccountingGibdd.Classes.Services;
+using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Controls;
+using CarAccountingGibdd.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +24,39 @@ namespace CarAccountingGibdd.Pages.PagesInspector
     /// </summary>
     public partial class InspectonPageInspector : Page
     {
-        public InspectonPageInspector()
+        //  Поля и свойства 
+        private Employee _inspector;
+
+        public InspectonPageInspector(Employee inspector)
         {
             InitializeComponent();
+
+            _inspector = inspector;
+            // Фильтры
+            UpdateIC();
         }
+
+        // Методы
+        private void UpdateIC()
+        {
+            var inspections = App.DbContext.Inspections.ToList();
+
+            // Фильтры
+            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
+            orders = _orderDataService.ApplyFilter(orders);
+            orders = _orderDataService.ApplySort(orders);
+            orders = _orderDataService.ApplySearch(orders);*/
+
+            cardsIC.Items.Clear();
+            foreach (var inspection in inspections)
+            {
+                var card = new InspectionCard(inspection, _inspector);
+                card.InspectionToAccept += InspectionToAccept;
+                cardsIC.Items.Add(card);
+            }
+        }
+
+        // Обработчики событий
+        private void InspectionToAccept(object sender, InspectionEventArgs e) => UpdateIC();
     }
 }

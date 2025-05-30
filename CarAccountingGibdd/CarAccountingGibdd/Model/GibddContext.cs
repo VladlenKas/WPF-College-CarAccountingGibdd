@@ -52,7 +52,8 @@ public partial class GibddContext : DbContext
     #region Записи активные и с контекстом
 
     public IQueryable<Inspection> Inspections => AllInspections
-        .Include(a => a.Application);
+        .Include(a => a.Application)
+        .Include(s => s.Status);
 
     public IQueryable<Application> Applications => AllApplications
         .Include(o => o.Owner)

@@ -11,3 +11,8 @@ public class ApplicationEventArgs : EventArgs
 {
     public Application Application { get; set; } = null!;
 }
+
+public class InspectionEventArgs : EventArgs
+{
+    public Inspection Inspection { get; set; } = null!;
+}

@@ -50,7 +50,7 @@ namespace CarAccountingGibdd.Windows
         
         private void InspectionRButton_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new OwnerPageAdmin());
+            CurrentPage.Navigate(new InspectonPageInspector(_inspector));
             titlePage.Text = "Осмотры";
         }
         

@@ -94,7 +94,7 @@
                                 Margin="0 0 0 28">
 
                         <icons:PackIcon Style="{StaticResource Icon.Large}"
-                                        Kind="AccountCircleOutline"
+                                        Kind="AccountCircle"
                                         Margin="0 0 10 0"
                                         Foreground="{StaticResource Text.Secondary.Brush}"/>
 

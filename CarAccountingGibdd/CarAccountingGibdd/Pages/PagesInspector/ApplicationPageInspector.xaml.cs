@@ -27,7 +27,6 @@ namespace CarAccountingGibdd.Pages.PagesInspector
     public partial class ApplicationPageInspector : Page
     {
         //  Поля и свойства 
-        private ApplicationService _service;
         private Employee _inspector;
 
         public ApplicationPageInspector(Employee inspector)

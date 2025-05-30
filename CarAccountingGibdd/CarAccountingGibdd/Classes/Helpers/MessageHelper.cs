@@ -201,7 +201,7 @@ namespace CarAccountingGibdd.Classes
                 return false;
             }
         }
-
+        
         // Подтверждение подтверждения ЗАЯВКИ
         public static bool ConfirmApplication()
         {
@@ -251,6 +251,56 @@ namespace CarAccountingGibdd.Classes
                 return false;
             }
         }
+
+
+        // Подтверждение отмены ИНСПЕКЦИИ
+        public static bool ConfirmRejectInspection()
+        {
+            var resultChanged = MessageBox.Show("Вы уверены, что хотите отменить запланированный осмотр? " +
+                "Данное действие отменить НЕВОЗМОЖНО!",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("Осмотр отменен успешно",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        // Подтверждение подтверждения ЗАЯВКИ
+        public static bool ConfirmStartInspection()
+        {
+            var resultChanged = MessageBox.Show("Вы уверены, что хотите начать проведение осмотра?",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("Инспекция успешно принята на начало осмотра",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion
     }
 }

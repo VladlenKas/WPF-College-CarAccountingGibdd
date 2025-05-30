@@ -65,57 +65,62 @@ namespace CarAccountingGibdd.Dialogs
         {
             // Очищаем комбобокс
             timeCB.ItemsSource = null;
-            timeCB.Visibility = Visibility.Visible; // Делаем комбобокс со слотами видимым
 
-            // Получаем выбранную дату
-            selectedDate = (DateTime?)dateCB.SelectedItem;
-
-            // Получаем все заплнированные инспекции в этот день
-            List<DateTime> plannedTimes = App.DbContext.Inspections
-                .Where(r => r.DatetimePlanned.Date == selectedDate.Value.Date)
-                .Select(r => r.DatetimePlanned)
-                .ToList();
-
-            // Базовые временные слоты (в формате часов)
-            List<TimeSpan> timeSlots = new List<TimeSpan>
+            if (dateCB.SelectedIndex != -1)
             {
-                new TimeSpan(10, 0, 0), // 10:00
-                new TimeSpan(12, 0, 0), // 12:00
-                new TimeSpan(14, 0, 0), // 14:00
-                new TimeSpan(16, 0, 0)  // 16:00
-            };
+                // Получаем выбранную дату
+                selectedDate = (DateTime?)dateCB.SelectedItem;
 
-            // Создаем полные DateTime (дата + время)
-            List<DateTime> allSlots = timeSlots
-                .Select(time => selectedDate.Value.Date.Add(time)) // Комбинируем дату и время
-                .ToList();
+                // Получаем все заплнированные инспекции в этот день
+                List<DateTime> plannedTimes = App.DbContext.Inspections
+                    .Where(r => r.DatetimePlanned.Date == selectedDate.Value.Date)
+                    .Select(r => r.DatetimePlanned)
+                    .ToList();
 
-            // Получаем занятые слоты на эту дату
-            List<DateTime> bookedSlots = App.DbContext.Inspections
-                .Where(i => i.InspectorId == _inspector.EmployeeId)
-                .Where(r => r.DatetimePlanned.Date == selectedDate.Value.Date)
-                .Select(r => r.DatetimePlanned)
-                .ToList();
+                // Базовые временные слоты (в формате часов)
+                List<TimeSpan> timeSlots = new List<TimeSpan>
+                {
+                    new TimeSpan(10, 0, 0), // 10:00
+                    new TimeSpan(12, 0, 0), // 12:00
+                    new TimeSpan(14, 0, 0), // 14:00
+                    new TimeSpan(16, 0, 0)  // 16:00
+                };
 
-            // Фильтруем доступные слоты
-            List<DateTime> availableSlots = allSlots
-                .Where(slot => !bookedSlots.Any(booked =>
-                    booked.TimeOfDay == slot.TimeOfDay)) // Сравниваем только время
-                .ToList();
+                // Создаем полные DateTime (дата + время)
+                List<DateTime> allSlots = timeSlots
+                    .Select(time => selectedDate.Value.Date.Add(time)) // Комбинируем дату и время
+                    .ToList();
 
-            // Отображаем слоты либо выводим предупреждение
-            if (availableSlots.Count > 0)
-            {
-                timeCB.ItemsSource = availableSlots; // Показываем доступные слоты
-            }
-            else
-            {
-                MessageBox.Show("На выбранный день отсутствуют свободные слоты. Пожалуйста, выберите другой",
-                    "предупреждение",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                // Получаем занятые слоты на эту дату
+                List<DateTime> bookedSlots = App.DbContext.Inspections
+                    .Where(i => i.InspectorId == _inspector.EmployeeId)
+                    .Where(r => r.DatetimePlanned.Date == selectedDate.Value.Date)
+                    .Select(r => r.DatetimePlanned)
+                    .ToList();
 
-                timeCB.Visibility = Visibility.Collapsed; // Прячем комбобокс со слотами 
+                // Фильтруем доступные слоты
+                List<DateTime> availableSlots = allSlots
+                    .Where(slot => !bookedSlots.Any(booked =>
+                        booked.TimeOfDay == slot.TimeOfDay ||
+                        slot.TimeOfDay < DateTime.Now.TimeOfDay)) // Сравниваем только время
+                    .ToList();
+
+                // Отображаем слоты либо выводим предупреждение
+                if (availableSlots.Count > 0)
+                {
+                    timeCB.Visibility = Visibility.Visible; // Делаем комбобокс со слотами видимым
+                    timeCB.ItemsSource = availableSlots; // Показываем доступные слоты
+                }
+                else
+                {
+                    MessageBox.Show("На выбранный день отсутствуют свободные слоты. Пожалуйста, выберите другой",
+                        "Предупреждение",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+
+                    dateCB.SelectedIndex = -1;
+                    timeCB.Visibility = Visibility.Collapsed; // Прячем комбобокс со слотами 
+                } 
             }
         }
 

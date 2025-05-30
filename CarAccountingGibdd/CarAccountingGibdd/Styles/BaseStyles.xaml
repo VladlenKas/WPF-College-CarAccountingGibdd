@@ -837,8 +837,8 @@
                             SnapsToDevicePixels="True"
                             CornerRadius="10">
 
-                        <ContentPresenter VerticalAlignment="Center"
-                                          HorizontalAlignment="Center">
+                        <ContentPresenter VerticalAlignment="Stretch"
+                                          HorizontalAlignment="Stretch">
                         </ContentPresenter>
                     </Border>
 
