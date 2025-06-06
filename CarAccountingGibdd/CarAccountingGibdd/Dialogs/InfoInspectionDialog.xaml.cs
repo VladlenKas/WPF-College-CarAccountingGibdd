@@ -26,12 +26,12 @@ namespace CarAccountingGibdd.Dialogs
             InitializeComponent();
             DataContext = inspection;
 
-            if (inspection.StatusId == 3) // Если заявка прошла осмотр
+            if (inspection.StatusId == 3) // Если инспекция прошла осмотр
             {
                 titleInfoDocumentTB.Text = "Номер сертификата:";
-                infoDocumentTB.Text = inspection.Application.Certificates.First().ApplicationId.ToString();
+                infoDocumentTB.Text = $"№{inspection.Application.Certificates.Single().CertificateId}";
             }
-            else if (inspection.StatusId == 4 || inspection.StatusId == 5) // Если заявка не прошла осмотр
+            else if (inspection.StatusId == 4 || inspection.StatusId == 5) // Если инспекция не прошла осмотр
             {
                 titleInfoDocumentTB.Text = "Номер документа о нарушениях:";
                 infoDocumentTB.Text = $"Нарушения ТС по инспекции №{inspection.InspectionId}" ;

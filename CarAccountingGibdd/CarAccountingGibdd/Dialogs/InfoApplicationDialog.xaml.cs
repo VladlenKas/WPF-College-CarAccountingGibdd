@@ -30,6 +30,24 @@ namespace CarAccountingGibdd.Dialogs
             {
                 datetimeConfirmTB.Text = "Дата и время отклонения:";
             }
+
+            var inspection = application.Inspections.SingleOrDefault();
+
+            if (inspection == null)
+            {
+                return;
+            }
+
+            if (inspection.StatusId == 3) // Если инспекция прошла осмотр
+            {
+                titleInfoDocumentTB.Text = "Номер сертификата:";
+                infoDocumentTB.Text = $"№{inspection.Application.Certificates.Single().CertificateId}";
+            }
+            else if (inspection.StatusId == 4 || inspection.StatusId == 5) // Если инспекция не прошла осмотр
+            {
+                titleInfoDocumentTB.Text = "Номер документа о нарушениях:";
+                infoDocumentTB.Text = $"Нарушения ТС по инспекции №{inspection.InspectionId}";
+            }
         }
 
         private void ExitBTN_Click(object sender, RoutedEventArgs e) => this.Close();

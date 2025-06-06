@@ -268,6 +268,14 @@
                                  Style="{StaticResource Run.Description}"/>
                         </TextBlock>
 
+                        <TextBlock DockPanel.Dock="Top"
+                                   Margin="0 0 0 12"
+                                   TextWrapping="Wrap">
+                            <Run Name="titleInfoDocumentTB" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Name="infoDocumentTB"
+                                 Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
+
                         <Button Style="{StaticResource Button.Primary}"
                                 Width="200"
                                 DockPanel.Dock="Bottom"
