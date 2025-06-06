@@ -16,3 +16,8 @@ public class InspectionEventArgs : EventArgs
 {
     public Inspection Inspection { get; set; } = null!;
 }
+
+public class ViolationEventArgs : EventArgs
+{
+    public Violation Violation { get; set; } = null!;
+}

@@ -117,25 +117,13 @@ namespace CarAccountingGibdd.Classes.Services
         // Просрочка 
         private static void Overdue(List<Inspection> overdueInspections)
         {
-            var violationsToAdd = new List<ViolationsInspection>();
-
             overdueInspections.ForEach(s =>
             {
                 // Обновляем инспекцию
-                s.StatusId = 5;
-                s.Application.ApplicationStatusId = 5;
-                s.DatetimeCompleted = s.DatetimePlanned.AddHours(2);
-
-                // Создаём нарушение
-                violationsToAdd.Add(new ViolationsInspection
-                {
-                    InspectionId = s.InspectionId,
-                    ViolationsId = 1
-                });
+                s.StatusId = 2;
             });
 
             // Обновляем и сохраняем всё одним запросом
-            App.DbContext.AddRange(violationsToAdd);
             App.DbContext.UpdateRange(overdueInspections);
             App.DbContext.SaveChanges();
         }
@@ -262,19 +250,19 @@ namespace CarAccountingGibdd.Classes.Services
         }
 
         // Проверка просрочки 
-        public static void HasOverdueInspections()
+        public static void HasStartedInspections()
         {
-            List<Inspection> overdueInspections = App.DbContext.Inspections
+            List<Inspection> startedInspections = App.DbContext.Inspections
                 .Where(d => 
                     d.DatetimePlanned.AddHours(2) < DateTime.Now &&
-                    d.StatusId != 5)
+                    d.StatusId == 1)
                 .ToList();
 
-            bool hasOverdueInspections = overdueInspections.Count > 0;
+            bool hasStartedInspections = startedInspections.Count > 0;
 
-            if (hasOverdueInspections)
+            if (hasStartedInspections)
             {
-                Overdue(overdueInspections);
+                Overdue(startedInspections);
             }
         }
     }

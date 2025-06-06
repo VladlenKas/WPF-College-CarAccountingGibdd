@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CarAccountingGibdd.Dialogs
 {
@@ -102,7 +103,7 @@ namespace CarAccountingGibdd.Dialogs
                 List<DateTime> availableSlots = allSlots
                     .Where(slot => !bookedSlots.Any(booked =>
                         booked.TimeOfDay == slot.TimeOfDay ||
-                        slot.TimeOfDay < DateTime.Now.TimeOfDay)) // Сравниваем только время
+                        slot < DateTime.Now)) // Сравниваем только время
                     .ToList();
 
                 // Отображаем слоты либо выводим предупреждение

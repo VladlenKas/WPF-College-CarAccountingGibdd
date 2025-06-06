@@ -3,13 +3,20 @@
                     xmlns:icons="http://materialdesigninxaml.net/winfx/xaml/themes">
     
     <!--#region Иконки -->
+    <Style TargetType="icons:PackIcon" x:Key="Icon.Mini">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Height" Value="12"/>
+        <Setter Property="Width" Value="12"/>
+    </Style>
+    
     <Style TargetType="icons:PackIcon" x:Key="Icon.Small">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Height" Value="16"/>
         <Setter Property="Width" Value="16"/>
     </Style>
-
+    
     <Style TargetType="icons:PackIcon" x:Key="Icon.SmallMedium">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -475,6 +482,53 @@
                                     <TranslateTransform Y="1"/>
                                 </Setter.Value>
                             </Setter>
+                        </Trigger>
+
+                        <!-- Триггер для неактивной кнопки -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{StaticResource Background.Disabled.Brush}"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Иконка маленькая -->
+    <Style TargetType="{x:Type Button}" x:Key="Button.Icon.Small">
+        <Setter Property="Background" Value="{StaticResource Button.Background.Static.Brush}"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Button.Background.Static.Brush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Width" Value="24"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="4">
+
+                        <icons:PackIcon Name="icon"
+                                        Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"
+                                        Style="{StaticResource Icon.Small}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Background.Hover.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Button.Background.Hover.Brush}"/>
+                            <Setter TargetName="icon" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Background.Pressed.Brush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Button.Background.Pressed.Brush}"/>
                         </Trigger>
 
                         <!-- Триггер для неактивной кнопки -->

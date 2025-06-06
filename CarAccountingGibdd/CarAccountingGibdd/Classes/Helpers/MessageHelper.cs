@@ -19,6 +19,15 @@ namespace CarAccountingGibdd.Classes
                 MessageBoxImage.Warning);
         }
 
+        // Предупреждение о пустых полях
+        public static void MessageNullViolations()
+        {
+            MessageBox.Show($"Выберите минимум 1 нарушение!",
+                "Предупреждение",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+        }
+
         // Предупреждение о пустой или нулевой цене
         public static void MessageNullCost()
         {

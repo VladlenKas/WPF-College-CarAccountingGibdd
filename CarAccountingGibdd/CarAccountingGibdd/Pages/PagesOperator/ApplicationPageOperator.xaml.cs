@@ -53,7 +53,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             foreach (var application in applications)
             {
                 var card = new ApplicationCard(application, _operator);
-                card.ApplicationToAccept += ApplicationToAccept;
+                card.ApplicationToAcceptEvent += ApplicationToAccept;
                 cardsIC.Items.Add(card);
             }
         }

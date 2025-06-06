@@ -48,9 +48,18 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private int GetCertificateId() =>
-            !App.DbContext.Certificates.Any() ? 
-            1 : ++(App.DbContext.Certificates.Last().CertificateId);
+        private int GetCertificateId()
+        {
+            if (App.DbContext.Certificates.Count() == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                int lastId = App.DbContext.Certificates.OrderBy(i => i.CertificateId).Last().CertificateId;
+                return lastId + 1;
+            }
+        }
 
         private string GetNewLicensePlate()
         {

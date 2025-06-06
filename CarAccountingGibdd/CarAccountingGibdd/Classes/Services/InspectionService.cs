@@ -72,6 +72,35 @@ namespace CarAccountingGibdd.Classes.Services
             App.DbContext.SaveChanges();
         }
 
+        public void CreateViolationsInspection(List<Violation> violations)
+        {
+            // Все нарушения
+            var violationsToAdd = new List<ViolationsInspection>();
+
+            // Перебираем их, чтобы указать Id инспекции
+            violations.ForEach(v =>
+            {
+                // Создаём нарушение
+                violationsToAdd.Add(new ViolationsInspection
+                {
+                    InspectionId = _inspection.InspectionId,
+                    ViolationsId = v.ViolationsId
+                });
+            });
+
+            // Меняем статус инспекции
+            _inspection.StatusId = 4; // не пройдена
+            _inspection.DatetimeCompleted = DateTime.Now;
+
+            // Меняем статус заявки
+            _inspection.Application.ApplicationStatusId = 5;
+
+            App.DbContext.Update(_inspection);
+            App.DbContext.AddRange(violationsToAdd);
+            App.DbContext.SaveChanges();
+        }
+
+
         // Смена знака машины на новый
         private void ChangeLicensePlate(string newLicensePlate)
         {

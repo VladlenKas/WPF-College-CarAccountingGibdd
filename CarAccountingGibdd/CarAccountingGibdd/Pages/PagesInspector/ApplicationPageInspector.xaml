@@ -56,7 +56,7 @@
             <!-- Контент -->
             <Grid>
                 <ScrollViewer Name="contentScroll"
-                          Style="{StaticResource ScrollViewer.Standart}">
+                              Style="{StaticResource ScrollViewer.Standart}">
                     <ItemsControl Name="cardsIC">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

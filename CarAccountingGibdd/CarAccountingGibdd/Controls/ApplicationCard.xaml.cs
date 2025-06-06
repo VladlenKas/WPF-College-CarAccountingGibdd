@@ -25,7 +25,7 @@ namespace CarAccountingGibdd.Controls
     public partial class ApplicationCard : UserControl
     {
         // Свойства
-        public event EventHandler<ApplicationEventArgs> ApplicationToAccept;
+        public event EventHandler<ApplicationEventArgs> ApplicationToAcceptEvent;
         public Application Application { get; private set; }
 
         // Поля
@@ -95,7 +95,7 @@ namespace CarAccountingGibdd.Controls
             ComponentsHelper.ShowDialogWindowDark(dialog);
 
             if (!dialog.Saved) return;
-            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
+            ApplicationToAcceptEvent.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }
 
         private void Reject_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -105,7 +105,7 @@ namespace CarAccountingGibdd.Controls
             bool accept = MessageHelper.ConfirmRejectApplication();
             if (accept) ApplicationService.Reject(_application, _employee);
 
-            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
+            ApplicationToAcceptEvent.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }
 
         private void Confirm_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -115,7 +115,7 @@ namespace CarAccountingGibdd.Controls
             bool accept = MessageHelper.ConfirmApplication();
             if (accept) ApplicationService.Confirm(_application, _employee);
 
-            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
+            ApplicationToAcceptEvent.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }
 
         private void AcceptForInspectionBTN_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -126,7 +126,7 @@ namespace CarAccountingGibdd.Controls
             ComponentsHelper.ShowDialogWindowDark(dialog);
 
             if (!dialog.Saved) return;
-            ApplicationToAccept.Invoke(this, new ApplicationEventArgs { Application = this.Application });
+            ApplicationToAcceptEvent.Invoke(this, new ApplicationEventArgs { Application = this.Application });
         }
     }
 }

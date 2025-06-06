@@ -1,4 +1,4 @@
-﻿<Window x:Class="CarAccountingGibdd.Dialogs.AddSertificateDialog"
+﻿<Window x:Class="CarAccountingGibdd.Dialogs.AddViolationInspectionDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,9 +8,10 @@
       
         xmlns:behaviors="clr-namespace:CarAccountingGibdd.Classes.Behaviors"
         xmlns:components="clr-namespace:CarAccountingGibdd.Components"
+        xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters"
         
         SizeToContent="Height"
-        MinHeight="720"
+        MinHeight="700"
         MinWidth="1050" Width="1100"
         Title="Формирование сертификата" 
         Style="{StaticResource Window.Ordinary}"
@@ -27,13 +28,13 @@
                        DockPanel.Dock="Top"
                        Margin="0 0 0 16"
                        TextWrapping="Wrap">
-                <Run Text="Присвоение сведетельства о регистрации ТС владельцу"/>
+                <Run Text="Формирования списка с нарушениями при осмотре"/>
             </TextBlock>
 
             <!-- Подзаголовок -->
             <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                        Margin="0 0 0 24"
-                       Text="Проверьте данные и подтвердите выдачу сведетельства о регистрации ТС владельцу"
+                       Text="Для добавления выберите нужные нарушения в выпадающем списке. Ниже будут показаны все выбранные варианты"
                        Foreground="{StaticResource Text.Secondary.Brush}"
                        DockPanel.Dock="Top"/>
 
@@ -43,28 +44,28 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 
-                <DockPanel LastChildFill="False"
-                       Grid.Column="0">
-                    <!-- Текстовые поля с данными о сертификате-->
+                <DockPanel Grid.Column="0"
+                           Margin="0 0 24 0">
 
                     <TextBlock Style="{StaticResource TextBlock.H3}"
                                Text="Данные ТС:"
                                Margin="0 0 0 16"
                                DockPanel.Dock="Top"/>
                     
+                    <!-- Текстовые поля с данными о сертификате-->
                     <TextBlock DockPanel.Dock="Top"
                        Margin="0 0 0 12"
                        TextWrapping="Wrap">
                     <Run Text="Идентификационный номер (VIN):" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Inspection.Application.Vehicle.Vin}"
+                    <Run Text="{Binding Application.Vehicle.Vin}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
-                    <Run Text="Новый регистрационный знак:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding NewLicensePlate, Mode=OneWay}"
+                    <Run Text="Регистрационный знак:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="{Binding Application.Vehicle.LicensePlate, TargetNullValue='Отсутствует'}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -72,7 +73,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Бренд, модель:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Inspection.Application.Vehicle.BrandModel, Mode=OneWay}"
+                    <Run Text="{Binding Application.Vehicle.BrandModel, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -80,7 +81,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Год выпуска:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Inspection.Application.Vehicle.Year}"
+                    <Run Text="{Binding Application.Vehicle.Year}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -88,7 +89,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Тип ТС:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Inspection.Application.Vehicle.VehicleType.Name}"
+                    <Run Text="{Binding Application.Vehicle.VehicleType.Name}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -96,7 +97,7 @@
                                Margin="0 0 0 24"
                                TextWrapping="Wrap">
                     <Run Text="Цвет:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Inspection.Application.Vehicle.Color}"
+                    <Run Text="{Binding Application.Vehicle.Color}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -104,12 +105,12 @@
                                Text="Данные владельца:"
                                Margin="0 0 0 16"
                                DockPanel.Dock="Top"/>
-
+                    
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="ФИО владельца:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Inspection.Application.Owner.Fullname, Mode=OneWay}"
+                    <Run Text="{Binding Application.Owner.Fullname, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -117,7 +118,7 @@
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Серия и номер паспорта:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Inspection.Application.Owner.Passport}"
+                    <Run Text="{Binding Application.Owner.Passport}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -125,54 +126,46 @@
                                Margin="0 0 0 24"
                                TextWrapping="Wrap">
                     <Run Text="Адрес проживания:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Inspection.Application.Owner.Address, Mode=OneWay}"
+                    <Run Text="{Binding Application.Owner.Address, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
                 </DockPanel>
 
-                <DockPanel LastChildFill="False"
-                       Grid.Column="1">
+                <DockPanel Grid.Column="1">
+                    <!-- Текстовые поля с данными о сертификате-->
+                    <components:AutoCompleteTextBox Placeholder="Выберите нарушение"
+                                            DisplayMemberPath="Description"
+                                            x:Name="violationsATB"
+                                            Margin="0 0 0 24"
+                                            DockPanel.Dock="Top"
+                                            behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
+
                     <TextBlock Style="{StaticResource TextBlock.H3}"
-                               Text="Данные сертификата:"
+                               Text="Причина(-ы) отклонения инспекции:"
                                Margin="0 0 0 16"
                                DockPanel.Dock="Top"/>
 
-                    <TextBlock DockPanel.Dock="Top"
-                               Margin="0 0 0 12"
-                               TextWrapping="Wrap">
-                    <Run Text="Номер сертификата:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding CertificateId, Mode=OneWay, StringFormat={}№{0}}"
-                         Style="{StaticResource Run.Description}"/>
-                    </TextBlock>
+                    <!-- Контент -->
+                    <Grid DockPanel.Dock="Top"
+                  Margin="0 0 0 40">
+                        <ScrollViewer Name="contentScroll"
+                              Style="{StaticResource ScrollViewer.Standart}"
+                              MaxHeight="300"
+                              VerticalScrollBarVisibility="Auto">
+                            <ItemsControl Name="violationsIC"
+                                  Margin="0 0 12 0"/>
+                        </ScrollViewer>
 
-                    <TextBlock DockPanel.Dock="Top"
-                               Margin="0 0 0 12"
-                               TextWrapping="Wrap">
-                    <Run Text="Уникальный номер:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding CertificateNumber, Mode=OneWay}"
-                         Style="{StaticResource Run.Description}"/>
-                    </TextBlock>
-
-                    <TextBlock DockPanel.Dock="Top"
-                               Margin="0 0 0 24"
-                               TextWrapping="Wrap">
-                    <Run Text="Дата выдачи:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding DatetimeIssue, Mode=OneWay, StringFormat={}{0:dd.MM.yyyy}}"
-                         Style="{StaticResource Run.Description}"/>
-                    </TextBlock>
-
-                    <TextBlock DockPanel.Dock="Top"
-                               Margin="0 0 0 40"
-                               TextWrapping="Wrap">
-                    <Run Text="Выдан по заявке:" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Inspection.Application.ApplicationId, StringFormat={}№{0}}"
-                         Style="{StaticResource Run.Description}"/>
-                    </TextBlock>
+                        <TextBlock Text="Нарушения не выбраны"
+                           Style="{StaticResource TextBlock.Normal}"
+                           Visibility="{Binding Items.Count, ElementName=violationsIC, 
+                           Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
+                    </Grid>
                 </DockPanel>
             </Grid>
 
-            <DockPanel DockPanel.Dock="Right"
-                       LastChildFill="False"
+            <DockPanel LastChildFill="False"
+                       DockPanel.Dock="Right"
                        Width="300">
                 <Button Style="{StaticResource Button.Ordinary}"
                     DockPanel.Dock="Bottom"
@@ -181,7 +174,7 @@
 
                 <Button Style="{StaticResource Button.Primary}"
                     DockPanel.Dock="Bottom"
-                    Content="Выдать сведетельство"
+                    Content="Сохранить"
                     Margin="0 0 0 12"
                     Click="Add_Click"/>
             </DockPanel>
@@ -189,5 +182,4 @@
         </DockPanel>
 
     </Grid>
-
 </Window>

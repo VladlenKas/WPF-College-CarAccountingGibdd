@@ -29,7 +29,7 @@ namespace CarAccountingGibdd
         public AuthWindow()
         {
             InitializeComponent();
-            ApplicationService.HasOverdueInspections(); // Проверка на просроченные записи
+            ApplicationService.HasStartedInspections(); // Проверка на просроченные записи
         }
 
         // Методы

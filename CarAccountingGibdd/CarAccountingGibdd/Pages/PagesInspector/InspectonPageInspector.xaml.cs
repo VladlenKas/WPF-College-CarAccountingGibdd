@@ -51,7 +51,7 @@ namespace CarAccountingGibdd.Pages.PagesInspector
             foreach (var inspection in inspections)
             {
                 var card = new InspectionCard(inspection, _inspector);
-                card.InspectionToAccept += InspectionToAccept;
+                card.InspectionToAcceptEvent += InspectionToAccept;
                 cardsIC.Items.Add(card);
             }
         }

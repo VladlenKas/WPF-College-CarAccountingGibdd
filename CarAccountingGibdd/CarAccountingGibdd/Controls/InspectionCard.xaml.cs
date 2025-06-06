@@ -26,7 +26,7 @@ namespace CarAccountingGibdd.Controls
     public partial class InspectionCard : UserControl
     {
         // Свойства
-        public event EventHandler<InspectionEventArgs> InspectionToAccept;
+        public event EventHandler<InspectionEventArgs> InspectionToAcceptEvent;
         public Inspection Inspection { get; private set; }
 
         // Поля
@@ -99,7 +99,7 @@ namespace CarAccountingGibdd.Controls
                 inspectionService.Reject();
             }
 
-            InspectionToAccept.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });
+            InspectionToAcceptEvent.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });
         }
 
         private void StartInspection_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -113,7 +113,7 @@ namespace CarAccountingGibdd.Controls
                 inspectionService.StartInspection();
             }
 
-            InspectionToAccept.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });
+            InspectionToAcceptEvent.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });
         }
 
         private void EndInspection_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -130,12 +130,12 @@ namespace CarAccountingGibdd.Controls
             }
             else if (!result)
             {
-                /*AcceptApplicationDialog dialog = new(_inspection, _employee);
-                ComponentsHelper.ShowDialogWindowDark(dialog);*/
+                AddViolationInspectionDialog dialog = new(_inspection);
+                ComponentsHelper.ShowDialogWindowDark(dialog);
             }
 
             if (saved) return;
-            InspectionToAccept.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });
+            InspectionToAcceptEvent.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });
         }
     }
 }

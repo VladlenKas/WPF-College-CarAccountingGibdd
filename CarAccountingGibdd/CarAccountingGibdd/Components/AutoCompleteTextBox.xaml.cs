@@ -27,6 +27,14 @@ namespace CarAccountingGibdd.Components
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(AutoCompleteTextBox), new PropertyMetadata(null, OnItemsSourceChanged));
 
+        // Зависимое свойство для пути к отображаемому свойству (DisplayMemberPath)
+        public static readonly DependencyProperty DisplayMemberPathProperty =
+            DependencyProperty.Register("DisplayMemberPath", typeof(string), typeof(AutoCompleteTextBox), new PropertyMetadata(string.Empty));
+
+        // Зависимое свойство для пути к отображаемому свойству (PlaceholderProperty)
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register("Placeholder", typeof(string), typeof(AutoCompleteTextBox), new PropertyMetadata(string.Empty));
+
         /// <summary>
         /// Источник данных для автозаполнителя.
         /// </summary>
@@ -35,14 +43,6 @@ namespace CarAccountingGibdd.Components
             get { return (IEnumerable)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
-
-        // Зависимое свойство для пути к отображаемому свойству (DisplayMemberPath)
-        public static readonly DependencyProperty DisplayMemberPathProperty =
-            DependencyProperty.Register("DisplayMemberPath", typeof(string), typeof(AutoCompleteTextBox), new PropertyMetadata(string.Empty));
-
-        // Зависимое свойство для пути к отображаемому свойству (PlaceholderProperty)
-        public static readonly DependencyProperty PlaceholderProperty =
-            DependencyProperty.Register("Placeholder", typeof(string), typeof(AutoCompleteTextBox), new PropertyMetadata(string.Empty));
 
         // Имя свойства, которое будет отображаться в списке.
         private string _displayMemberPath;
@@ -101,11 +101,11 @@ namespace CarAccountingGibdd.Components
             this.LostFocus += OnLostFocus;
         }
 
-        // Убираем все изменения Visibility и работаем через IsOpen Popup
         private void InputTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             ToggleButton.IsChecked = true;
             SuggestionsPopup.IsOpen = true;
+            ItemsListBox.Visibility = Visibility.Visible;
         }
 
         private void CloseList()
@@ -189,10 +189,6 @@ namespace CarAccountingGibdd.Components
             if (string.IsNullOrWhiteSpace(filter))
             {
                 // Если текст пустой, показываем все элементы
-                ItemsListBox.ItemsSource = ItemsSource.Cast<object>().ToList();
-            }
-            else if (ItemsListBox.SelectedItem != null)
-            {
                 ItemsListBox.ItemsSource = ItemsSource.Cast<object>().ToList();
             }
             else
