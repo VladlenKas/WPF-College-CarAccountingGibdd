@@ -9,6 +9,7 @@ namespace CarAccountingGibdd.Classes.Services
 {
     public class ApplicationService
     {
+        // Поля
         private readonly Owner _owner;
         private readonly Vehicle _vehicle;
         private readonly int _paymentMethod;
@@ -154,7 +155,7 @@ namespace CarAccountingGibdd.Classes.Services
             // Проверка на то, что действующих заявок нет
             bool hasActiveApplication = App.DbContext.Applications.Any(r =>
                 (r.Vehicle.VehicleId == _vehicle.VehicleId) &&
-                (r.ApplicationStatusId != 5 || r.ApplicationStatusId != 6) &&
+                (r.ApplicationStatusId != 5 && r.ApplicationStatusId != 6 && r.ApplicationStatusId != 7) &&
                 (r.ApplicationId != application.ApplicationId)); 
 
             if (hasActiveApplication)
@@ -225,7 +226,7 @@ namespace CarAccountingGibdd.Classes.Services
             // Проверка на то, что действующих заявок нет
             bool hasActiveApplication = App.DbContext.Applications.Any(r =>
                 (r.Vehicle.VehicleId == _vehicle.VehicleId) &&
-                (r.ApplicationStatusId != 5 || r.ApplicationStatusId != 6));
+                (r.ApplicationStatusId != 5 && r.ApplicationStatusId != 6 && r.ApplicationStatusId != 7));
 
             if (hasActiveApplication)
             {
@@ -260,7 +261,7 @@ namespace CarAccountingGibdd.Classes.Services
             return true;
         }
 
-        // Проверка просрочки
+        // Проверка просрочки 
         public static void HasOverdueInspections()
         {
             List<Inspection> overdueInspections = App.DbContext.Inspections

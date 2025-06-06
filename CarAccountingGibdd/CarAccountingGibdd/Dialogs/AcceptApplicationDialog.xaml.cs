@@ -25,8 +25,8 @@ namespace CarAccountingGibdd.Dialogs
     public partial class AcceptApplicationDialog : Window
     {
         // Поля 
-        private DateTime? selectedDate;
-        private DateTime? selectedTime;
+        private DateTime? _selectedDate;
+        private DateTime? _selectedTime;
 
         private Model.Application _application;
         private Employee _inspector;
@@ -69,11 +69,11 @@ namespace CarAccountingGibdd.Dialogs
             if (dateCB.SelectedIndex != -1)
             {
                 // Получаем выбранную дату
-                selectedDate = (DateTime?)dateCB.SelectedItem;
+                _selectedDate = (DateTime)dateCB.SelectedItem;
 
                 // Получаем все заплнированные инспекции в этот день
                 List<DateTime> plannedTimes = App.DbContext.Inspections
-                    .Where(r => r.DatetimePlanned.Date == selectedDate.Value.Date)
+                    .Where(r => r.DatetimePlanned.Date == _selectedDate.Value.Date)
                     .Select(r => r.DatetimePlanned)
                     .ToList();
 
@@ -88,13 +88,13 @@ namespace CarAccountingGibdd.Dialogs
 
                 // Создаем полные DateTime (дата + время)
                 List<DateTime> allSlots = timeSlots
-                    .Select(time => selectedDate.Value.Date.Add(time)) // Комбинируем дату и время
+                    .Select(time => _selectedDate.Value.Date.Add(time)) // Комбинируем дату и время
                     .ToList();
 
                 // Получаем занятые слоты на эту дату
                 List<DateTime> bookedSlots = App.DbContext.Inspections
                     .Where(i => i.InspectorId == _inspector.EmployeeId)
-                    .Where(r => r.DatetimePlanned.Date == selectedDate.Value.Date)
+                    .Where(r => r.DatetimePlanned.Date == _selectedDate.Value.Date)
                     .Select(r => r.DatetimePlanned)
                     .ToList();
 
@@ -127,11 +127,11 @@ namespace CarAccountingGibdd.Dialogs
         private void CreateApplication()
         {
             // Получаем инфо для инспекции
-            selectedDate = (DateTime?)dateCB.SelectedItem;
-            selectedTime = (DateTime?)timeCB.SelectedItem;
+            _selectedDate = (DateTime?)dateCB.SelectedItem;
+            _selectedTime = (DateTime?)timeCB.SelectedItem;
 
             // Проверяем данные для формирования инспекции
-            bool hasNullFields = selectedDate == null || selectedTime == null;
+            bool hasNullFields = _selectedDate == null || _selectedTime == null;
 
             if (hasNullFields)
             {
@@ -144,7 +144,9 @@ namespace CarAccountingGibdd.Dialogs
             if (!accept) return;
 
             // Формирование 
-            ApplicationService.Accept(_application, _inspector, (DateTime)selectedTime);
+            ApplicationService.Accept(_application, _inspector, (DateTime)_selectedTime);
+
+            // Смена флажка о сохранении
             Saved = true;
             Close();
         }

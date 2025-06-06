@@ -88,7 +88,7 @@ namespace CarAccountingGibdd.Classes
         // Подтверждение добавления
         public static bool ConfirmSave()
         {
-            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно?",
+            var resultChanged = MessageBox.Show("Вы уверены, что все поля заполнены верно?",
                 "Подтверждение",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
@@ -110,7 +110,7 @@ namespace CarAccountingGibdd.Classes
 
         public static bool ConfirmEdit()
         {
-            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно?",
+            var resultChanged = MessageBox.Show("Вы уверены, что все поля заполнены верно?",
                 "Подтверждение",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
@@ -278,7 +278,7 @@ namespace CarAccountingGibdd.Classes
         }
 
 
-        // Подтверждение подтверждения ЗАЯВКИ
+        // Начало проведения ОСМОТРА
         public static bool ConfirmStartInspection()
         {
             var resultChanged = MessageBox.Show("Вы уверены, что хотите начать проведение осмотра?",
@@ -288,7 +288,7 @@ namespace CarAccountingGibdd.Classes
 
             if (resultChanged == MessageBoxResult.Yes)
             {
-                MessageBox.Show("Инспекция успешно принята на начало осмотра",
+                MessageBox.Show("Проведение инспекции начато успешно",
                     "Успех",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -300,6 +300,28 @@ namespace CarAccountingGibdd.Classes
                 return false;
             }
         }
+
+        #endregion
+
+        #region Да / Нет выборка
+
+        // Начало проведения ОСМОТРА
+        public static bool GetResultInspection()
+        {
+            var resultChanged = MessageBox.Show("Инспекция прошла успешно?",
+                "Вопрос",
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        } 
 
         #endregion
     }

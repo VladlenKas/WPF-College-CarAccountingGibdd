@@ -53,6 +53,10 @@ public partial class GibddContext : DbContext
 
     public IQueryable<Inspection> Inspections => AllInspections
         .Include(a => a.Application)
+            .ThenInclude(o => o.Owner)
+        .Include(a => a.Application)
+            .ThenInclude(v => v.Vehicle)
+            .ThenInclude(vt => vt.VehicleType)
         .Include(s => s.Status);
 
     public IQueryable<Application> Applications => AllApplications
@@ -67,6 +71,7 @@ public partial class GibddContext : DbContext
         .Include(p => p.Payments)
             .ThenInclude(s => s.Status)
         .Include(op => op.Operator)
+        .Include(c => c.Certificates)
         .AsSplitQuery(); // для оптимизации
 
     public IQueryable<Employee> Employees => AllEmployees.Where(r => r.Deleted != 1)

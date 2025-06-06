@@ -65,6 +65,8 @@ namespace CarAccountingGibdd.Dialogs
 
             // Формирование 
             applicationService.Create();
+
+            // Смена флажка о сохранении
             Saved = true;
             Close();
         }

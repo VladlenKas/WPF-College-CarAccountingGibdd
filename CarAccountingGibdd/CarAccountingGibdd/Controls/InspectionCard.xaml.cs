@@ -91,8 +91,13 @@ namespace CarAccountingGibdd.Controls
         {
             e.Handled = true; // Останавливаем всплытие события
 
+
             bool accept = MessageHelper.ConfirmRejectInspection();
-            if (accept) InspectionService.Reject(_inspection);
+            if (accept) 
+            {
+                InspectionService inspectionService = new(_inspection);
+                inspectionService.Reject();
+            }
 
             InspectionToAccept.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });
         }
@@ -102,7 +107,11 @@ namespace CarAccountingGibdd.Controls
             e.Handled = true; // Останавливаем всплытие события
 
             bool accept = MessageHelper.ConfirmStartInspection();
-            if (accept) InspectionService.StartInspection(_inspection);
+            if (accept)
+            {
+                InspectionService inspectionService = new(_inspection);
+                inspectionService.StartInspection();
+            }
 
             InspectionToAccept.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });
         }
@@ -111,11 +120,22 @@ namespace CarAccountingGibdd.Controls
         {
             e.Handled = true; // Останавливаем всплытие события
 
-            /*AcceptApplicationDialog dialog = new(_inspection, _employee);
-            ComponentsHelper.ShowDialogWindowDark(dialog);
+            bool result = MessageHelper.GetResultInspection();
+            bool saved = false;
 
-            if (!dialog.Saved) return;
-            InspectionToAccept.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });*/
+            if (result)
+            {
+                AddSertificateDialog dialog = new(_inspection);
+                ComponentsHelper.ShowDialogWindowDark(dialog);
+            }
+            else if (!result)
+            {
+                /*AcceptApplicationDialog dialog = new(_inspection, _employee);
+                ComponentsHelper.ShowDialogWindowDark(dialog);*/
+            }
+
+            if (saved) return;
+            InspectionToAccept.Invoke(this, new InspectionEventArgs { Inspection = this.Inspection });
         }
     }
 }

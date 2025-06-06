@@ -23,6 +23,8 @@ public partial class Vehicle
 
     public string Info => $"{Brand} {Model} {Year}, {Color}";
 
+    public string BrandModel => $"{Brand} {Model}";
+
     public sbyte Used { get; set; }
 
     public sbyte Deleted { get; set; }
