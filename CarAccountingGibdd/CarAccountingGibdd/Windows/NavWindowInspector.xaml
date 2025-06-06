@@ -79,21 +79,21 @@
                            Text="Документы"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Нарушения"
+                             Content="Списки нарушений"
                              Tag="ClipboardAlertOutline"
                              GroupName="navItems"
                              Margin="0 5"
                              Checked="ValitionRButton_Checked"/>
                 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Сертификаты"
+                             Content="Свидетельства"
                              Tag="certificateOutline"
                              GroupName="navItems"
                              Margin="0 0 0 5"
                              Checked="CertificateRButton_Checked"/>
                 
                 <Button Style="{StaticResource Button.Navigator}"
-                        Content="Отчет"
+                        Content="Создать отчет"
                         Tag="chartLine"
                         Margin="0 0 0 10"
                         Click="ReportButton_Click"/>

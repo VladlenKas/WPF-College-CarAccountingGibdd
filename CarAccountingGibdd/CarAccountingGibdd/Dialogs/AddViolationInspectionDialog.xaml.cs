@@ -76,7 +76,7 @@ namespace CarAccountingGibdd.Dialogs
             {
                 Violation selectedViolation = (Violation)violationsATB.SelectedItem;
 
-                if (_violationsList.All(itemList => itemList.ViolationsId != selectedViolation.ViolationsId))
+                if (_violationsList.All(itemList => itemList.ViolationId != selectedViolation.ViolationId))
                 {
                     _violationsList.Add(selectedViolation);
 
@@ -92,7 +92,7 @@ namespace CarAccountingGibdd.Dialogs
         private void DeleteViolation(object sender, ViolationEventArgs e)
         {
             Violation violation = (Violation)sender;
-            int index = _violationsList.FindIndex(0, itemList => itemList.ViolationsId == violation.ViolationsId);
+            int index = _violationsList.FindIndex(0, itemList => itemList.ViolationId == violation.ViolationId);
 
             _violationsList.RemoveAt(index);
             violationsIC.Items.RemoveAt(index);

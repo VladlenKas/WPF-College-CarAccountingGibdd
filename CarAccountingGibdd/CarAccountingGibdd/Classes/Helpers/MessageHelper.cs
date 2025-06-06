@@ -52,7 +52,7 @@ namespace CarAccountingGibdd.Classes
         // Предупреждение о пустых полях
         public static void MessageCerrentSertificate()
         {
-            MessageBox.Show($"Данный владелец уже имеет действующее сведетельство" +
+            MessageBox.Show($"Данный владелец уже имеет действующее свидетельство" +
                 $" о регистрации ТС. Нельзя выдавать несколько сертификатов одному владельцу",
                 "Предупреждение",
                 MessageBoxButton.OK,
@@ -63,7 +63,7 @@ namespace CarAccountingGibdd.Classes
         public static void MessageCerrentOwner()
         {
             MessageBox.Show($"Данное транспортное средство уже имеет владельца и" +
-                $" сведетельство о регистрации ТС. Подать заявку невозможно",
+                $" свидетельство о регистрации ТС. Подать заявку невозможно",
                 "Предупреждение",
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);

@@ -47,7 +47,7 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<Violation> Violations { get; set; }
 
-    public virtual DbSet<ViolationsInspection> ViolationsInspections { get; set; }
+    public virtual DbSet<ViolationInspection> AllViolationInspections { get; set; }
 
     #region Записи активные и с контекстом
 
@@ -82,6 +82,10 @@ public partial class GibddContext : DbContext
             .ThenInclude(r => r.Post);
 
     public IQueryable<Owner> Owners => AllOwners.Where(r => r.Deleted != 1);
+
+    public IQueryable<ViolationInspection> ViolationInspection => AllViolationInspections
+        .Include(v => v.Violation)
+        .Include(i => i.Inspection);
 
     public IQueryable<Vehicle> Vehicles => AllVehicles.Where(r => r.Deleted != 1)
         .Include(r => r.PhotosVehicles)
@@ -468,40 +472,40 @@ public partial class GibddContext : DbContext
 
         modelBuilder.Entity<Violation>(entity =>
         {
-            entity.HasKey(e => e.ViolationsId).HasName("PRIMARY");
+            entity.HasKey(e => e.ViolationId).HasName("PRIMARY");
 
-            entity.ToTable("violations");
+            entity.ToTable("violation");
 
-            entity.Property(e => e.ViolationsId).HasColumnName("violations_id");
+            entity.Property(e => e.ViolationId).HasColumnName("violation_id");
             entity.Property(e => e.Deleted).HasColumnName("deleted");
             entity.Property(e => e.Description)
                 .HasMaxLength(90)
                 .HasColumnName("description");
         });
 
-        modelBuilder.Entity<ViolationsInspection>(entity =>
+        modelBuilder.Entity<ViolationInspection>(entity =>
         {
-            entity.HasKey(e => e.ViolationsInspectionId).HasName("PRIMARY");
+            entity.HasKey(e => e.ViolationInspectionId).HasName("PRIMARY");
 
-            entity.ToTable("violations_inspection");
+            entity.ToTable("violation_inspection");
 
             entity.HasIndex(e => e.InspectionId, "inspection_id_idx");
 
-            entity.HasIndex(e => e.ViolationsId, "violations_id_idx");
+            entity.HasIndex(e => e.ViolationId, "violation_id_idx");
 
-            entity.Property(e => e.ViolationsInspectionId).HasColumnName("violations_inspection_id");
+            entity.Property(e => e.ViolationInspectionId).HasColumnName("violation_inspection_id");
             entity.Property(e => e.InspectionId).HasColumnName("inspection_id");
-            entity.Property(e => e.ViolationsId).HasColumnName("violations_id");
+            entity.Property(e => e.ViolationId).HasColumnName("violation_id");
 
             entity.HasOne(d => d.Inspection).WithMany(p => p.ViolationsInspections)
                 .HasForeignKey(d => d.InspectionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("inspection_id");
 
-            entity.HasOne(d => d.Violations).WithMany(p => p.ViolationsInspections)
-                .HasForeignKey(d => d.ViolationsId)
+            entity.HasOne(d => d.Violation).WithMany(p => p.ViolationInspections)
+                .HasForeignKey(d => d.ViolationId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("violations_id");
+                .HasConstraintName("violation_id");
         });
 
         OnModelCreatingPartial(modelBuilder);

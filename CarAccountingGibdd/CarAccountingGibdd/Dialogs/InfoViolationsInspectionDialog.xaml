@@ -1,0 +1,103 @@
+﻿<Window x:Class="CarAccountingGibdd.Dialogs.InfoViolationsInspectionDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CarAccountingGibdd.Dialogs"
+        mc:Ignorable="d"
+      
+        xmlns:cnvrt="clr-namespace:CarAccountingGibdd.Classes.Converters"
+        
+        Title="Список нарушений ТС" 
+        SizeToContent="Height"
+        MinHeight="700"
+        MinWidth="600" Width="600"
+        Style="{StaticResource Window.Ordinary}"
+        WindowStartupLocation="CenterScreen">
+
+    <ScrollViewer Style="{StaticResource ScrollViewer.Standart}"
+                  VerticalScrollBarVisibility="Auto">
+        <Border Padding="35">
+
+            <DockPanel Name="dockPanel">
+
+                <!-- Заголовок -->
+                <TextBlock Style="{StaticResource TextBlock.H2}"
+                       DockPanel.Dock="Top"
+                       Margin="0 0 0 24"
+                           TextWrapping="Wrap">
+                <Run Text="Документ по выявленным нарушениям в ходе проведения инспекции ТС"/>
+                <Run Text="{Binding Inspection.InspectionId, StringFormat={}№{0}}"/>
+                </TextBlock>
+
+                <Grid>
+                    <StackPanel Margin="0 0 24 0">
+
+                        <DockPanel DockPanel.Dock="Top"
+                                   Margin="0 0 0 24"
+                                   Grid.Column="0"
+                                   LastChildFill="False">
+
+                            <!-- Описание владельца -->
+                            <TextBlock Style="{StaticResource TextBlock.H3}"
+                                       DockPanel.Dock="Top"
+                                       Foreground="{StaticResource Text.Primary.Brush}"
+                                       Text="Данные по заявке и осмотру"
+                                       Margin="0 0 0 18"/>
+
+                            <TextBlock DockPanel.Dock="Top"
+                                       Margin="0 0 0 12"
+                                       TextWrapping="Wrap">
+                                <Run Text="Заявка:" Style="{StaticResource Run.Subtitle}"/>
+                                <Run Text="{Binding Inspection.ApplicationId, StringFormat={}№{0}}"
+                                     Style="{StaticResource Run.Description}"/>
+                            </TextBlock>
+
+                            <TextBlock DockPanel.Dock="Top"
+                                       Margin="0 0 0 12"
+                                       TextWrapping="Wrap">
+                                <Run Text="Инспекция:" Style="{StaticResource Run.Subtitle}"/>
+                                <Run Text="{Binding Inspection.InspectionId, StringFormat={}№{0}}"
+                                     Style="{StaticResource Run.Description}"/>
+                            </TextBlock>
+
+                            <TextBlock DockPanel.Dock="Top"
+                                       Margin="0 0 0 24"
+                                       TextWrapping="Wrap">
+                                <Run Text="Дата составления документа:" Style="{StaticResource Run.Subtitle}"/>
+                                <Run Text="{Binding Inspection.DatetimeCompleted, StringFormat={}{0:dd.MM.yyyy}}"
+                                     Style="{StaticResource Run.Description}"/>
+                            </TextBlock>
+
+                            <TextBlock Style="{StaticResource TextBlock.H3}"
+                                       DockPanel.Dock="Top"
+                                       Foreground="{StaticResource Text.Primary.Brush}"
+                                       Text="Выявленные нарушения:"
+                                       Margin="0 0 0 18"/>
+
+                            <TextBlock DockPanel.Dock="Top"
+                                       Margin="0 0 0 24"
+                                       TextWrapping="Wrap">
+                                <Run Text="{Binding ViolationsList, Mode=OneWay}"
+                                     Style="{StaticResource Run.Subtitle}"/>
+                            </TextBlock>
+                        </DockPanel>
+                    </StackPanel>
+
+                    <DockPanel DockPanel.Dock="Top"
+                               Grid.Column="2"
+                               LastChildFill="False">
+
+                        <Button Style="{StaticResource Button.Primary}"
+                                Width="200"
+                                DockPanel.Dock="Bottom"
+                                HorizontalAlignment="Right"
+                                Content="Закрыть"
+                                Click="ExitBTN_Click"/>
+
+                    </DockPanel>
+                </Grid>
+            </DockPanel>
+        </Border>
+    </ScrollViewer>
+</Window>

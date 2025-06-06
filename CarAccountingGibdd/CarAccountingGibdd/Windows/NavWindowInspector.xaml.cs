@@ -50,7 +50,7 @@ namespace CarAccountingGibdd.Windows
         
         private void InspectionRButton_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new InspectonPageInspector(_inspector));
+            CurrentPage.Navigate(new InspectionPageInspector(_inspector));
             titlePage.Text = "Осмотры";
         }
         
@@ -74,8 +74,8 @@ namespace CarAccountingGibdd.Windows
         
         private void ValitionRButton_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new EmployeePageAdmin());
-            titlePage.Text = "Список нарушений";
+            CurrentPage.Navigate(new ViolationsInspectionsPageInspector());
+            titlePage.Text = "Списки нарушений";
         }
 
         private void DepartmentRButton_Checked(object sender, RoutedEventArgs e)
@@ -87,7 +87,7 @@ namespace CarAccountingGibdd.Windows
         private void CertificateRButton_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new DepartmentPageAmdin());
-            titlePage.Text = "Сертификаты";
+            titlePage.Text = "Свидетельства";
         }
 
         private void ExitRButton_Checked(object sender, RoutedEventArgs e)

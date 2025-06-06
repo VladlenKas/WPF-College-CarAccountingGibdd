@@ -35,10 +35,10 @@ namespace CarAccountingGibdd.Classes.Services
             _inspection.Application.ApplicationStatusId = 5;
             _inspection.DatetimeCompleted = DateTime.Now;
 
-            ViolationsInspection violationsInspection = new ViolationsInspection()
+            ViolationInspection violationsInspection = new ViolationInspection()
             {
                 InspectionId = _inspection.InspectionId,
-                ViolationsId = 1
+                ViolationId = 1
             };
 
             App.DbContext.Add(violationsInspection);
@@ -46,10 +46,10 @@ namespace CarAccountingGibdd.Classes.Services
             App.DbContext.SaveChanges();
         }
 
-        // Формирование сведетельства
+        // Формирование свидетельства
         public void CreateCertificate(string number, string newLicensePlate)
         {
-            // Формируем сведетельство
+            // Формируем свидетельство
             Certificate certificate = new Certificate
             {
                 ApplicationId = _inspection.ApplicationId,
@@ -75,16 +75,16 @@ namespace CarAccountingGibdd.Classes.Services
         public void CreateViolationsInspection(List<Violation> violations)
         {
             // Все нарушения
-            var violationsToAdd = new List<ViolationsInspection>();
+            var violationsToAdd = new List<ViolationInspection>();
 
             // Перебираем их, чтобы указать Id инспекции
             violations.ForEach(v =>
             {
                 // Создаём нарушение
-                violationsToAdd.Add(new ViolationsInspection
+                violationsToAdd.Add(new ViolationInspection
                 {
                     InspectionId = _inspection.InspectionId,
-                    ViolationsId = v.ViolationsId
+                    ViolationId = v.ViolationId
                 });
             });
 

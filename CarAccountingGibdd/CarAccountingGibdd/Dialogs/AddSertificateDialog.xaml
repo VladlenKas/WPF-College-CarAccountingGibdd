@@ -27,13 +27,13 @@
                        DockPanel.Dock="Top"
                        Margin="0 0 0 16"
                        TextWrapping="Wrap">
-                <Run Text="Присвоение сведетельства о регистрации ТС владельцу"/>
+                <Run Text="Присвоение свидетельства о регистрации ТС владельцу"/>
             </TextBlock>
 
             <!-- Подзаголовок -->
             <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                        Margin="0 0 0 24"
-                       Text="Проверьте данные и подтвердите выдачу сведетельства о регистрации ТС владельцу"
+                       Text="Проверьте данные и подтвердите выдачу свидетельства о регистрации ТС владельцу"
                        Foreground="{StaticResource Text.Secondary.Brush}"
                        DockPanel.Dock="Top"/>
 
@@ -181,7 +181,7 @@
 
                 <Button Style="{StaticResource Button.Primary}"
                     DockPanel.Dock="Bottom"
-                    Content="Выдать сведетельство"
+                    Content="Выдать свидетельство"
                     Margin="0 0 0 12"
                     Click="Add_Click"/>
             </DockPanel>
