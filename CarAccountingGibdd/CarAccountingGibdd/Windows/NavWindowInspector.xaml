@@ -37,57 +37,67 @@
                 <!-- Основные операции -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
-                           Text="Рабочий процесс"/>
+                           Text="Рабочий процесс"
+                           Margin="0 0 0 10"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Name="applicationRB"
                              Content="Заявки"
                              Tag="listBoxOutline"
                              GroupName="navItems"
-                             Margin="0 5"
+                             Margin="0 0 0 5"
                              Checked="ApplicationRButton_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Осмотры"
                              Tag="carSearchOutline"
                              GroupName="navItems"
-                             Margin="0 0 0 5"
+                             Margin="0 0 0 20"
                              Checked="InspectionRButton_Checked"/>
 
                 <!-- Справочные данные -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
-                           Text="Справочники"/>
+                           Text="Справочники"
+                           Margin="0 0 0 10"/>
 
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Нарушения"
+                             Tag="BookOpenOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="OwnerRButton_Checked"/>
+                
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Владельцы"
                              Tag="userOutline"
                              GroupName="navItems"
-                             Margin="0 5"
+                             Margin="0 0 0 5"
                              Checked="OwnerRButton_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Автомобили"
                              Tag="carOutline"
                              GroupName="navItems"
-                             Margin="0 0 0 5"
+                             Margin="0 0 0 20"
                              Checked="VehicleRButton_Checked"/>
 
                 <!-- Отчеты -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
-                           Text="Документы"/>
+                           Text="Документы"
+                           Margin="0 0 0 10"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Списки нарушений"
-                             Tag="ClipboardAlertOutline"
+                             Tag="InvoiceTextRemoveOutline"
                              GroupName="navItems"
-                             Margin="0 5"
+                             Margin="0 0 0 5"
                              Checked="ValitionRButton_Checked"/>
                 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Свидетельства"
-                             Tag="certificateOutline"
+                             Tag="CardAccountDetailsOutline"
                              GroupName="navItems"
                              Margin="0 0 0 5"
                              Checked="CertificateRButton_Checked"/>

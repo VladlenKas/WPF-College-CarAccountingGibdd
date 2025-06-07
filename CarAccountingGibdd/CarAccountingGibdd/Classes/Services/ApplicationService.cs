@@ -117,10 +117,11 @@ namespace CarAccountingGibdd.Classes.Services
         // Просрочка 
         private static void Overdue(List<Inspection> overdueInspections)
         {
+            // Обновляем статусы
             overdueInspections.ForEach(s =>
             {
-                // Обновляем инспекцию
-                s.StatusId = 2;
+                s.StatusId = 2; // В процессе
+                s.Application.ApplicationStatusId = 4; // На осмотре
             });
 
             // Обновляем и сохраняем всё одним запросом
@@ -259,7 +260,6 @@ namespace CarAccountingGibdd.Classes.Services
                 .ToList();
 
             bool hasStartedInspections = startedInspections.Count > 0;
-
             if (hasStartedInspections)
             {
                 Overdue(startedInspections);

@@ -16,4 +16,6 @@ public partial class Certificate
     public sbyte IsActive { get; set; }
 
     public virtual Application Application { get; set; } = null!;
+
+    public string IsActiveName => IsActive == 0 ? "Действительный" : "Недействительный";
 }

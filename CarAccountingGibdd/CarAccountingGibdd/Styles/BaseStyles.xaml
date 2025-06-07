@@ -74,7 +74,7 @@
         <Setter Property="FontFamily" Value="SF Pro Text"/>
         <Setter Property="FontSize" Value="22"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="TextBlock.H6">
@@ -97,7 +97,7 @@
         <Setter Property="FontFamily" Value="SF Pro Text"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
         <Setter Property="Margin" Value="0 10 0 5"/>
         <Setter Property="Opacity" Value="0.8"/>
     </Style>
@@ -113,7 +113,7 @@
         <Setter Property="FontFamily" Value="SF Pro Text"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
     </Style>    
     
     <Style TargetType="{x:Type Run}" x:Key="Run.Description">
@@ -712,7 +712,7 @@
                             CornerRadius="10">
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            
+
                             <icons:PackIcon Name="icon"
                                             Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"
                                             Style="{StaticResource Icon.Navigation}"

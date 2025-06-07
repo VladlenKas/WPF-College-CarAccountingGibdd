@@ -31,154 +31,149 @@
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Первая колонка -->
-                    <StackPanel Margin="0 0 24 0">
-                        
-                        <DockPanel DockPanel.Dock="Top"
-                                   Margin="0 0 0 24"
-                                   Grid.Column="0"
-                                   LastChildFill="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Описание владельца -->
+                    <DockPanel Margin="0 0 24 24"
+                               LastChildFill="False"
+                               Grid.Column="0" Grid.Row="0">
                             
-                            <!-- Описание владельца -->
-                            <TextBlock Style="{StaticResource TextBlock.H3}"
-                                       DockPanel.Dock="Top"
-                                       Foreground="{StaticResource Text.Primary.Brush}"
-                                       Text="Владелец"
-                                       Margin="0 0 0 18"/>
+                        <TextBlock Style="{StaticResource TextBlock.H3}"
+                                    DockPanel.Dock="Top"
+                                    Text="Владелец"
+                                    Margin="0 0 0 18"/>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="ФИО:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Owner.Fullname, Mode=OneWay}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="ФИО:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Owner.Fullname, Mode=OneWay}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Дата рождения:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Owner.Birthdate, StringFormat={}{0:dd.MM.yyyy}}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Дата рождения:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Owner.Birthdate, StringFormat={}{0:dd.MM.yyyy}}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Серия и номер паспорта:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Owner.Passport}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Серия и номер паспорта:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Owner.Passport}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Номер телефона:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Owner.Phone}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Номер телефона:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Owner.Phone}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Адрес проживания:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Owner.Address}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
-                        </DockPanel>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Адрес проживания:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Owner.Address}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
+                    </DockPanel>
 
-                        <!-- ТС -->
-                        <DockPanel DockPanel.Dock="Top"
-                                   Grid.Column="0"
-                                   LastChildFill="False">
+                    <!-- ТС -->
+                    <DockPanel Margin="0 0 24 0"
+                               LastChildFill="False"
+                               Grid.Column="0" Grid.Row="1">
                             
-                            <!-- Описание владельца -->
-                            <TextBlock Style="{StaticResource TextBlock.H3}"
-                                       DockPanel.Dock="Top"
-                                       Foreground="{StaticResource Text.Primary.Brush}"
-                                       Text="Транспортное средство"
-                                       TextWrapping="Wrap"
-                                       Margin="0 0 0 18"/>
+                        <!-- Описание владельца -->
+                        <TextBlock Style="{StaticResource TextBlock.H3}"
+                                    DockPanel.Dock="Top"
+                                    Text="Транспортное средство"
+                                    TextWrapping="Wrap"
+                                    Margin="0 0 0 18"/>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Вин:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Vehicle.Vin}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Вин:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Vehicle.Vin}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Номерной знак:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Vehicle.LicensePlate, TargetNullValue='Не зарегистрирован'}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Номерной знак:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Vehicle.LicensePlate, TargetNullValue='Не зарегистрирован'}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Марка:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Vehicle.Brand}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Марка:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Vehicle.Brand}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Модель:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Vehicle.Model}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Модель:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Vehicle.Model}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Год:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Vehicle.Year}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Год:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Vehicle.Year}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                   Margin="0 0 0 12"
-                                   TextWrapping="Wrap">
-                                <Run Text="Цвет:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Vehicle.Color}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                Margin="0 0 0 12"
+                                TextWrapping="Wrap">
+                            <Run Text="Цвет:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Vehicle.Color}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Тип:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Vehicle.VehicleType.Name}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Тип:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Vehicle.VehicleType.Name}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
 
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Пользованный:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Vehicle.UsedValueString, Mode=OneWay}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
-                        </DockPanel>
-                    </StackPanel>
+                        <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 12"
+                                    TextWrapping="Wrap">
+                            <Run Text="Пользованный:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Vehicle.UsedValueString, Mode=OneWay}"
+                                    Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
+                    </DockPanel>
 
-                    <!-- Вторая колонка -->
-                    <DockPanel DockPanel.Dock="Top"
-                               Grid.Column="2"
-                               LastChildFill="False">
+                    <!-- Описание заявки -->
+                    <DockPanel LastChildFill="False"
+                               Grid.Column="1" Grid.Row="0">
                         
-                        <!-- Описание заявки -->
                         <TextBlock Style="{StaticResource TextBlock.H3}"
                                    DockPanel.Dock="Top"
-                                   Foreground="{StaticResource Text.Primary.Brush}"
                                    Text="Заявка"
                                    TextWrapping="Wrap"
                                    Margin="0 0 0 18"/>
@@ -212,6 +207,50 @@
                         <TextBlock DockPanel.Dock="Top"
                                    Margin="0 0 0 12"
                                    TextWrapping="Wrap">
+                            <Run Text="Номер платежа:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding PaymentStatusNumber, Mode=OneWay}"
+                                 Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Margin="0 0 0 12"
+                                   TextWrapping="Wrap">
+                            <Run Text="Статус платежа:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding PaymentStatusName, Mode=OneWay}"
+                                 Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Margin="0 0 0 12"
+                                   TextWrapping="Wrap">
+                            <Run Text="ФИО оператора:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding OperatorFullname, Mode=OneWay}"
+                                 Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Margin="0 0 0 24"
+                                   TextWrapping="Wrap">
+                            <Run Text="Департамент:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding DepartmentId, Mode=OneWay, StringFormat={}№{0}}"
+                                 Style="{StaticResource Run.Description}"/>
+                        </TextBlock>
+
+                    </DockPanel>
+
+                    <!-- Описание инспекции -->
+                    <DockPanel LastChildFill="False"
+                               Grid.Column="1" Grid.Row="1">
+
+                        <TextBlock Style="{StaticResource TextBlock.H3}"
+                                   DockPanel.Dock="Top"
+                                   Text="Инспекция"
+                                   TextWrapping="Wrap"
+                                   Margin="0 0 0 18"/>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Margin="0 0 0 12"
+                                   TextWrapping="Wrap">
                             <Run Text="Дата принятия на осмотр:" 
                                  Style="{StaticResource Run.Subtitle}"
                                  Name="datetimeInspectionTB"/>
@@ -225,22 +264,6 @@
                             <Run Text="Дата проведения осмотра:" 
                                  Style="{StaticResource Run.Subtitle}"/>
                             <Run Text="{Binding InspectionDate, StringFormat={}{0:dd.MM.yyyy HH:mm}, Mode=OneWay}"
-                                 Style="{StaticResource Run.Description}"/>
-                        </TextBlock>
-
-                        <TextBlock DockPanel.Dock="Top"
-                                   Margin="0 0 0 12"
-                                   TextWrapping="Wrap">
-                            <Run Text="Номер платежа:" Style="{StaticResource Run.Subtitle}"/>
-                            <Run Text="{Binding PaymentStatusNumber, Mode=OneWay}"
-                                 Style="{StaticResource Run.Description}"/>
-                        </TextBlock>
-
-                        <TextBlock DockPanel.Dock="Top"
-                                   Margin="0 0 0 12"
-                                   TextWrapping="Wrap">
-                            <Run Text="Статус платежа:" Style="{StaticResource Run.Subtitle}"/>
-                            <Run Text="{Binding PaymentStatusName, Mode=OneWay}"
                                  Style="{StaticResource Run.Description}"/>
                         </TextBlock>
 
@@ -263,14 +286,6 @@
                         <TextBlock DockPanel.Dock="Top"
                                    Margin="0 0 0 12"
                                    TextWrapping="Wrap">
-                            <Run Text="ФИО оператора:" Style="{StaticResource Run.Subtitle}"/>
-                            <Run Text="{Binding OperatorFullname, Mode=OneWay}"
-                                 Style="{StaticResource Run.Description}"/>
-                        </TextBlock>
-
-                        <TextBlock DockPanel.Dock="Top"
-                                   Margin="0 0 0 12"
-                                   TextWrapping="Wrap">
                             <Run Name="titleInfoDocumentTB" Style="{StaticResource Run.Subtitle}"/>
                             <Run Name="infoDocumentTB"
                                  Style="{StaticResource Run.Description}"/>
@@ -282,7 +297,7 @@
                                 HorizontalAlignment="Right"
                                 Content="Закрыть"
                                 Click="ExitBTN_Click"/>
-
+                        
                     </DockPanel>
                 </Grid>
             </DockPanel>

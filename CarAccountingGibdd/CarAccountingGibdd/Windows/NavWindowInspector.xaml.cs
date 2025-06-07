@@ -86,7 +86,7 @@ namespace CarAccountingGibdd.Windows
         
         private void CertificateRButton_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new DepartmentPageAmdin());
+            CurrentPage.Navigate(new CertificatePageInspector(_inspector));
             titlePage.Text = "Свидетельства";
         }
 

@@ -38,6 +38,9 @@ public partial class Application
     public string OperatorFullname =>
         Operator?.Fullname ?? "Отсутствует";
 
+    public string DepartmentId =>
+        Operator?.DepartmentId.ToString() ?? "Отсутствует";
+
     public string PaymentStatusName =>
         Payments?.FirstOrDefault()?.Status?.Name ?? "Отсутствует";
 

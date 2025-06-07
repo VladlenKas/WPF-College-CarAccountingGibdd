@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CarAccountingGibdd.Controls;
+using CarAccountingGibdd.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,34 @@ namespace CarAccountingGibdd.Pages.PagesInspector
     /// </summary>
     public partial class CertificatePageInspector : Page
     {
-        public CertificatePageInspector()
+        private Employee _inspector;
+
+        public CertificatePageInspector(Employee inspector)
         {
             InitializeComponent();
+
+            _inspector = inspector;
+            // Фильтры
+            UpdateIC();
+        }
+
+        // Методы
+        private void UpdateIC()
+        {
+            var certificates = App.DbContext.Certificates.ToList();
+
+            // Фильтры
+            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
+            orders = _orderDataService.ApplyFilter(orders);
+            orders = _orderDataService.ApplySort(orders);
+            orders = _orderDataService.ApplySearch(orders);*/
+
+            cardsIC.Items.Clear();
+            foreach (var certificate in certificates)
+            {
+                var card = new CertificateCard(certificate);
+                cardsIC.Items.Add(card);
+            }
         }
     }
 }

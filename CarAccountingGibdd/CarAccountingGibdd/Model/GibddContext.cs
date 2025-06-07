@@ -23,7 +23,7 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<ApplicationStatus> ApplicationStatuses { get; set; }
 
-    public virtual DbSet<Certificate> Certificates { get; set; }
+    public virtual DbSet<Certificate> AllCertificates { get; set; }
 
     public virtual DbSet<Department> AllDepartments { get; set; }
 
@@ -74,22 +74,32 @@ public partial class GibddContext : DbContext
         .Include(c => c.Certificates)
         .AsSplitQuery(); // для оптимизации
 
-    public IQueryable<Employee> Employees => AllEmployees.Where(r => r.Deleted != 1)
+    public IQueryable<Employee> Employees => AllEmployees
         .Include(r => r.Post);
 
-    public IQueryable<Department> Departments => AllDepartments.Where(r => r.Deleted != 1)
+    public IQueryable<Department> Departments => AllDepartments
         .Include(r => r.Employees)
             .ThenInclude(r => r.Post);
 
-    public IQueryable<Owner> Owners => AllOwners.Where(r => r.Deleted != 1);
+    public IQueryable<Owner> Owners => AllOwners;
 
     public IQueryable<ViolationInspection> ViolationInspection => AllViolationInspections
         .Include(v => v.Violation)
         .Include(i => i.Inspection);
 
-    public IQueryable<Vehicle> Vehicles => AllVehicles.Where(r => r.Deleted != 1)
+    public IQueryable<Vehicle> Vehicles => AllVehicles
         .Include(r => r.PhotosVehicles)
         .Include(r => r.VehicleType);
+
+    public IQueryable<Certificate> Certificates => AllCertificates
+        .Include(a => a.Application)
+            .ThenInclude(o => o.Owner)
+        .Include(a => a.Application)
+            .ThenInclude(v => v.Vehicle)
+            .ThenInclude(vt => vt.VehicleType)
+        .Include(a => a.Application)
+            .ThenInclude(ins => ins.Inspections)
+                .ThenInclude(i => i.Inspector);
 
     #endregion
 
