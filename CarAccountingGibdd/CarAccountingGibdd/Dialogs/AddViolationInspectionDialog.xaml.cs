@@ -46,7 +46,7 @@ namespace CarAccountingGibdd.Dialogs
         private void CreateViolationInspection()
         {
             // Проверка
-            if (_violationsList.Count < 0)
+            if (_violationsList.Count <= 0)
             {
                 MessageHelper.MessageNullViolations();
                 return;

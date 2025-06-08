@@ -11,9 +11,9 @@
         xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters"
         
         SizeToContent="Height"
-        MinHeight="700"
+        MinHeight="750"
         MinWidth="1050" Width="1100"
-        Title="Формирование сертификата" 
+        Title="Формирование документа с нарушениями" 
         Style="{StaticResource Window.Ordinary}"
         WindowStartupLocation="CenterScreen">
 
@@ -64,7 +64,7 @@
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
-                    <Run Text="Регистрационный знак:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="Номерной знак:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Application.Vehicle.LicensePlate, TargetNullValue='Отсутствует'}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
@@ -94,11 +94,19 @@
                     </TextBlock>
 
                     <TextBlock DockPanel.Dock="Top"
-                               Margin="0 0 0 24"
+                               Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Цвет:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Application.Vehicle.Color}"
                          Style="{StaticResource Run.Description}"/>
+                    </TextBlock>
+
+                    <TextBlock DockPanel.Dock="Top"
+                                    Margin="0 0 0 24"
+                                    TextWrapping="Wrap">
+                            <Run Text="Б/У:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="{Binding Application.Vehicle.UsedValueString, Mode=OneWay}"
+                                    Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
                     <TextBlock Style="{StaticResource TextBlock.H3}"
@@ -134,14 +142,14 @@
                 <DockPanel Grid.Column="1">
                     <!-- Текстовые поля с данными о сертификате-->
                     <components:AutoCompleteTextBox Placeholder="Выберите нарушение"
-                                            DisplayMemberPath="Description"
-                                            x:Name="violationsATB"
-                                            Margin="0 0 0 24"
-                                            DockPanel.Dock="Top"
-                                            behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
+                                                    DisplayMemberPath="NumberDescription"
+                                                    x:Name="violationsATB"
+                                                    Margin="0 0 0 24"
+                                                    DockPanel.Dock="Top"
+                                                    behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
 
                     <TextBlock Style="{StaticResource TextBlock.H3}"
-                               Text="Причина(-ы) отклонения инспекции:"
+                               Text="Причина(-ы) отклонения заявки:"
                                Margin="0 0 0 16"
                                DockPanel.Dock="Top"/>
 

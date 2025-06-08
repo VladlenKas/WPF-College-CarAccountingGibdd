@@ -61,7 +61,7 @@
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
-                    <Run Text="Новый регистрационный знак:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="Новый номерной знак:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Application.Vehicle.LicensePlate}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
@@ -91,11 +91,19 @@
                     </TextBlock>
 
                     <TextBlock DockPanel.Dock="Top"
-                               Margin="0 0 0 24"
+                               Margin="0 0 0 12"
                                TextWrapping="Wrap">
                     <Run Text="Цвет:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Application.Vehicle.Color}"
                          Style="{StaticResource Run.Description}"/>
+                    </TextBlock>
+
+                    <TextBlock DockPanel.Dock="Top"
+                            Margin="0 0 0 24"
+                            TextWrapping="Wrap">
+                    <Run Text="Б/У:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="{Binding Application.Vehicle.UsedValueString, Mode=OneWay}"
+                            Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
                     <TextBlock Style="{StaticResource TextBlock.H3}"

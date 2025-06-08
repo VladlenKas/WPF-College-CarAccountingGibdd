@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace CarAccountingGibdd.Pages.PagesInspector
 {
     /// <summary>
-    /// Логика взаимодействия для VehiclePageInspector.xaml
+    /// Логика взаимодействия для ViolationsPageInspector.xaml
     /// </summary>
-    public partial class VehiclePageInspector : Page
+    public partial class ViolationsPageInspector : Page
     {
-        public VehiclePageInspector()
+        public ViolationsPageInspector()
         {
             InitializeComponent();
 
@@ -31,7 +31,7 @@ namespace CarAccountingGibdd.Pages.PagesInspector
         // Методы
         private void UpdateIC()
         {
-            var owners = App.DbContext.Vehicles.ToList();
+            var owners = App.DbContext.Violations.ToList();
 
             // Фильтры
             /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);

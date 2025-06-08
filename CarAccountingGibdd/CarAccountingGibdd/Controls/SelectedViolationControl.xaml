@@ -12,7 +12,7 @@
                    VerticalAlignment="Center"
                    LastChildFill="False">
 
-            <TextBlock Text="{Binding Description}"
+            <TextBlock Text="{Binding NumberDescription}"
                        TextWrapping="Wrap"
                        Style="{StaticResource TextBlock.Normal}"
                        DockPanel.Dock="Left"/>

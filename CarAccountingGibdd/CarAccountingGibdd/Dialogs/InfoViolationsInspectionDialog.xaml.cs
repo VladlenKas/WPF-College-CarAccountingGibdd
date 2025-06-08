@@ -1,6 +1,7 @@
 ﻿using CarAccountingGibdd.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace CarAccountingGibdd.Dialogs
     {
         // Свойства
         public string ViolationsList { get; set; }
+        public string Counter { get; set; }
         public Inspection Inspection { get; set; }
 
         public InfoViolationsInspectionDialog(IGrouping<int, ViolationInspection> violationsInspection)
@@ -37,7 +39,8 @@ namespace CarAccountingGibdd.Dialogs
             int count = 1;
             foreach (var item in violationsInspection)
             {
-                violations.AppendLine($"{count++}: {item.Violation.Description}");
+                Counter = $"{count++}.";
+                violations.AppendLine(item.Violation.NumberDescription);
             }
             ViolationsList = violations.ToString();
         }

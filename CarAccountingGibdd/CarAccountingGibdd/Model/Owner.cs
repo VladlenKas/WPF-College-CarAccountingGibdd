@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace CarAccountingGibdd.Model;
 
@@ -28,6 +29,34 @@ public partial class Owner
     public string Phone { get; set; } = null!;
 
     public sbyte Deleted { get; set; }
+
+    public string? SequenceNumberVehicle { get; set; }
+
+    public string VehiclesList
+    {
+        get
+        {
+            var vehiclesList = new StringBuilder();
+            int counter = 1;
+
+            Applications?
+                .Where(a => a.Certificates?.Any(c => c.IsActive == 0) == true)?
+                .ToList()
+                .ForEach(a =>
+                {
+                    SequenceNumberVehicle = $"{counter++}.";
+                    vehiclesList.AppendLine(a.Vehicle.FullInfo);
+                });
+
+            if (vehiclesList.Length > 0)
+            {
+                return vehiclesList.ToString();
+            }
+
+            return "У владельца нет ТС";
+        }
+    }
+
 
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 }

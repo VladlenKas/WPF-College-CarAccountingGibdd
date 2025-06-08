@@ -46,14 +46,14 @@
                              Tag="listBoxOutline"
                              GroupName="navItems"
                              Margin="0 0 0 5"
-                             Checked="ApplicationRButton_Checked"/>
+                             Checked="ApplicationPageRB_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Осмотры"
                              Tag="carSearchOutline"
                              GroupName="navItems"
                              Margin="0 0 0 20"
-                             Checked="InspectionRButton_Checked"/>
+                             Checked="InspectionPageRB_Checked"/>
 
                 <!-- Справочные данные -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
@@ -66,21 +66,21 @@
                              Tag="BookOpenOutline"
                              GroupName="navItems"
                              Margin="0 0 0 5"
-                             Checked="OwnerRButton_Checked"/>
+                             Checked="ViolationPageRB_Checked"/>
                 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Владельцы"
                              Tag="userOutline"
                              GroupName="navItems"
                              Margin="0 0 0 5"
-                             Checked="OwnerRButton_Checked"/>
+                             Checked="OwnerPageRB_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Автомобили"
                              Tag="carOutline"
                              GroupName="navItems"
                              Margin="0 0 0 20"
-                             Checked="VehicleRButton_Checked"/>
+                             Checked="VehiclePageRB_Checked"/>
 
                 <!-- Отчеты -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
@@ -93,14 +93,14 @@
                              Tag="InvoiceTextRemoveOutline"
                              GroupName="navItems"
                              Margin="0 0 0 5"
-                             Checked="ValitionRButton_Checked"/>
+                             Checked="ViolationInspectionPageRB_Checked"/>
                 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Свидетельства"
                              Tag="CardAccountDetailsOutline"
                              GroupName="navItems"
                              Margin="0 0 0 5"
-                             Checked="CertificateRButton_Checked"/>
+                             Checked="CertificatePageRB_Checked"/>
                 
                 <Button Style="{StaticResource Button.Navigator}"
                         Content="Создать отчет"
@@ -111,12 +111,11 @@
                 <Separator Background="#ffffff"
                            Margin="0 0 0 10"/>
 
-                <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Выйти"
-                             Tag="logout"
-                             GroupName="navItems"
-                             Margin="0 0 0 10"
-                             Checked="ExitRButton_Checked"/>
+                <Button Style="{StaticResource Button.Navigator}"
+                        Content="Выйти"
+                        Tag="logout"
+                        Margin="0 0 0 10"
+                        Click="Exit_Click"/>
             </StackPanel>
         </Grid>
 

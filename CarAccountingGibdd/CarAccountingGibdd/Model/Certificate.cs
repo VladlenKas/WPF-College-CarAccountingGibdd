@@ -17,5 +17,10 @@ public partial class Certificate
 
     public virtual Application Application { get; set; } = null!;
 
-    public string IsActiveName => IsActive == 0 ? "Действительный" : "Недействительный";
+    public string IsActiveName => IsActive switch
+    {
+        0 => "Действительный",
+        1 => "Недействительный",
+        _ => "NULL VALUE"
+    };
 }

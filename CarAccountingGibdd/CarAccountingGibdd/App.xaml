@@ -13,7 +13,7 @@
                 <ResourceDictionary Source="Styles/Brushes.xaml"/>
                 
                 <!-- Базовый стиль-->
-                <ResourceDictionary Source="Styles/BaseStyles.xaml"/>
+                <ResourceDictionary Source="Styles/StylesBased.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 

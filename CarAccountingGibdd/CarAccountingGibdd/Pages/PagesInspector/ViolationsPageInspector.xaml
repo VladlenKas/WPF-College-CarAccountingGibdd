@@ -1,4 +1,4 @@
-﻿<Page x:Class="CarAccountingGibdd.Pages.PagesInspector.ApplicationPageInspector"
+﻿<Page x:Class="CarAccountingGibdd.Pages.PagesInspector.ViolationsPageInspector"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -55,22 +55,21 @@
 
             <!-- Контент -->
             <Grid>
-                <ScrollViewer Name="contentScroll"
-                              Style="{StaticResource ScrollViewer.Standart}">
-                    <ItemsControl Name="cardsIC">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"
-                                           HorizontalAlignment="Left"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </ScrollViewer>
+                <!-- Контент -->
+                <DataGrid Name="itemsDG">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Номер" Binding="{Binding ViolationId, StringFormat={}№{0}}"/>
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
 
-                <TextBlock Text="Данные о заявках отсутствуют"
-                           Style="{StaticResource TextBlock.H2}"
-                           Visibility="{Binding Items.Count, ElementName=cardsIC, 
-                           Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
+                <TextBlock Text="Данные о нарушениях отсутствуют"
+                          Style="{StaticResource TextBlock.H6}"
+                          FontSize="18"
+                          Margin="20 80 0 0"
+                          Visibility="{Binding Items.Count, ElementName=itemsDG, 
+                          Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
+
             </Grid>
 
         </Grid>

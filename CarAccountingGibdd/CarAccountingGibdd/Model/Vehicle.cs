@@ -23,6 +23,8 @@ public partial class Vehicle
 
     public string Info => $"{Brand} {Model} {Year}, {Color}";
 
+    public string FullInfo => $"{Brand} {Model} {Year}, {Color}. ВИН: {Vin}";
+
     public string BrandModel => $"{Brand} {Model}";
 
     public sbyte Used { get; set; }
@@ -37,8 +39,12 @@ public partial class Vehicle
 
     public string UsedValueString => Used switch
     {
-        1 => "Нет",
         0 => "Да",
+        1 => "Нет",
         _ => "NULL VALUE"
     };
+
+    public string OwnerFIAndPassport =>
+        Applications?.SingleOrDefault(a => a.Certificates?.Any(c => c.IsActive == 0) == true)?.Owner?.FIpassport
+        ?? "Отсутствует";
 }

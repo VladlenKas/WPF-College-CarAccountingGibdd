@@ -5,10 +5,88 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CarAccountingGibdd.Pages.PagesInspector"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="VehiclePageInspector">
+          
+      d:Width="1000" d:Height="450"
+      d:Background="{StaticResource Background.Window.Brush}"
+      xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters">
 
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <!-- Область параметров -->
+        <DockPanel DockPanel.Dock="Top"
+                   Margin="0 0 0 35"
+                   LastChildFill="False">
+
+            <Grid>
+                <TextBox Width="360"
+                         MinWidth="150"
+                         Name="searchTB"
+                         Tag="Поиск"
+                         MaxLength="70"
+                         ToolTip="Нажмите на значок поиска для обновления данных"/>
+
+                <Button Name="searchBTN"
+                        HorizontalAlignment="Right"
+                        Tag="Search"
+                        Style="{StaticResource Button.Icon.Transperent}"/>
+            </Grid>
+
+            <ComboBox Style="{StaticResource ComboBox.Filter}"
+                      Margin="10 0"
+                      Name="filterCB"
+                      Tag="Фильтр"/>
+
+            <ComboBox Style="{StaticResource ComboBox.Sorter}"
+                      Name="sorterCB"
+                      Tag="Сортировка"/>
+
+            <CheckBox Style="{StaticResource CheckBox.Ascending}"
+                      Margin="5 0 10 0"
+                      Name="ascendingCHB"/>
+
+            <Button Name="resetFiltersBTN"
+                    Style="{StaticResource Button.Icon.Medium}"
+                    Content="Очистить все"
+                    Tag="restore"
+                    ToolTip="Сброс фильтров"/>
+        </DockPanel>
+
+        <!-- Область вывода информации -->
+        <Grid>
+
+            <!-- Контент -->
+            <Grid>
+                <!-- Контент -->
+                <DataGrid Name="itemsDG">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ВИН" Binding="{Binding Vin}"/>
+                        <DataGridTextColumn Header="Номерной знак" Binding="{Binding LicensePlate, TargetNullValue='Отсутствует'}"/>
+                        <DataGridTextColumn Header="Марка" Binding="{Binding Brand}"/>
+                        <DataGridTextColumn Header="Модель" Binding="{Binding Model}"/>
+                        <DataGridTextColumn Header="Цвет" Binding="{Binding Color}"/>
+                        <DataGridTextColumn Header="Год выпуска" Binding="{Binding Year, StringFormat={}{0} г.}"/>
+                        <DataGridTextColumn Header="Б/У" Binding="{Binding UsedValueString}"/>
+                        <DataGridTextColumn Header="ФИ, паспорт владельца" Binding="{Binding OwnerFIAndPassport, Mode=OneWay}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                    <Setter Property="MaxWidth" Value="130"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Text="Данные о транспортных средствах отсутствуют"
+                          Style="{StaticResource TextBlock.H6}"
+                          FontSize="18"
+                          Margin="20 80 0 0"
+                          Visibility="{Binding Items.Count, ElementName=itemsDG, 
+                          Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
+
+            </Grid>
+
+        </Grid>
+
+    </DockPanel>
+
 </Page>

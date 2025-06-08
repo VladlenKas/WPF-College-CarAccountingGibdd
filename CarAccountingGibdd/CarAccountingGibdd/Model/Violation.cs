@@ -9,6 +9,8 @@ public partial class Violation
 
     public string Description { get; set; } = null!;
 
+    public string NumberDescription => $"(№{ViolationId}) {Description}";
+
     public sbyte Deleted { get; set; }
 
     public virtual ICollection<ViolationInspection> ViolationInspections { get; set; } = new List<ViolationInspection>();

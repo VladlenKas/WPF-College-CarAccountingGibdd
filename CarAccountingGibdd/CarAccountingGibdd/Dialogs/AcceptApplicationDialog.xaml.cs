@@ -43,23 +43,44 @@ namespace CarAccountingGibdd.Dialogs
             _application = application;
             _inspector = inspector;
 
-            List<DateTime> days = GetNext30DaysList();
-            dateCB.ItemsSource = days;
+            FillAvailableDates();
         }
 
         // Методы
-        private static List<DateTime> GetNext30DaysList()
+        private void FillAvailableDates()
         {
-            List<DateTime> dateList = new List<DateTime>();
-            DateTime currentDate = DateTime.Today;
-
-            // Заполняем лист датами на месяц вперед
-            for (int i = 0; i < 30; i++)
+            List<TimeSpan> timeSlots = new List<TimeSpan>
             {
-                dateList.Add(currentDate.AddDays(i));
+                new TimeSpan(10, 0, 0),
+                new TimeSpan(12, 0, 0),
+                new TimeSpan(14, 0, 0),
+                new TimeSpan(16, 0, 0)
+            };
+
+            var allDates = Enumerable.Range(0, 30)
+                .Select(offset => DateTime.Today.AddDays(offset))
+                .ToList();
+
+            var availableDates = new List<DateTime>();
+
+            foreach (var date in allDates)
+            {
+                var bookedSlots = App.DbContext.Inspections
+                    .Where(i => i.InspectorId == _inspector.EmployeeId)
+                    .Where(r => r.DatetimePlanned.Date == date.Date)
+                    .Select(r => r.DatetimePlanned.TimeOfDay)
+                    .ToList();
+
+                bool hasFreeSlot = timeSlots.Any(slot =>
+                    date.Date.Add(slot) > DateTime.Now && // Исключаем прошедшие слоты
+                    !bookedSlots.Contains(slot)
+                );
+
+                if (hasFreeSlot)
+                    availableDates.Add(date);
             }
 
-            return dateList;
+            dateCB.ItemsSource = availableDates;
         }
 
         private void VisibleTimeComboBox()
@@ -101,9 +122,10 @@ namespace CarAccountingGibdd.Dialogs
 
                 // Фильтруем доступные слоты
                 List<DateTime> availableSlots = allSlots
-                    .Where(slot => !bookedSlots.Any(booked =>
-                        booked.TimeOfDay == slot.TimeOfDay ||
-                        slot < DateTime.Now)) // Сравниваем только время
+                    .Where(slot =>
+                        slot > DateTime.Now && // Исключаем прошедшие слоты
+                        !bookedSlots.Any(booked => booked.TimeOfDay == slot.TimeOfDay)
+                    )
                     .ToList();
 
                 // Отображаем слоты либо выводим предупреждение
@@ -114,12 +136,6 @@ namespace CarAccountingGibdd.Dialogs
                 }
                 else
                 {
-                    MessageBox.Show("На выбранный день отсутствуют свободные слоты. Пожалуйста, выберите другой",
-                        "Предупреждение",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-
-                    dateCB.SelectedIndex = -1;
                     timeCB.Visibility = Visibility.Collapsed; // Прячем комбобокс со слотами 
                 } 
             }

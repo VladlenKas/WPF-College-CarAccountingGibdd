@@ -162,7 +162,7 @@
                         <TextBlock DockPanel.Dock="Top"
                                     Margin="0 0 0 12"
                                     TextWrapping="Wrap">
-                            <Run Text="Пользованный:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="Б/У:" Style="{StaticResource Run.Subtitle}"/>
                             <Run Text="{Binding Vehicle.UsedValueString, Mode=OneWay}"
                                     Style="{StaticResource Run.Description}"/>
                         </TextBlock>
@@ -232,7 +232,7 @@
                                    Margin="0 0 0 24"
                                    TextWrapping="Wrap">
                             <Run Text="Департамент:" Style="{StaticResource Run.Subtitle}"/>
-                            <Run Text="{Binding DepartmentId, Mode=OneWay, StringFormat={}№{0}}"
+                            <Run Text="{Binding DepartmentId, Mode=OneWay}"
                                  Style="{StaticResource Run.Description}"/>
                         </TextBlock>
 

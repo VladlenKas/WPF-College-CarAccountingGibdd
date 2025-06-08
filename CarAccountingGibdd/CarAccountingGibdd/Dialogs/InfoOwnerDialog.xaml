@@ -1,4 +1,4 @@
-﻿<Window x:Class="CarAccountingGibdd.Dialogs.InfoViolationsInspectionDialog"
+﻿<Window x:Class="CarAccountingGibdd.Dialogs.InfoOwnerDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
       
         xmlns:cnvrt="clr-namespace:CarAccountingGibdd.Classes.Converters"
         
-        Title="Список нарушений ТС" 
+        Title="Транспортные средства владельца" 
         SizeToContent="Height"
         MinHeight="700"
         MinWidth="600" Width="600"
@@ -23,11 +23,10 @@
 
                 <!-- Заголовок -->
                 <TextBlock Style="{StaticResource TextBlock.H2}"
-                       DockPanel.Dock="Top"
-                       Margin="0 0 0 24"
+                           DockPanel.Dock="Top"
+                           Margin="0 0 0 24"
                            TextWrapping="Wrap">
-                <Run Text="Документ по выявленным нарушениям в ходе проведения инспекции ТС"/>
-                <Run Text="{Binding Inspection.InspectionId, StringFormat={}№{0}}"/>
+                <Run Text="Просмотр транспортных средств"/>
                 </TextBlock>
 
                 <Grid>
@@ -38,49 +37,44 @@
                                    Grid.Column="0"
                                    LastChildFill="False">
 
-                            <!-- Описание владельца -->
+                            <!-- Владелец -->
                             <TextBlock Style="{StaticResource TextBlock.H3}"
                                        DockPanel.Dock="Top"
                                        Foreground="{StaticResource Text.Primary.Brush}"
-                                       Text="Данные по заявке и осмотру"
-                                       Margin="0 0 0 18"/>
+                                       Margin="0 0 0 18"
+                                       Text="Владелец:"/>
 
                             <TextBlock DockPanel.Dock="Top"
                                        Margin="0 0 0 12"
                                        TextWrapping="Wrap">
-                                <Run Text="Заявка:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Inspection.ApplicationId, StringFormat={}№{0}}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
-
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 12"
-                                       TextWrapping="Wrap">
-                                <Run Text="Инспекция:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Inspection.InspectionId, StringFormat={}№{0}}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
-
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 24"
-                                       TextWrapping="Wrap">
-                                <Run Text="Дата составления документа:" Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Inspection.DatetimeCompleted, StringFormat={}{0:dd.MM.yyyy}}"
-                                     Style="{StaticResource Run.Description}"/>
-                            </TextBlock>
-
-                            <TextBlock Style="{StaticResource TextBlock.H3}"
-                                       DockPanel.Dock="Top"
-                                       Foreground="{StaticResource Text.Primary.Brush}"
-                                       Text="Выявленные нарушения:"
-                                       Margin="0 0 0 18"/>
-
-                            <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 24"
-                                       TextWrapping="Wrap">
-                                <Run Text="{Binding Counter, Mode=OneWay}"
+                                <Run Text="ФИО:"
                                      Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding ViolationsList, Mode=OneWay}"
+                                <Run Text="{Binding Fullname, Mode=OneWay}"
+                                     Style="{StaticResource Run.Description}"/>
+                            </TextBlock>
+                            
+                            <TextBlock DockPanel.Dock="Top"
+                                       Margin="0 0 0 24"
+                                       TextWrapping="Wrap">
+                                <Run Text="Номер телефона:"
+                                     Style="{StaticResource Run.Subtitle}"/>
+                                <Run Text="{Binding Phone, Mode=OneWay}"
+                                     Style="{StaticResource Run.Description}"/>
+                            </TextBlock>
+
+                            <!-- ТС -->
+                            <TextBlock Style="{StaticResource TextBlock.H3}"
+                                       DockPanel.Dock="Top"
+                                       Foreground="{StaticResource Text.Primary.Brush}"
+                                       Text="Транспортные средства:"
+                                       Margin="0 0 0 18"/>
+
+                            <TextBlock DockPanel.Dock="Top"
+                                       Margin="0 0 0 24"
+                                       TextWrapping="Wrap">
+                                <Run Text="{Binding SequenceNumberVehicle, Mode=OneWay}"
+                                     Style="{StaticResource Run.Subtitle}"/>
+                                <Run Text="{Binding VehiclesList, Mode=OneWay}"
                                      Style="{StaticResource Run.Description}"/>
                             </TextBlock>
                         </DockPanel>

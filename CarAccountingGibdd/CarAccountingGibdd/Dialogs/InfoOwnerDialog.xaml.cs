@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarAccountingGibdd.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +11,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CarAccountingGibdd.Pages.PagesInspector
+namespace CarAccountingGibdd.Dialogs
 {
     /// <summary>
-    /// Логика взаимодействия для EmployeePageInspector.xaml
+    /// Логика взаимодействия для InfoOwnerDialog.xaml
     /// </summary>
-    public partial class EmployeePageInspector : Page
+    public partial class InfoOwnerDialog : Window
     {
-        public EmployeePageInspector()
+        public InfoOwnerDialog(Owner owner)
         {
             InitializeComponent();
+            DataContext = owner;
         }
+        private void ExitBTN_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

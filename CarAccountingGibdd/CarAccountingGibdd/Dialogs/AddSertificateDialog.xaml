@@ -63,7 +63,7 @@
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
-                    <Run Text="Новый регистрационный знак:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="Новый номерной знак:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding NewLicensePlate, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>

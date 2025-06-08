@@ -42,55 +42,49 @@ namespace CarAccountingGibdd.Windows
         }
 
         // Обработчики событий
-        private void ApplicationRButton_Checked(object sender, RoutedEventArgs e)
+        private void ApplicationPageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new ApplicationPageInspector(_inspector));
             titlePage.Text = "Заявки";
         }
         
-        private void InspectionRButton_Checked(object sender, RoutedEventArgs e)
+        private void InspectionPageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new InspectionPageInspector(_inspector));
             titlePage.Text = "Осмотры";
         }
-        
-        private void OwnerRButton_Checked(object sender, RoutedEventArgs e)
+
+        private void ViolationPageRB_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new OwnerPageAdmin());
+            CurrentPage.Navigate(new ViolationsPageInspector());
+            titlePage.Text = "Нарушения";
+        }
+
+        private void OwnerPageRB_Checked(object sender, RoutedEventArgs e)
+        {
+            CurrentPage.Navigate(new OwnerPageInspector());
             titlePage.Text = "Владельцы";
         }
 
-        private void VehicleRButton_Checked(object sender, RoutedEventArgs e)
+        private void VehiclePageRB_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new VehiclePageAdmin());
+            CurrentPage.Navigate(new VehiclePageInspector());
             titlePage.Text = "Автомобили";
         }
-
-        private void EmployeeRButton_Checked(object sender, RoutedEventArgs e)
-        {
-            CurrentPage.Navigate(new EmployeePageAdmin());
-            titlePage.Text = "Сотрудники";
-        }
         
-        private void ValitionRButton_Checked(object sender, RoutedEventArgs e)
+        private void ViolationInspectionPageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new ViolationsInspectionsPageInspector());
             titlePage.Text = "Списки нарушений";
         }
 
-        private void DepartmentRButton_Checked(object sender, RoutedEventArgs e)
-        {
-            CurrentPage.Navigate(new DepartmentPageAmdin());
-            titlePage.Text = "Департаменты";
-        }
-        
-        private void CertificateRButton_Checked(object sender, RoutedEventArgs e)
+        private void CertificatePageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new CertificatePageInspector(_inspector));
             titlePage.Text = "Свидетельства";
         }
 
-        private void ExitRButton_Checked(object sender, RoutedEventArgs e)
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
             AuthWindow window = new();
             window.Show();
