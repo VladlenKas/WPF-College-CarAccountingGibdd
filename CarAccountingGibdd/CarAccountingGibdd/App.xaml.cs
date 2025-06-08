@@ -17,5 +17,4 @@ namespace CarAccountingGibdd
         private static readonly GibddContext _instance = new GibddContext();
         public static GibddContext DbContext => _instance;
     }
-
 }

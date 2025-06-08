@@ -20,10 +20,26 @@ namespace CarAccountingGibdd.Dialogs
     /// </summary>
     public partial class InfoOwnerDialog : Window
     {
+        private int counter = 1;
+        public string SequenceNumberVehicle
+        {
+            get
+            {
+                if (Owner.VehiclesList.Length > 0)
+                    return $"{counter++}.";
+                else
+                    return string.Empty;
+            }
+        }
+
+        public new Owner Owner { get; set; }
+
         public InfoOwnerDialog(Owner owner)
         {
             InitializeComponent();
-            DataContext = owner;
+
+            Owner = owner;
+            DataContext = this;
         }
         private void ExitBTN_Click(object sender, RoutedEventArgs e) => this.Close();
     }

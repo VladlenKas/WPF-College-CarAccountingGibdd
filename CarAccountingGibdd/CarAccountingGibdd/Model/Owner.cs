@@ -30,21 +30,18 @@ public partial class Owner
 
     public sbyte Deleted { get; set; }
 
-    public string? SequenceNumberVehicle { get; set; }
-
     public string VehiclesList
     {
         get
         {
             var vehiclesList = new StringBuilder();
-            int counter = 1;
 
+            // Находим все автомобили, которые связаны с текущим владельцем
             Applications?
                 .Where(a => a.Certificates?.Any(c => c.IsActive == 0) == true)?
                 .ToList()
                 .ForEach(a =>
                 {
-                    SequenceNumberVehicle = $"{counter++}.";
                     vehiclesList.AppendLine(a.Vehicle.FullInfo);
                 });
 

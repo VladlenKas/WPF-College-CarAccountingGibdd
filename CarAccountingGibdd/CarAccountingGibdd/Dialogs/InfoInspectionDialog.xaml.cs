@@ -29,7 +29,7 @@ namespace CarAccountingGibdd.Dialogs
             if (inspection.StatusId == 3) // Если инспекция прошла осмотр
             {
                 titleInfoDocumentTB.Text = "Номер сертификата:";
-                infoDocumentTB.Text = $"№{inspection.Application.Certificates.Single().CertificateId}";
+                infoDocumentTB.Text = $"{inspection.Application.Certificates.Single().CertificateId}";
             }
             else if (inspection.StatusId == 4 || inspection.StatusId == 5) // Если инспекция не прошла осмотр
             {
