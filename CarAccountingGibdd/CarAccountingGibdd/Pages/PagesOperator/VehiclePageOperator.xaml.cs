@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,39 @@ namespace CarAccountingGibdd.Pages.PagesOperator
         public VehiclePageOperator()
         {
             InitializeComponent();
+
+            // Фильтры
+            UpdateIC();
+        }
+
+        // Методы
+        private void UpdateIC()
+        {
+            var owners = App.DbContext.Vehicles.ToList();
+
+            // Фильтры
+            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
+            orders = _orderDataService.ApplyFilter(orders);
+            orders = _orderDataService.ApplySort(orders);
+            orders = _orderDataService.ApplySearch(orders);*/
+
+            itemsDG.ItemsSource = null;
+            itemsDG.ItemsSource = owners;
+        }
+
+        // Обработчики событий
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            // Редактирование
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            AddVehicleDialog dialog = new();
+            ComponentsHelper.ShowDialogWindowDark(dialog);
+
+            bool saved = dialog.Saved;
+            if (saved) UpdateIC();
         }
     }
 }

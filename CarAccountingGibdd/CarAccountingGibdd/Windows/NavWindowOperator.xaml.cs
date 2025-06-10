@@ -1,4 +1,5 @@
 ﻿using CarAccountingGibdd.Model;
+using CarAccountingGibdd.Pages.PagesInspector;
 using CarAccountingGibdd.Pages.PagesOperator;
 using System;
 using System.Collections.Generic;
@@ -40,31 +41,43 @@ namespace CarAccountingGibdd.Windows
         }
 
         // Обработчики событий
-        private void ApplicationRButton_Checked(object sender, RoutedEventArgs e)
+        private void ApplicationPageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new ApplicationPageOperator(_operator));
             titlePage.Text = "Заявки";
         }
 
-        private void OwnerRButton_Checked(object sender, RoutedEventArgs e)
+        private void InspectionPageRB_Checked(object sender, RoutedEventArgs e)
+        {
+            CurrentPage.Navigate(new InspectionPageOperator(_operator));
+            titlePage.Text = "Осмотры";
+        }
+
+        private void OwnerPageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new OwnerPageOperator());
             titlePage.Text = "Владельцы";
         }
 
-        private void VehicleRButton_Checked(object sender, RoutedEventArgs e)
+        private void VehiclePageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new VehiclePageOperator());
             titlePage.Text = "Автомобили";
         }
 
-        private void EmployeeRButton_Checked(object sender, RoutedEventArgs e)
+        private void ViolationInspectionPageRB_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new EmployeePageOperator());
-            titlePage.Text = "Сотрудники";
+            CurrentPage.Navigate(new ViolationsInspectionsPageOperator(_operator));
+            titlePage.Text = "Списки нарушений";
         }
 
-        private void ExitRButton_Checked(object sender, RoutedEventArgs e)
+        private void CertificatePageRB_Checked(object sender, RoutedEventArgs e)
+        {
+            CurrentPage.Navigate(new CertificatePageOperator(_operator));
+            titlePage.Text = "Свидетельства";
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
             AuthWindow window = new();
             window.Show();

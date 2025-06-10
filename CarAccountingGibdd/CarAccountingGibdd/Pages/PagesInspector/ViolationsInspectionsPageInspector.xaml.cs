@@ -22,11 +22,16 @@ namespace CarAccountingGibdd.Pages.PagesInspector
     /// Логика взаимодействия для ViolationsInspectionsPageInspector.xaml
     /// </summary>
     public partial class ViolationsInspectionsPageInspector : Page
-    {        
-        public ViolationsInspectionsPageInspector()
+    {
+        // Поля
+        private Employee _inspector;
+
+        // Конструктор
+        public ViolationsInspectionsPageInspector(Employee inspector)
         {
             InitializeComponent();
 
+            _inspector = inspector;
             // Фильтры
             UpdateIC();
         }

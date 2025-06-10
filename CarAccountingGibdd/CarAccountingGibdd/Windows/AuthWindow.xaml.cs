@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CarAccountingGibdd.Classes.Services;
+using CarAccountingGibdd.Dialogs;
 
 namespace CarAccountingGibdd
 {
@@ -34,7 +35,7 @@ namespace CarAccountingGibdd
 
         // Методы
         private Employee? Authenticate(string login, string password)
-         {
+        {
             return App.DbContext.Employees.SingleOrDefault(r =>
                 r.Login == login && r.Password == password);
         }

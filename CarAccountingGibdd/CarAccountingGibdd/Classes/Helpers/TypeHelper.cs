@@ -9,7 +9,7 @@ namespace CarAccountingGibdd.Classes
 {
     public static class TypeHelper
     {
-        // Преобразовывает текст в дату либо возвращает 0
+        // Преобразовывает текст в дату либо возвращает мин. значение
         public static DateOnly DateOnlyParse(string str)
         {
             try

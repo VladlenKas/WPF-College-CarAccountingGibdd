@@ -56,7 +56,7 @@ namespace CarAccountingGibdd.Windows
 
         private void ViolationPageRB_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new ViolationsPageInspector());
+            CurrentPage.Navigate(new ViolationsPageInspector(_inspector));
             titlePage.Text = "Нарушения";
         }
 
@@ -74,7 +74,7 @@ namespace CarAccountingGibdd.Windows
         
         private void ViolationInspectionPageRB_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new ViolationsInspectionsPageInspector());
+            CurrentPage.Navigate(new ViolationsInspectionsPageInspector(_inspector));
             titlePage.Text = "Списки нарушений";
         }
 

@@ -16,7 +16,7 @@
         <DataTemplate x:Key="Button.DataGrid">
             <StackPanel Orientation="Horizontal">
                 <Button Style="{StaticResource Button.Icon.Small}"
-                        Tag="InfoOutline"
+                        Tag="CarInfo"
                         Click="CarInfo_Click"
                         ToolTip="Просмотреть список ТС"/>
             </StackPanel>
@@ -90,7 +90,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTemplateColumn Header="ТС владельца" CellTemplate="{StaticResource Button.DataGrid}"/>
+                        <DataGridTemplateColumn CellTemplate="{StaticResource Button.DataGrid}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

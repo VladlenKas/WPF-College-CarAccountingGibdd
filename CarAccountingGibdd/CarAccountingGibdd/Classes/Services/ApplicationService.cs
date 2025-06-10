@@ -179,7 +179,7 @@ namespace CarAccountingGibdd.Classes.Services
             }
 
             // Проверка на изменения 
-            bool noChanges = application != null &&
+            bool noChanges = 
                 application.OwnerId == _owner.OwnerId &&
                 application.VehicleId == _vehicle.VehicleId;
 
@@ -199,14 +199,12 @@ namespace CarAccountingGibdd.Classes.Services
             // Проверки на пустые поля
             bool nullFields = _owner == null || _vehicle == null || _paymentMethod == -1 || (_paymentMethod == 0 && _bankName == null);
             bool nullPay = _paymentMethod == 1 && _change < 0;
-
             if (nullFields)
             {
                 MessageHelper.MessageNullFields();
                 return false;
             }
-
-            if (nullPay)
+            else if (nullPay)
             {
                 MessageHelper.MessageNullCost();
                 return false;
@@ -216,7 +214,6 @@ namespace CarAccountingGibdd.Classes.Services
             bool hasActiveApplication = App.DbContext.Applications.Any(r =>
                 (r.Vehicle.VehicleId == _vehicle.VehicleId) &&
                 (r.ApplicationStatusId != 5 && r.ApplicationStatusId != 6 && r.ApplicationStatusId != 7));
-
             if (hasActiveApplication)
             {
                 MessageHelper.MessageActiveApplication();
@@ -228,7 +225,6 @@ namespace CarAccountingGibdd.Classes.Services
                 r.Application.OwnerId == _owner.OwnerId &&
                 r.Application.VehicleId == _vehicle.VehicleId &&
                 r.IsActive == 0);
-
             if (hasCertificate)
             {
                 MessageHelper.MessageCerrentSertificate();
@@ -239,7 +235,6 @@ namespace CarAccountingGibdd.Classes.Services
             bool hasOtherOwner = App.DbContext.Certificates.Any(r =>
                 r.Application.VehicleId == _vehicle.VehicleId &&
                 r.IsActive == 0);
-
             if (hasOtherOwner)
             {
                 MessageHelper.MessageCerrentOwner();

@@ -1,4 +1,5 @@
-﻿using CarAccountingGibdd.Model;
+﻿using CarAccountingGibdd.Controls;
+using CarAccountingGibdd.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +15,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CarAccountingGibdd.Pages.PagesInspector
+namespace CarAccountingGibdd.Pages.PagesOperator
 {
     /// <summary>
-    /// Логика взаимодействия для ViolationsPageInspector.xaml
+    /// Логика взаимодействия для ViolationsInspectionsPageOperator.xaml
     /// </summary>
-    public partial class ViolationsPageInspector : Page
+    public partial class ViolationsInspectionsPageOperator : Page
     {
         // Поля
-        private Employee _inspector;
+        private Employee _operator;
 
         // Конструктор
-        public ViolationsPageInspector(Employee inspector)
+
+        public ViolationsInspectionsPageOperator(Employee @operator)
         {
             InitializeComponent();
 
-            _inspector = inspector;
+            _operator = @operator;
             // Фильтры
             UpdateIC();
         }
@@ -37,7 +39,9 @@ namespace CarAccountingGibdd.Pages.PagesInspector
         // Методы
         private void UpdateIC()
         {
-            var owners = App.DbContext.Violations.ToList();
+            var violationsInspections = App.DbContext.ViolationInspection
+                .GroupBy(r => r.InspectionId)
+                .ToList();
 
             // Фильтры
             /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
@@ -45,8 +49,11 @@ namespace CarAccountingGibdd.Pages.PagesInspector
             orders = _orderDataService.ApplySort(orders);
             orders = _orderDataService.ApplySearch(orders);*/
 
-            itemsDG.ItemsSource = null;
-            itemsDG.ItemsSource = owners;
+            cardsIC.Items.Clear();
+            foreach (var violationsInspection in violationsInspections)
+            {
+                cardsIC.Items.Add(new ViolationsInspectionCard(violationsInspection));
+            }
         }
     }
 }

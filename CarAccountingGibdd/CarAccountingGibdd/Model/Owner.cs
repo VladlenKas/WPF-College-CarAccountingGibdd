@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Text;
 
 namespace CarAccountingGibdd.Model;
@@ -35,14 +36,15 @@ public partial class Owner
         get
         {
             var vehiclesList = new StringBuilder();
+            int counter = 1;
 
             // Находим все автомобили, которые связаны с текущим владельцем
             Applications?
                 .Where(a => a.Certificates?.Any(c => c.IsActive == 0) == true)?
                 .ToList()
-                .ForEach(a =>
-                {
-                    vehiclesList.AppendLine(a.Vehicle.FullInfo);
+            .ForEach(a =>
+            {
+                    vehiclesList.AppendLine($"{counter++}. {a.Vehicle.FullInfo}");
                 });
 
             if (vehiclesList.Length > 0)

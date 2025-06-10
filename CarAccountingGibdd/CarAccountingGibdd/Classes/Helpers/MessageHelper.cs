@@ -9,78 +9,116 @@ namespace CarAccountingGibdd.Classes
 {
     public static class MessageHelper
     {
-        #region Предупреждения | уведомления
-        // Предупреждение о пустых полях
-        public static void MessageNullFields()
+        // Область предупреждений | уведомлений
+
+        private static void ShowWarning(string message) => 
+            MessageBox.Show(message, "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+        public static void MessageNullFields() =>
+            ShowWarning("Заполните все поля!");
+
+        public static void MessageShortFio() =>
+            ShowWarning("Фамилия имя и отчество должны содержать минимум 3 символа!");
+
+        public static void MessageNullDate() =>
+            ShowWarning("Дата рождения должна соответствовать формату «dd.MM.yyyy»!");
+
+        public static void MessageInappropriateAge() =>
+            ShowWarning("Возраст должен быть в промежутке от 18 до 85 лет включительно!");
+
+        public static void MessageShortPhone() =>
+            ShowWarning("Номер телефона должен содержать 11 цифр!");
+
+        public static void MessageShortPassport() =>
+            ShowWarning("Серия и номера паспорта должны содержать 10 цифр!");
+
+        public static void MessageShortAddress() =>
+            ShowWarning("Адрес должен содержать минимум 10 символов!");
+
+        public static void MessageDuplicatePhone() =>
+            ShowWarning("Такой номер телефона уже существует! Введите другой");
+
+        public static void MessageDuplicatePassport() =>
+            ShowWarning("Такие серия и номер паспорта уже существуют! Введите другие");
+
+        public static void MessageNullViolations() =>
+            ShowWarning("Выберите минимум 1 нарушение!");
+
+        public static void MessageNullCost() =>
+            ShowWarning("Данных средств недостаточно для оплаты гос. пошлины!\nПожалуйста, укажите другую сумму");
+
+        public static void MessageActiveApplication() =>
+            ShowWarning("В настоящее время выбранное транспортное средство уже имеет действующую заявку. " +
+                "Гражданин не может подавать сразу несколько заявок на одно транспортное средство");
+
+        public static void MessageCerrentSertificate() =>
+            ShowWarning("Данный владелец уже имеет действующее свидетельство о регистрации ТС. " +
+                "Нельзя выдавать несколько сертификатов одному владельцу");
+
+        public static void MessageCerrentOwner() =>
+            ShowWarning("Данное транспортное средство уже имеет владельца и свидетельство о регистрации ТС. Подать заявку невозможно");
+
+        public static void MessageNotChanges() =>
+            MessageBox.Show("Вы не внесли изменений", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        // Область подтверждений
+        private static bool ConfirmAction(string confirmationMessage, string successMessage)
         {
-            MessageBox.Show($"Заполните все поля!",
-                "Предупреждение",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            string title = "Подтверждение";
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxImage icon = MessageBoxImage.Question;
+
+            var result = MessageBox.Show(confirmationMessage, title, button, icon);
+            if (result == MessageBoxResult.Yes)
+            {
+                MessageBox.Show(successMessage, "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                return true;
+            }
+            return false;
         }
 
-        // Предупреждение о пустых полях
-        public static void MessageNullViolations()
-        {
-            MessageBox.Show($"Выберите минимум 1 нарушение!",
-                "Предупреждение",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
-        }
+        public static bool ConfirmSave() =>
+            ConfirmAction("Вы уверены, что все поля заполнены верно?", "Добавление прошло успешно");
 
-        // Предупреждение о пустой или нулевой цене
-        public static void MessageNullCost()
-        {
-            MessageBox.Show($"Данных средств недостаточно для оплаты гос. пошлины!" +
-                $"\nПожалуйста, укажите другую сумму",
-                "Предупреждение",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
-        }
+        public static bool ConfirmEdit() =>
+            ConfirmAction("Вы уверены, что все поля заполнены верно?", "Изменение прошло успешно");
 
-        // Предупреждение о пустых полях
-        public static void MessageActiveApplication()
-        {
-            MessageBox.Show($"В настоящее время выбранное транспортное средство уже имеет" +
-                $" действующую заявку. Гражданин не может подавать сразу несколько" +
-                $" заявок на одно транспортное средство",
-                "Предупреждение",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
-        }
+        public static bool ConfirmSaveApplication() =>
+            ConfirmAction(
+                "Вы уверены, что заполнили все поля верно? После одобрения заявки внести изменения будет НЕВОЗМОЖНО!",
+                "Формирование заявки прошло успешно");
 
-        // Предупреждение о пустых полях
-        public static void MessageCerrentSertificate()
-        {
-            MessageBox.Show($"Данный владелец уже имеет действующее свидетельство" +
-                $" о регистрации ТС. Нельзя выдавать несколько сертификатов одному владельцу",
-                "Предупреждение",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
-        }
+        public static bool ConfirmEditApplication() =>
+            ConfirmAction(
+                "Вы уверены, что заполнили все поля верно? После одобрения заявки внести изменения будет НЕВОЗМОЖНО!",
+                "Редактирование заявки прошло успешно");
 
-        // Предупреждение о пустых полях
-        public static void MessageCerrentOwner()
-        {
-            MessageBox.Show($"Данное транспортное средство уже имеет владельца и" +
-                $" свидетельство о регистрации ТС. Подать заявку невозможно",
-                "Предупреждение",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
-        }
+        public static bool ConfirmRejectApplication() =>
+            ConfirmAction(
+                "Вы уверены, что хотите отклонить заявку? Данное действие отменить НЕВОЗМОЖНО!",
+                "Заявка октлонена успешно");
 
-        // Сообщение о том, что изменения не были внесены
-        public static void MessageNotChanges()
-        {
-            MessageBox.Show($"Вы не внесли изменений",
-                "Уведомление",
-                MessageBoxButton.OK,
-                MessageBoxImage.Question);
-        }
-        #endregion
+        public static bool ConfirmApplication() =>
+            ConfirmAction(
+                "Вы уверены, что хотите подтвердить заявку? После данного действия заявка будет доступна для проведения инспекции ТС!",
+                "Заявка подтверждена успешно");
 
-        #region Подтверждения
-        // Вызывает сообщение с подтверждением о выходе/закрытии окна
+        public static bool ConfirmAcceptApplication() =>
+            ConfirmAction(
+                "Вы уверены, что хотите принять заявку? После данного действия будут запланированы дата и время для проведения инспекции, которую необходимо будет провести! В случае неявки гражданина, заявка и инспекция будут автоматически анулированы",
+                "Заявка на проведение инспекции принята успешно");
+
+        public static bool ConfirmRejectInspection() =>
+            ConfirmAction(
+                "Вы уверены, что хотите отменить запланированный осмотр? Данное действие отменить НЕВОЗМОЖНО!",
+                "Осмотр отменен успешно");
+
+        public static bool ConfirmStartInspection() =>
+            ConfirmAction(
+                "Вы уверены, что хотите начать проведение осмотра?",
+                "Проведение инспекции начато успешно");
+
+        // Другое
         public static void ConfirmExit(Window window)
         {
             var resultChanged = MessageBox.Show("Вы действительно хотите выйти?",
@@ -94,227 +132,6 @@ namespace CarAccountingGibdd.Classes
             }
         }
 
-        // Подтверждение добавления
-        public static bool ConfirmSave()
-        {
-            var resultChanged = MessageBox.Show("Вы уверены, что все поля заполнены верно?",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (resultChanged == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Добавление прошло успешно",
-                    "Успех",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static bool ConfirmEdit()
-        {
-            var resultChanged = MessageBox.Show("Вы уверены, что все поля заполнены верно?",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (resultChanged == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Изменение прошло успешно",
-                    "Успех",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        // Подтверждение добавления ЗАЯВКИ
-        public static bool ConfirmSaveApplication()
-        {
-            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно? " +
-                "После одобрения заявки внести изменения будет НЕВОЗМОЖНО!",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (resultChanged == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Формирование заявки прошло успешно",
-                    "Успех",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        // Подтверждение редактирования ЗАЯВКИ
-        public static bool ConfirmEditApplication()
-        {
-            var resultChanged = MessageBox.Show("Вы уверены, что заполнили все поля верно? " +
-                "После одобрения заявки внести изменения будет НЕВОЗМОЖНО!",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (resultChanged == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Редактирование заявки прошло успешно",
-                    "Успех",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        // Подтверждение отклонения ЗАЯВКИ
-        public static bool ConfirmRejectApplication()
-        {
-            var resultChanged = MessageBox.Show("Вы уверены, что хотите отклонить заявку? " +
-                "Данное действие отменить НЕВОЗМОЖНО!",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (resultChanged == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Заявка октлонена успешно",
-                    "Успех",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        
-        // Подтверждение подтверждения ЗАЯВКИ
-        public static bool ConfirmApplication()
-        {
-            var resultChanged = MessageBox.Show("Вы уверены, что хотите подтвердить заявку? " +
-                "После данного действия заявка будет доступна для проведения инспекции ТС!",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (resultChanged == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Заявка подтверждена успешно",
-                    "Успех",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        // Подтверждение принятия ЗАЯВКИ на проведение инспекции 
-        public static bool ConfirmAcceptApplication()
-        {
-            var resultChanged = MessageBox.Show("Вы уверены, что хотите принять заявку? " +
-                "После данного действия будут запланированы дата и время для проведения инспекции, " +
-                "которую необходимо будет провести! В случае неявки гражданина, заявка и инспекция " +
-                "будут автоматически анулированы",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (resultChanged == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Заявка на проведение инспекции принята успешно",
-                    "Успех",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
-        // Подтверждение отмены ИНСПЕКЦИИ
-        public static bool ConfirmRejectInspection()
-        {
-            var resultChanged = MessageBox.Show("Вы уверены, что хотите отменить запланированный осмотр? " +
-                "Данное действие отменить НЕВОЗМОЖНО!",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (resultChanged == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Осмотр отменен успешно",
-                    "Успех",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
-        // Начало проведения ОСМОТРА
-        public static bool ConfirmStartInspection()
-        {
-            var resultChanged = MessageBox.Show("Вы уверены, что хотите начать проведение осмотра?",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (resultChanged == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Проведение инспекции начато успешно",
-                    "Успех",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        #endregion
-
-        #region Да / Нет выборка
-
-        // Начало проведения ОСМОТРА
         public static bool GetResultInspection()
         {
             var resultChanged = MessageBox.Show("Инспекция прошла успешно?",
@@ -331,7 +148,5 @@ namespace CarAccountingGibdd.Classes
                 return false;
             }
         } 
-
-        #endregion
     }
 }

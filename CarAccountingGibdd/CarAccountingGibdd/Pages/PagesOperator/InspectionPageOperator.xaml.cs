@@ -1,4 +1,6 @@
-﻿using CarAccountingGibdd.Model;
+﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Controls;
+using CarAccountingGibdd.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +16,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CarAccountingGibdd.Pages.PagesInspector
+namespace CarAccountingGibdd.Pages.PagesOperator
 {
     /// <summary>
-    /// Логика взаимодействия для ViolationsPageInspector.xaml
+    /// Логика взаимодействия для InspectionPageOperator.xaml
     /// </summary>
-    public partial class ViolationsPageInspector : Page
+    public partial class InspectionPageOperator : Page
     {
-        // Поля
-        private Employee _inspector;
+        //  Поля и свойства 
+        private Employee _operator;
 
-        // Конструктор
-        public ViolationsPageInspector(Employee inspector)
+        public InspectionPageOperator(Employee @operator)
         {
             InitializeComponent();
 
-            _inspector = inspector;
+            _operator = @operator;
             // Фильтры
             UpdateIC();
         }
@@ -37,7 +38,7 @@ namespace CarAccountingGibdd.Pages.PagesInspector
         // Методы
         private void UpdateIC()
         {
-            var owners = App.DbContext.Violations.ToList();
+            var inspections = App.DbContext.Inspections.ToList();
 
             // Фильтры
             /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
@@ -45,8 +46,12 @@ namespace CarAccountingGibdd.Pages.PagesInspector
             orders = _orderDataService.ApplySort(orders);
             orders = _orderDataService.ApplySearch(orders);*/
 
-            itemsDG.ItemsSource = null;
-            itemsDG.ItemsSource = owners;
+            cardsIC.Items.Clear();
+            foreach (var inspection in inspections)
+            {
+                var card = new InspectionCard(inspection, _operator);
+                cardsIC.Items.Add(card);
+            }
         }
     }
 }

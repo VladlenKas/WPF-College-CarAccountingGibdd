@@ -66,9 +66,15 @@ namespace CarAccountingGibdd.Dialogs
             // Формирование 
             applicationService.Create();
 
+            // Закрываем
+            Close();
+
+            // Показываем окно загрузки оплаты
+            MessageLoadingDialog dialog = new MessageLoadingDialog();
+            ComponentsHelper.ShowDialogWindowDark(dialog);
+
             // Смена флажка о сохранении
             Saved = true;
-            Close();
         }
 
         private int AmountChanged()

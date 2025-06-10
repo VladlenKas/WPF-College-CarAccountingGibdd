@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\GifLoadCat.gif" />
     <None Remove="Resources\LogoGibdd.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="5.1.0" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.14">
@@ -21,9 +21,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\GifLoadCat.gif" />
     <Resource Include="Resources\IconGibdd.ico" />
     <Resource Include="Resources\LogoGibdd.png" />
   </ItemGroup>

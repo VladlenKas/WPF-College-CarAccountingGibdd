@@ -49,7 +49,7 @@
                                        TextWrapping="Wrap">
                                 <Run Text="ФИО:"
                                      Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Owner.Fullname, Mode=OneWay}"
+                                <Run Text="{Binding Fullname, Mode=OneWay}"
                                      Style="{StaticResource Run.Description}"/>
                             </TextBlock>
                             
@@ -58,7 +58,7 @@
                                        TextWrapping="Wrap">
                                 <Run Text="Номер телефона:"
                                      Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Owner.Phone, Mode=OneWay}"
+                                <Run Text="{Binding Phone, Mode=OneWay}"
                                      Style="{StaticResource Run.Description}"/>
                             </TextBlock>
 
@@ -72,9 +72,7 @@
                             <TextBlock DockPanel.Dock="Top"
                                        Margin="0 0 0 24"
                                        TextWrapping="Wrap">
-                                <Run Text="{Binding SequenceNumberVehicle, Mode=OneWay}"
-                                     Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Owner.VehiclesList, Mode=OneWay}"
+                                <Run Text="{Binding VehiclesList, Mode=OneWay}"
                                      Style="{StaticResource Run.Description}"/>
                             </TextBlock>
                         </DockPanel>

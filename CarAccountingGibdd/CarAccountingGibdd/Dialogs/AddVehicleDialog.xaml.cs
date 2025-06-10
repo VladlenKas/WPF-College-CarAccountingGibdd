@@ -1,5 +1,4 @@
-﻿using CarAccountingGibdd.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,16 +15,17 @@ using System.Windows.Shapes;
 namespace CarAccountingGibdd.Dialogs
 {
     /// <summary>
-    /// Логика взаимодействия для InfoOwnerDialog.xaml
+    /// Логика взаимодействия для AddVehicleDialog.xaml
     /// </summary>
-    public partial class InfoOwnerDialog : Window
+    public partial class AddVehicleDialog : Window
     {
-        public InfoOwnerDialog(Owner owner)
+        // Поля и свойства
+        public bool Saved { get; private set; } // Флаг сохранения
+
+        // Конструктор
+        public AddVehicleDialog()
         {
             InitializeComponent();
-
-            DataContext = owner;
         }
-        private void ExitBTN_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

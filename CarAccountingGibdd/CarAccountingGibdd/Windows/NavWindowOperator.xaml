@@ -34,47 +34,76 @@
                                Text="Управление &#x0a;ГИБДД"/>
                 </StackPanel>
 
+
                 <!-- Основные операции -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
-                           Text="Рабочий процесс"/>
+                           Text="Рабочий процесс"
+                           Margin="0 0 0 10"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Name="applicationRB"
                              Content="Заявки"
                              Tag="listBoxOutline"
                              GroupName="navItems"
-                             Margin="0 5"
-                             Checked="ApplicationRButton_Checked"/>
+                             Margin="0 0 0 5"
+                             Checked="ApplicationPageRB_Checked"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Осмотры"
+                             Tag="carSearchOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 20"
+                             Checked="InspectionPageRB_Checked"/>
 
                 <!-- Справочные данные -->
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
-                           Text="Справочники"/>
+                           Text="Справочники"
+                           Margin="0 0 0 10"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Владельцы"
                              Tag="userOutline"
                              GroupName="navItems"
-                             Margin="0 5"
-                             Checked="OwnerRButton_Checked"/>
+                             Margin="0 0 0 5"
+                             Checked="OwnerPageRB_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Автомобили"
                              Tag="carOutline"
                              GroupName="navItems"
+                             Margin="0 0 0 20"
+                             Checked="VehiclePageRB_Checked"/>
+
+                <!-- Отчеты -->
+                <TextBlock Style="{StaticResource TextBlock.Subtitle}"
+                           Foreground="#ffffff"
+                           Text="Документы"
+                           Margin="0 0 0 10"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Списки нарушений"
+                             Tag="InvoiceTextRemoveOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="ViolationInspectionPageRB_Checked"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Свидетельства"
+                             Tag="CardAccountDetailsOutline"
+                             GroupName="navItems"
                              Margin="0 0 0 10"
-                             Checked="VehicleRButton_Checked"/>
+                             Checked="CertificatePageRB_Checked"/>
 
                 <Separator Background="#ffffff"
                            Margin="0 0 0 10"/>
 
-                <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Выйти"
-                             Tag="logout"
-                             GroupName="navItems"
-                             Margin="0 0 0 10"
-                             Checked="ExitRButton_Checked"/>
+                <Button Style="{StaticResource Button.Navigator}"
+                        Content="Выйти"
+                        Tag="logout"
+                        Margin="0 0 0 10"
+                        Click="Exit_Click"/>
             </StackPanel>
         </Grid>
 

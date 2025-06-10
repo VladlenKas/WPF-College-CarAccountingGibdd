@@ -49,7 +49,6 @@
                     Tag="restore"
                     ToolTip="Сброс фильтров"/>
 
-
             <Button Style="{StaticResource Button.Primary.Icon}"
                     DockPanel.Dock="Right"
                     MinWidth="200"

@@ -48,6 +48,17 @@ namespace CarAccountingGibdd.Controls
         // Свойства
         private void DifferentiationFunctionality()
         {
+            // Разграничение по должностям
+            int post = _employee.PostId;
+
+            if (post == 3) // Если оператор
+            {
+                infoBTN.Visibility = System.Windows.Visibility.Visible;
+                Opacity = 0.5;
+
+                return;
+            }
+
             // Разграничиваем функционал по статусам
             int status = _inspection.StatusId;
 

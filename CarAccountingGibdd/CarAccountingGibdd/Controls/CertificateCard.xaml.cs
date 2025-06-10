@@ -31,6 +31,11 @@ namespace CarAccountingGibdd.Controls
         {
             InitializeComponent();
 
+            if (certificate.IsActive == 1)
+            {
+                this.Opacity = 0.5;
+            }
+
             _certificate = certificate;
             DataContext = certificate;
         }
