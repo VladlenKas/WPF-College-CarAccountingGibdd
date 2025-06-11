@@ -433,8 +433,6 @@ public partial class GibddContext : DbContext
 
             entity.ToTable("vehicle");
 
-            entity.HasIndex(e => e.LicensePlate, "license_plate_UNIQUE").IsUnique();
-
             entity.HasIndex(e => e.VehicleTypeId, "vehicle_type_id_idx");
 
             entity.HasIndex(e => e.Vin, "vin_UNIQUE").IsUnique();

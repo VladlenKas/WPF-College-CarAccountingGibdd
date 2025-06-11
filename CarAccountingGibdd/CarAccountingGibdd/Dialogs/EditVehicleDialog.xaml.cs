@@ -4,7 +4,6 @@ using CarAccountingGibdd.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,22 +18,35 @@ using System.Windows.Shapes;
 namespace CarAccountingGibdd.Dialogs
 {
     /// <summary>
-    /// Логика взаимодействия для AddVehicleDialog.xaml
+    /// Логика взаимодействия для EditVehicleDialog.xaml
     /// </summary>
-    public partial class AddVehicleDialog : Window
+    public partial class EditVehicleDialog : Window
     {
-        // Поля и свойства
+        // Свойства
         public bool Saved { get; private set; } // Флаг сохранения
 
+        // Поля
+        private Vehicle _vehicle;
+
         // Конструктор
-        public AddVehicleDialog()
+        public EditVehicleDialog(Vehicle vehicle)
         {
             InitializeComponent();
 
             typeCB.ItemsSource = App.DbContext.VehicleTypes.ToList();
+
+            vinTB.Text = vehicle.Vin;
+            licensePlateTB.Text = vehicle.LicensePlate;
+            markaTB.Text = vehicle.Brand;
+            modelTB.Text = vehicle.Model;
+            yearTB.Text = vehicle.Year.ToString();
+            colorTB.Text = vehicle.Color;
+            typeCB.SelectedItem = vehicle.VehicleType;
+
+            _vehicle = vehicle;
         }
 
-        private void AddVehicle()
+        private void UpdateVehicle()
         {
             // Получаем данные для добавления
             string vin = vinTB.Text;
@@ -49,15 +61,15 @@ namespace CarAccountingGibdd.Dialogs
             VehicleService service = new VehicleService(vin, brand, model, year, color, licensePlate, type);
 
             // Проверка
-            bool notError = service.Check();
+            bool notError = service.Check(_vehicle);
             if (!notError) return;
 
             // Подтверждение
-            bool accept = MessageHelper.ConfirmSave();
+            bool accept = MessageHelper.ConfirmEdit();
             if (!accept) return;
 
             // Формирование
-            service.Add();
+            service.Update(_vehicle);
 
             // Закрываем и сменяем флажок 
             Saved = true;
@@ -67,6 +79,6 @@ namespace CarAccountingGibdd.Dialogs
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) => AddVehicle();
+        private void Add_Click(object sender, RoutedEventArgs e) => UpdateVehicle();
     }
 }

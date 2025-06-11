@@ -33,7 +33,7 @@
             <!-- Подзаголовок -->
             <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                        Margin="0 0 0 24"
-                       Text="Внимательно проверьте поля и подтвердите добавление. Обязательно заполните все данные!"
+                       Text="Внимательно проверьте поля и подтвердите изменения. Обязательно заполните все данные!"
                        Foreground="{StaticResource Text.Secondary.Brush}"
                        DockPanel.Dock="Top"/>
 

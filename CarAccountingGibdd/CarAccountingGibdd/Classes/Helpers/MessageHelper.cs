@@ -14,6 +14,9 @@ namespace CarAccountingGibdd.Classes
         private static void ShowWarning(string message) => 
             MessageBox.Show(message, "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
 
+        public static void MessageUniversal(string message) =>
+            ShowWarning(message);
+
         public static void MessageNullFields() =>
             ShowWarning("Заполните все поля!");
 
@@ -40,6 +43,12 @@ namespace CarAccountingGibdd.Classes
 
         public static void MessageDuplicatePassport() =>
             ShowWarning("Такие серия и номер паспорта уже существуют! Введите другие");
+        
+        public static void MessageDuplicateVin() =>
+            ShowWarning("Такой ВИН уже существует у другого ТС! Введите другой");
+        
+        public static void MessageDuplicateLicensePlate() =>
+            ShowWarning("такой номерной знак уже существует у другого ТС! Введите другой");
 
         public static void MessageNullViolations() =>
             ShowWarning("Выберите минимум 1 нарушение!");
@@ -57,6 +66,14 @@ namespace CarAccountingGibdd.Classes
 
         public static void MessageCerrentOwner() =>
             ShowWarning("Данное транспортное средство уже имеет владельца и свидетельство о регистрации ТС. Подать заявку невозможно");
+
+        public static void MessageInvalidLicensePlate() =>
+            ShowWarning("Неверный формат номерного знака!\nНомерной знак должен содержать ровно 6 символов, " +
+                "состоящих из заглавных букв кириллицы и цифр\nПример корректного номерного знака: А671КВ");
+        
+        public static void MessageInvalidVin() =>
+            ShowWarning("Неверный формат VIN-кода!\nVIN должен содержать ровно 17 символов, " +
+                "состоящих из заглавных латинских букв(кроме I, O и Q) и цифр\nПример корректного VIN: 1HGCM82633A004352");
 
         public static void MessageNotChanges() =>
             MessageBox.Show("Вы не внесли изменений", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -117,6 +134,12 @@ namespace CarAccountingGibdd.Classes
             ConfirmAction(
                 "Вы уверены, что хотите начать проведение осмотра?",
                 "Проведение инспекции начато успешно");
+        
+        public static bool ConfirmDetachOwner() =>
+            ConfirmAction(
+                "Вы уверены, что хотите отвязать ТС от текущего владельца? " +
+                "Раннее действительное свидетельство станет неактуальным!",
+                "ТС успешно отвязан от текущего владельца!");
 
         // Другое
         public static void ConfirmExit(Window window)

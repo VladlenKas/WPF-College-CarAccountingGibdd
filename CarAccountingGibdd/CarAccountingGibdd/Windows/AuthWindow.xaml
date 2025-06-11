@@ -20,22 +20,22 @@
 
             <TextBlock Style="{StaticResource TextBlock.H1}"
                        Text="Вход в аккаунт"
-                       Padding="0 0 0 28"
+                       Padding="0 0 0 18"
                        DockPanel.Dock="Top"/>
 
             <TextBlock Style="{StaticResource TextBlock.H6}"
                        TextWrapping="Wrap"
                        Text="Добро пожаловать в систему управления ГИБДД!"
-                       Margin="0 0 0 40"
+                       Margin="0 0 0 24"
                        DockPanel.Dock="Top"/>
 
-            <TextBox Margin="0 0 0 20"
+            <TextBox Margin="0 0 0 12"
                      Tag="Логин"
                      Name="loginTB"
                      DockPanel.Dock="Top"/>
 
             <Grid DockPanel.Dock="Top"
-                  Margin="0 0 0 20">
+                  Margin="0 0 0 12">
 
                 <TextBox Tag="Пароль"
                          Visibility="Hidden"
@@ -57,7 +57,7 @@
                     DockPanel.Dock="Bottom"/>
 
             <Button Content="Войти"
-                    Margin="0 0 0 20"
+                    Margin="0 0 0 12"
                     Click="Login_Click"
                     Style="{StaticResource Button.Primary}"
                     DockPanel.Dock="Bottom"/>

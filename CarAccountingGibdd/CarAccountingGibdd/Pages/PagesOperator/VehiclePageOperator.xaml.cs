@@ -1,5 +1,7 @@
 ﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Dialogs;
+using CarAccountingGibdd.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,9 +48,35 @@ namespace CarAccountingGibdd.Pages.PagesOperator
         }
 
         // Обработчики событий
+        private void DetachOwner_Click(object sender, RoutedEventArgs e)
+        {
+            var vehicle = itemsDG.SelectedItem as Vehicle;
+
+            if (vehicle.Owner == null)
+            {
+                MessageHelper.MessageUniversal("У данного ТС нет владельца!");
+                return;
+            }
+            
+            if (vehicle.Owner != null)
+            {
+                bool accept = MessageHelper.ConfirmDetachOwner();
+                if (!accept) return;
+
+                VehicleService.DetachOwner(vehicle);
+                UpdateIC();
+            }
+        }
+
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            // Редактирование
+            var vehicle = itemsDG.SelectedItem as Vehicle;
+
+            EditVehicleDialog dialog = new(vehicle);
+            ComponentsHelper.ShowDialogWindowDark(dialog);
+
+            bool saved = dialog.Saved;
+            if (saved) UpdateIC();
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)

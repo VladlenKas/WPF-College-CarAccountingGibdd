@@ -1,18 +1,18 @@
-﻿<Window x:Class="CarAccountingGibdd.Dialogs.AddVehicleDialog"
+﻿<Window x:Class="CarAccountingGibdd.Dialogs.EditVehicleDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarAccountingGibdd.Dialogs"
         mc:Ignorable="d"
-       
+      
         xmlns:behaviors="clr-namespace:CarAccountingGibdd.Classes.Behaviors"
         xmlns:components="clr-namespace:CarAccountingGibdd.Components"
         
         SizeToContent="Height"
         MinHeight="850"
         MinWidth="450" Width="450"
-        Title="Добавление нового ТС" 
+        Title="Редактирование данных ТС" 
         Style="{StaticResource Window.Ordinary}"
         WindowStartupLocation="CenterScreen">
 
@@ -27,13 +27,13 @@
                        DockPanel.Dock="Top"
                        Margin="0 0 0 16"
                        TextWrapping="Wrap">
-                <Run Text="Добавление &#x0a;транспортного средства"/>
+                <Run Text="Редактирование транспортного средства"/>
             </TextBlock>
 
             <!-- Подзаголовок -->
             <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                        Margin="0 0 0 24"
-                       Text="Внимательно проверьте поля и подтвердите добавление. Обязательно заполните все данные!"
+                       Text="Внимательно проверьте поля и подтвердите изменения. Обязательно заполните все данные!"
                        Foreground="{StaticResource Text.Secondary.Brush}"
                        DockPanel.Dock="Top"/>
 
@@ -57,21 +57,21 @@
                      Margin="0 0 0 12"
                      MaxLength="15"
                      behaviors:TextBoxValidationBehavior.ValidationType="Description"/>
-
+            
             <TextBox DockPanel.Dock="Top"
                      Name="modelTB"
                      Tag="Модель"
                      Margin="0 0 0 12"
                      MaxLength="15"
                      behaviors:TextBoxValidationBehavior.ValidationType="Description"/>
-
+            
             <TextBox DockPanel.Dock="Top"
                      Name="yearTB"
                      Tag="Год выпуска"
                      Margin="0 0 0 12"
                      MaxLength="4"
                      behaviors:TextBoxValidationBehavior.ValidationType="Numbers"/>
-
+            
             <TextBox DockPanel.Dock="Top"
                      Name="colorTB"
                      Tag="Цвет"

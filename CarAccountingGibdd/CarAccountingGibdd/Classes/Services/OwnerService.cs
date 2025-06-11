@@ -79,7 +79,7 @@ namespace CarAccountingGibdd.Classes.Services
         // Проверка
         public bool Check(Owner? owner = null)
         {
-            // Пустые поля
+            // Пустые поля  
             bool hasNullFields = new[] { _firstname, _lastname, _phone, _passport, _address }.Any(string.IsNullOrWhiteSpace);
             if (hasNullFields)
             {

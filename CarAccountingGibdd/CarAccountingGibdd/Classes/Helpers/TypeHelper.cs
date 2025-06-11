@@ -51,12 +51,12 @@ namespace CarAccountingGibdd.Classes
             }
         }
 
-        // Преобразовывает текст в short либо возвращает 0
+        // Преобразовывает текст в short либо возвращает -1
         public static short ShortParse(string str)
         {
             if (string.IsNullOrEmpty(str))
             {
-                return 0;
+                return -1;
             }
             else
             {

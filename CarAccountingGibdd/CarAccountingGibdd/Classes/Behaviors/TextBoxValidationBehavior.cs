@@ -66,6 +66,12 @@ namespace CarAccountingGibdd.Classes.Behaviors
                 case ValidationType.CyrillicAndNumbers:
                     Validations.ValidateInputCyrillicAndNumbers(e);
                     break;
+                case ValidationType.Vin:
+                    Validations.ValidateInputVin(e);
+                    break;
+                case ValidationType.LicensePlate:
+                    Validations.ValidateInputLicensePlate(e);
+                    break;
             }
         }
 
@@ -97,6 +103,12 @@ namespace CarAccountingGibdd.Classes.Behaviors
                 case ValidationType.CyrillicAndNumbers:
                     Validations.ValidatePasteCyrillicAndNumbers(e);
                     break;
+                case ValidationType.Vin:
+                    Validations.ValidatePasteVin(e);
+                    break;
+                case ValidationType.LicensePlate:
+                    Validations.ValidatePasteLicensePlate(e);
+                    break;
             }
         }
     }
@@ -110,6 +122,8 @@ namespace CarAccountingGibdd.Classes.Behaviors
         Password,
         Description,
         Weight,
-        CyrillicAndNumbers
+        CyrillicAndNumbers, 
+        Vin,
+        LicensePlate
     }
 }

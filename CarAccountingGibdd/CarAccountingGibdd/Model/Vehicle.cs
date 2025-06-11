@@ -8,7 +8,7 @@ public partial class Vehicle
     public int VehicleId { get; set; }
 
     public int VehicleTypeId { get; set; }
-
+        
     public string Vin { get; set; } = null!;
 
     public string Brand { get; set; } = null!;
@@ -37,6 +37,16 @@ public partial class Vehicle
 
     public virtual VehicleType VehicleType { get; set; } = null!;
 
+    // Владелец
+    public Owner? Owner => Applications?
+        .SingleOrDefault(a => a.Certificates?
+        .Any(c => c.IsActive == 0) == true)?
+        .Owner ?? null;
+
+    // Фи и пасспорт владельца
+    public string OwnerFIAndPassport =>
+        Owner?.FIpassport ?? "Отсутствует";
+
     public string UsedValueString => Used switch
     {
         0 => "Да",
@@ -44,7 +54,6 @@ public partial class Vehicle
         _ => "NULL VALUE"
     };
 
-    public string OwnerFIAndPassport =>
-        Applications?.SingleOrDefault(a => a.Certificates?.Any(c => c.IsActive == 0) == true)?.Owner?.FIpassport
-        ?? "Отсутствует";
+    public string LicensePlateValue =>
+        LicensePlate == string.Empty ? "Отсутствует" : LicensePlate;
 }

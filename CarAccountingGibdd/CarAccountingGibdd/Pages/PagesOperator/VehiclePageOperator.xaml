@@ -23,7 +23,7 @@
                 
                 <Button Style="{StaticResource Button.Icon.Small}"
                         Tag="LinkVariantOff"
-                        Click="Edit_Click"
+                        Click="DetachOwner_Click"
                         ToolTip="Отвязать ТС от текущего владельца"/>
             </StackPanel>
         </DataTemplate>
@@ -86,11 +86,19 @@
                 <DataGrid Name="itemsDG">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ВИН" Binding="{Binding Vin}"/>
-                        <DataGridTextColumn Header="Номерной знак" Binding="{Binding LicensePlate, TargetNullValue='Отсутствует'}"/>
+                        <DataGridTextColumn Header="Номерной знак" Binding="{Binding LicensePlateValue, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Марка" Binding="{Binding Brand}"/>
                         <DataGridTextColumn Header="Модель" Binding="{Binding Model}"/>
                         <DataGridTextColumn Header="Цвет" Binding="{Binding Color}"/>
                         <DataGridTextColumn Header="Год выпуска" Binding="{Binding Year, StringFormat={}{0} г.}"/>
+                        <DataGridTextColumn Header="Тип" Binding="{Binding VehicleType.Name}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                    <Setter Property="MaxWidth" Value="130"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="Б/У" Binding="{Binding UsedValueString}"/>
                         <DataGridTextColumn Header="ФИ, паспорт владельца" Binding="{Binding OwnerFIAndPassport, Mode=OneWay}">
                             <DataGridTextColumn.ElementStyle>

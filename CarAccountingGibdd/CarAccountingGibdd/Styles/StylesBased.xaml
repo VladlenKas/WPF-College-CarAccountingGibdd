@@ -1578,7 +1578,7 @@
         <Setter Property="Background" Value="{StaticResource Background.Control.Brush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource Border.Static.Brush}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="Foreground" Value="{StaticResource Text.Secondary.Brush}"/>
         <Setter Property="Width" Value="Auto"/>
         <Setter Property="Height" Value="48"/>
         <Setter Property="FontFamily" Value="SF Pro Text"/>
@@ -1645,14 +1645,14 @@
                                AllowsTransparency="True"
                                Placement="Bottom">
                             <Border x:Name="dropDownBorder"
-                                    Background="Transparent"
+                                    Background="{StaticResource Background.Control.Brush}"
                                     CornerRadius="10"
                                     Margin="0 4 0 0"
                                     BorderThickness="1"
                                     MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                     MinWidth="{TemplateBinding ActualWidth}"
-                                    BorderBrush="Transparent">
-                                <ScrollViewer>
+                                    BorderBrush="{StaticResource Border.Focused.Brush}">
+                                <ScrollViewer Style="{StaticResource ScrollViewer.Standart}">
                                     <ItemsPresenter/>
                                 </ScrollViewer>
                             </Border>

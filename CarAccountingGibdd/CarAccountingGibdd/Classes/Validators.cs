@@ -69,6 +69,22 @@ namespace CarAccountingGibdd.Classes
             ValidateInput(e, CyrillicAndNumbers());
         }
 
+        /// <summary>
+        /// Проверяет, что вводимый текст соответствует формату типа веса.
+        /// </summary>
+        public static void ValidateInputVin(TextCompositionEventArgs e)
+        {
+            ValidateInput(e, Vin());
+        }
+
+        /// <summary>
+        /// Проверяет, что вводимый текст соответствует формату номерного знака.
+        /// </summary>
+        public static void ValidateInputLicensePlate(TextCompositionEventArgs e)
+        {
+            ValidateInput(e, LicensePlate());
+        }
+
         #endregion
 
         #region Валидация на вставку текста
@@ -129,6 +145,21 @@ namespace CarAccountingGibdd.Classes
             ValidatePaste(e, Password());
         }
 
+        /// <summary>
+        /// Проверяет вставляемый текст на соответствие формату пароля.
+        /// </summary>
+        public static void ValidatePasteVin(DataObjectPastingEventArgs e)
+        {
+            ValidatePaste(e, Vin());
+        }
+        /// <summary>
+        /// Проверяет вставляемый текст на соответствие формату пароля.
+        /// </summary>
+        public static void ValidatePasteLicensePlate(DataObjectPastingEventArgs e)
+        {
+            ValidatePaste(e, LicensePlate());
+        }
+
         #endregion
 
         /// <summary>
@@ -174,6 +205,14 @@ namespace CarAccountingGibdd.Classes
         [GeneratedRegex(@"[а-яА-Я0-9]")]
         private static partial Regex CyrillicAndNumbers();
 
+        // Для ввода ВИН
+        [GeneratedRegex(@"[A-Z0-9]")]
+        private static partial Regex Vin();
+
+        // Номерной знак
+        [GeneratedRegex(@"[А-Я0-9]")]
+        private static partial Regex LicensePlate();
+
         // Описание
         [GeneratedRegex(@"[а-яА-Я0-9-().,;""':/]")]
         private static partial Regex Description();
@@ -182,7 +221,7 @@ namespace CarAccountingGibdd.Classes
         [GeneratedRegex(@"[a-zA-Z0-9\@\.]")]
         private static partial Regex Email();
 
-        // Цифры для веса содержмиого заказа
+        // Цифры для веса 
         [GeneratedRegex(@"[0-9\,]")]
         private static partial Regex Weight();
 
@@ -229,5 +268,17 @@ namespace CarAccountingGibdd.Classes
             }
             return true;
         }
+        
+        // Ограничение на валидность ВИН
+        public static bool ValidateCorrectVin(string vin)
+        {
+            var regex = new Regex(@"^[A-HJ-NPR-Z0-9]{17}$");
+            if (!regex.IsMatch(vin))
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }
