@@ -23,7 +23,7 @@ namespace CarAccountingGibdd
     public partial class AuthWindow : Window
     {
         // Поля и свойства
-        private string Login => loginTB.Text;
+        private string Email => emailTB.Text;
         private string Password => ComponentsHelper.GetPassword(PassPB, PassTB);
 
         // Конструктор
@@ -34,21 +34,21 @@ namespace CarAccountingGibdd
         }
 
         // Методы
-        private Employee? Authenticate(string login, string password)
+        private Employee? Authenticate(string email, string password)
         {
             return App.DbContext.Employees.SingleOrDefault(r =>
-                r.Login == login && r.Password == password);
+                r.Email == email && r.Password == password);
         }
 
         private void Auth()
         {
-            if (Login == string.Empty || Password == string.Empty)
+            if (Email == string.Empty || Password == string.Empty)
             {
                 MessageHelper.MessageNullFields();
                 return;
             }
 
-            var employee = Authenticate(Login, Password);
+            var employee = Authenticate(Email, Password);
 
             if (employee == null)
             {
@@ -68,18 +68,21 @@ namespace CarAccountingGibdd
 
                 switch (employee.PostId)
                 {
+                    // Админ
                     case 1:
                         NavWindowAdmin adminNavWindow = new(employee);
                         adminNavWindow.Show();
                         Close();
                         break;
 
+                    // Инспектор
                     case 2:
                         NavWindowInspector inspectorNavWindow = new(employee);
                         inspectorNavWindow.Show();
                         Close();
                         break;
 
+                    // Оператор
                     case 3:
                         NavWindowOperator operatorNavWindow = new(employee);
                         operatorNavWindow.Show();

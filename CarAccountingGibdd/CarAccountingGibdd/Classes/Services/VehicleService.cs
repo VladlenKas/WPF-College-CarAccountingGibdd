@@ -10,13 +10,13 @@ namespace CarAccountingGibdd.Classes.Services
     public class VehicleService
     {
         // Поля
-        private string _vin;
-        private string _brand;
-        private string _model;
-        private short _year;
-        private string _color;
-        private string _licensePlate;
-        private VehicleType _vehicleType;
+        private readonly string _vin;
+        private readonly string _brand;
+        private readonly string _model;
+        private readonly short _year;
+        private readonly string _color;
+        private readonly string _licensePlate;
+        private readonly VehicleType _vehicleType;
 
         // Контруктор
         public VehicleService(string vin, string brand, string model, string year, 

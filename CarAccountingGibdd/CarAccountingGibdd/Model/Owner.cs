@@ -23,6 +23,8 @@ public partial class Owner
 
     public DateOnly Birthdate { get; set; }
 
+    public string? Email { get; set; } 
+
     public string Passport { get; set; } = null!;
 
     public string Address { get; set; } = null!;
@@ -56,6 +58,8 @@ public partial class Owner
         }
     }
 
+    public string EmailValue =>
+        !string.IsNullOrEmpty(Email) ? Email : "Отсутствует";
 
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 }

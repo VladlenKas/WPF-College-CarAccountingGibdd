@@ -48,7 +48,10 @@ namespace CarAccountingGibdd.Classes
             ShowWarning("Такой ВИН уже существует у другого ТС! Введите другой");
         
         public static void MessageDuplicateLicensePlate() =>
-            ShowWarning("такой номерной знак уже существует у другого ТС! Введите другой");
+            ShowWarning("Такой номерной знак уже существует у другого ТС! Введите другой");
+
+        public static void MessageDuplicateEmail() =>
+            ShowWarning("Такая электронная почта уже существует! Введите другую");
 
         public static void MessageNullViolations() =>
             ShowWarning("Выберите минимум 1 нарушение!");
@@ -74,6 +77,11 @@ namespace CarAccountingGibdd.Classes
         public static void MessageInvalidVin() =>
             ShowWarning("Неверный формат VIN-кода!\nVIN должен содержать ровно 17 символов, " +
                 "состоящих из заглавных латинских букв(кроме I, O и Q) и цифр\nПример корректного VIN: 1HGCM82633A004352");
+
+        public static void MessageInvalidEmail() =>
+            ShowWarning("Неверный формат электронной почты!\nЭлектронная почта должна содержать символы «@», «.» и иметь домен от " +
+                "2-х до 4-х символов" +
+                "\nПример корректной электронной почты: employee2025@gmail.com");
 
         public static void MessageNotChanges() =>
             MessageBox.Show("Вы не внесли изменений", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);

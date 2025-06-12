@@ -80,6 +80,14 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
                         <DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthdate, StringFormat=dd.MM.yyyy}"/>
+                        <DataGridTextColumn Header="Эл. почта" Binding="{Binding EmailValue, Mode=OneWay}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                    <Setter Property="MaxWidth" Value="130"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}"/>
                         <DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
                         <DataGridTextColumn Header="Адрес" Binding="{Binding Address}">

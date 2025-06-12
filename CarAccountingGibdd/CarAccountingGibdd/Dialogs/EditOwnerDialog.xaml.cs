@@ -37,6 +37,7 @@ namespace CarAccountingGibdd.Dialogs
             lastnameTB.Text = owner.Lastname;
             patronymicTB.Text = owner.Patronymic;
             dateTB.DateText = owner.Birthdate.ToString();
+            emailTB.Text = owner.Email;
             phoneTB.PhoneNumber = owner.Phone;
             passportTB.Text = owner.Passport;
             addressTB.Text = owner.Address;
@@ -52,12 +53,13 @@ namespace CarAccountingGibdd.Dialogs
             string lastname = lastnameTB.Text;
             string patronymic = patronymicTB.Text;
             string birthdate = dateTB.DateText;
+            string email = emailTB.Text;
             string phone = phoneTB.PhoneNumber;
             string passport = passportTB.Text;
             string address = addressTB.Text;
 
             // Создаем экземпляр сервиса
-            OwnerService service = new OwnerService(firstname, lastname, patronymic, birthdate, phone, passport, address);
+            OwnerService service = new OwnerService(firstname, lastname, patronymic, birthdate, email, phone, passport, address);
 
             // Проверка
             bool notError = service.Check(_owner);

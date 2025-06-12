@@ -55,5 +55,5 @@ public partial class Vehicle
     };
 
     public string LicensePlateValue =>
-        LicensePlate == string.Empty ? "Отсутствует" : LicensePlate;
+        !string.IsNullOrEmpty(LicensePlate) ? LicensePlate : "Отсутствует";
 }

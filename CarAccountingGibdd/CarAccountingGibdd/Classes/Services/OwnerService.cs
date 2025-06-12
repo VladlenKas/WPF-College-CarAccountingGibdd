@@ -16,18 +16,20 @@ namespace CarAccountingGibdd.Classes.Services
         private readonly string _lastname;
         private readonly string _patronymic;
         private readonly DateOnly _birthdate;
+        private readonly string _email;
         private readonly string _phone;
         private readonly string _passport;
         private readonly string _address;
 
         // Конструктор 
         public OwnerService(string firstname, string lastname, string patronymic, 
-            string birthdate, string phone, string passport, string address)
+            string birthdate, string email, string phone, string passport, string address)
         {
             _firstname = firstname;
             _lastname = lastname;
             _patronymic = patronymic;
             _birthdate = TypeHelper.DateOnlyParse(birthdate);
+            _email = email;
             _phone = phone;
             _passport = passport;
             _address = address;
@@ -42,6 +44,7 @@ namespace CarAccountingGibdd.Classes.Services
                 Lastname = _lastname,
                 Patronymic = _patronymic,
                 Birthdate = _birthdate,
+                Email = _email,
                 Phone = _phone,
                 Passport = _passport,
                 Address = _address,
@@ -59,6 +62,7 @@ namespace CarAccountingGibdd.Classes.Services
             owner.Lastname = _lastname;
             owner.Patronymic = _patronymic;
             owner.Birthdate = _birthdate;
+            owner.Email = _email;
             owner.Phone = _phone;
             owner.Passport = _passport;
             owner.Address = _address;
@@ -111,6 +115,17 @@ namespace CarAccountingGibdd.Classes.Services
                 return false;
             }
 
+            // Валидность почты
+            if (!string.IsNullOrWhiteSpace(_email))
+            {
+                bool isValidEmail = Validations.ValidateCorrectEmail(_email);
+                if (!isValidEmail)
+                {
+                    MessageHelper.MessageInvalidEmail();
+                    return false;
+                } 
+            }
+
             // Длина телефона
             bool isShortPhone = _phone.Length != 11;
             if (isShortPhone)
@@ -138,6 +153,14 @@ namespace CarAccountingGibdd.Classes.Services
             // Если добавляем владельца
             if (owner == null)
             {
+                // Дубликат почты
+                bool isDublicateEmail = App.DbContext.Owners.Any(o => o.Email == _email);
+                if (isDublicateEmail)
+                {
+                    MessageHelper.MessageDuplicateEmail();
+                    return false;
+                }
+
                 // Дубликат телефона
                 bool isDublicatePhone = App.DbContext.Owners.Any(o => o.Phone == _phone);
                 if (isDublicatePhone)
@@ -158,6 +181,14 @@ namespace CarAccountingGibdd.Classes.Services
             // Если редактируем владельца
             if (owner != null)
             {
+                // Дубликат почты
+                bool isDublicateEmail = App.DbContext.Owners.Any(o => o.Email == _email && o.OwnerId != owner.OwnerId);
+                if (isDublicateEmail)
+                {
+                    MessageHelper.MessageDuplicateEmail();
+                    return false;
+                }
+
                 // Дубликат телефона
                 bool isDublicatePhone = App.DbContext.Owners.Any(o => o.Phone == _phone && o.OwnerId != owner.OwnerId);
                 if (isDublicatePhone)
@@ -178,8 +209,9 @@ namespace CarAccountingGibdd.Classes.Services
                 bool hasNotChanges =
                     owner.Firstname == _firstname &&
                     owner.Lastname == _lastname &&
-                    owner.Patronymic == _patronymic &&
+                    Validations.StringEqualsNullOrEmpty(owner.Patronymic, _patronymic) &&
                     owner.Birthdate == _birthdate &&
+                    Validations.StringEqualsNullOrEmpty(owner.Email, _email) &&
                     owner.Phone == _phone &&
                     owner.Passport == _passport &&
                     owner.Address == _address;

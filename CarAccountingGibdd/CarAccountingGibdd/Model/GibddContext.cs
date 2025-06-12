@@ -225,7 +225,7 @@ public partial class GibddContext : DbContext
 
             entity.HasIndex(e => e.DepartmentId, "department_id_idx");
 
-            entity.HasIndex(e => e.Login, "login_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.Email, "email_UNIQUE").IsUnique();
 
             entity.HasIndex(e => e.Passport, "passport_UNIQUE").IsUnique();
 
@@ -241,9 +241,9 @@ public partial class GibddContext : DbContext
             entity.Property(e => e.Lastname)
                 .HasMaxLength(45)
                 .HasColumnName("lastname");
-            entity.Property(e => e.Login)
-                .HasMaxLength(45)
-                .HasColumnName("login");
+            entity.Property(e => e.Email)
+                .HasMaxLength(90)
+                .HasColumnName("email");
             entity.Property(e => e.Passport)
                 .HasMaxLength(10)
                 .HasColumnName("passport");
@@ -332,6 +332,9 @@ public partial class GibddContext : DbContext
                 .HasMaxLength(120)
                 .HasColumnName("address");
             entity.Property(e => e.Birthdate).HasColumnName("birthdate");
+            entity.Property(e => e.Email)
+                .HasMaxLength(90)
+                .HasColumnName("email");
             entity.Property(e => e.Deleted).HasColumnName("deleted");
             entity.Property(e => e.Firstname)
                 .HasMaxLength(45)

@@ -280,5 +280,10 @@ namespace CarAccountingGibdd.Classes
             return true;
         }
 
+        // Проверка на пустые строки
+        public static bool StringEqualsNullOrEmpty(string? a, string? b)
+        {
+            return (a ?? "") == (b ?? "");
+        }
     }
 }

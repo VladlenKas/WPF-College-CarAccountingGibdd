@@ -54,14 +54,21 @@
             <TextBox DockPanel.Dock="Top"
                      Name="patronymicTB"
                      Tag="Отчество (при наличии)"
-                     Margin="0 0 0 24"
+                     Margin="0 0 0 12"
                      MaxLength="15"
                      behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
 
             <components:BindableDateBox DockPanel.Dock="Top"
                                         x:Name="dateTB"
                                         PlaceholderDate="Дата рождения"
-                                        Margin="0 0 0 12"/>
+                                        Margin="0 0 0 24"/>
+
+            <TextBox DockPanel.Dock="Top"
+                     Name="emailTB"
+                     Tag="Эл. почта (необязательно)"
+                     Margin="0 0 0 12"
+                     MaxLength="90"
+                     behaviors:TextBoxValidationBehavior.ValidationType="Email"/>
 
             <components:BindablePhoneBox DockPanel.Dock="Top"
                                          x:Name="phoneTB"
