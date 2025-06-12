@@ -369,9 +369,6 @@ public partial class GibddContext : DbContext
                 .HasPrecision(10, 2)
                 .HasColumnName("amount");
             entity.Property(e => e.ApplicationId).HasColumnName("application_id");
-            entity.Property(e => e.BankName)
-                .HasMaxLength(45)
-                .HasColumnName("bank_name");
             entity.Property(e => e.PaymentDatetime)
                 .HasColumnType("datetime")
                 .HasColumnName("payment_datetime");

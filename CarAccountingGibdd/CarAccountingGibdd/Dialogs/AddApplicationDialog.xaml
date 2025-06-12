@@ -69,9 +69,31 @@
                          behaviors:TextBoxValidationBehavior.ValidationType="Numbers"/>
 
                 <!-- Здесь область с комбобоксом при оплате безналом -->
-                <ComboBox Tag="Выберите банк"
-                          x:Name="bankPaymentCB"
-                          Visibility="Collapsed"/>
+                <DockPanel Name="cardPaymentDP"
+                           Visibility="Collapsed" 
+                           LastChildFill="False">
+                    
+                    <components:BindableCardNumberBox DockPanel.Dock="Top"
+                                                      x:Name="cardNumberTB"
+                                                      CardNumberPlaceholder="Номер карты"
+                                                      Margin="0 0 0 12"/>
+                    <Grid DockPanel.Dock="Top">
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <components:BindableCardDateBox Grid.Column="0"
+                                                        x:Name="cardDateTB"
+                                                        CardDatePlaceholder="Срок действия"/>
+                        <TextBox Grid.Column="2"
+                                 x:Name="cardCodeTB"
+                                 MaxLength="3"
+                                 Tag="CVV/CVC код"/>
+                    </Grid>
+                </DockPanel>
             </Grid>
 
             <TextBlock Text="Итого к оплате: 400 р. *"
@@ -79,8 +101,7 @@
                        Style="{StaticResource TextBlock.H6}"
                        Margin="0 0 0 4"/>
 
-            <TextBlock DockPanel.Dock="Top"
-                       Style="{StaticResource TextBlock.H6}">
+            <TextBlock DockPanel.Dock="Top" Style="{StaticResource TextBlock.H6}">
                 <Run Text="Сдача:" Style="{StaticResource Run.H6}"/>
                 <Run Text="{Binding ChangeForPayment}" Style="{StaticResource Run.H6}"/>
             </TextBlock>
@@ -98,7 +119,7 @@
             <Button Style="{StaticResource Button.Primary}"
                     DockPanel.Dock="Bottom"
                     Content="Сохранить"
-                    Margin="0 0 0 12"
+                    Margin="0 40 0 12"
                     Click="Add_Click"/>
 
         </DockPanel>

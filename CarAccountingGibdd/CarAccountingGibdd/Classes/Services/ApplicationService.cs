@@ -14,16 +14,16 @@ namespace CarAccountingGibdd.Classes.Services
         private readonly Vehicle _vehicle;
         private readonly int _paymentMethod;
         private readonly int _change;
-        private readonly string? _bankName;
+        private readonly Card? _card;
 
         // Конструктор для добавления
-        public ApplicationService(Owner owner, Vehicle vehicle, int paymentMethod, int change, string? bankName) 
+        public ApplicationService(Owner owner, Vehicle vehicle, int paymentMethod, int change, Card? card) 
         {
             _owner = owner;
             _vehicle = vehicle;
             _paymentMethod = paymentMethod;
             _change = change;
-            _bankName = bankName;
+            _card = card;
         }
 
         // Конструктор для редактирования
@@ -50,7 +50,6 @@ namespace CarAccountingGibdd.Classes.Services
             Payment payment = new()
             {
                 PaymentMethod = (sbyte)_paymentMethod,
-                BankName = _bankName,
                 ApplicationId = application.ApplicationId,
                 Amount = 400,
                 PaymentDatetime = DateTime.Now,
@@ -197,7 +196,7 @@ namespace CarAccountingGibdd.Classes.Services
         public bool Check()
         {
             // Проверки на пустые поля
-            bool nullFields = _owner == null || _vehicle == null || _paymentMethod == -1 || (_paymentMethod == 0 && _bankName == null);
+            bool nullFields = _owner == null || _vehicle == null || _paymentMethod == -1 || (_paymentMethod == 0 && _card == null);
             bool nullPay = _paymentMethod == 1 && _change < 0;
             if (nullFields)
             {
@@ -239,6 +238,17 @@ namespace CarAccountingGibdd.Classes.Services
             {
                 MessageHelper.MessageCerrentOwner();
                 return false;
+            }
+
+            // Проверка на ввод данных карты
+            if (_card != null)
+            {
+                bool isNumberCardCorrect = Validations.ValidateCardNumber(_card);
+                if (!isNumberCardCorrect)
+                {
+                    return false;
+                }
+
             }
 
             // Если ошибок нет, то возвращаем true

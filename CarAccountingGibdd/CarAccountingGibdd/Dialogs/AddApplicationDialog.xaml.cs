@@ -36,7 +36,6 @@ namespace CarAccountingGibdd.Dialogs
             ownerATB.ItemsSource = App.DbContext.Owners;
             vehicleATB.ItemsSource = App.DbContext.Vehicles;
             paymentCB.ItemsSource = new[] { "Безналичный", "Наличный" };
-            bankPaymentCB.ItemsSource = new[] { "Тинькофф", "Сбербанк", "Альфа-банк", "ВТБ", "Газпром" };
 
             DataContext = this;
             ChangeForPayment = "0 р.";
@@ -50,10 +49,26 @@ namespace CarAccountingGibdd.Dialogs
             Vehicle vehicle = (Vehicle)vehicleATB.SelectedItem;
             int index = paymentCB.SelectedIndex;
             int change = AmountChanged();
-            string? bank = index == 1 ? string.Empty : bankPaymentCB.SelectedValue?.ToString();
+            Card? card = null;
+
+            if (index == 0)
+            {
+                string? number = cardNumberTB.CardNumber;
+                int? month = cardDateTB.CardMonth;
+                int? year = cardDateTB.CardYear;
+                int code = TypeHelper.IntParse(cardCodeTB.Text);
+
+                card = new Card()
+                {
+                    Number = number,
+                    Month = month,
+                    Year = year,
+                    Code = code
+                };
+            }
 
             // Создание экземпляра сервиса для обработки заявки
-            ApplicationService applicationService = new(owner, vehicle, index, change, bank);
+            ApplicationService applicationService = new(owner, vehicle, index, change, card);
 
             // Проверка
             bool notError = applicationService.Check();
@@ -106,13 +121,13 @@ namespace CarAccountingGibdd.Dialogs
 
             if (index == 0)
             {
-                bankPaymentCB.Visibility = Visibility.Visible;
+                cardPaymentDP.Visibility = Visibility.Visible;
                 cashPaymentTB.Visibility = Visibility.Collapsed;
             }
 
             if (index == 1)
             {
-                bankPaymentCB.Visibility = Visibility.Collapsed;
+                cardPaymentDP.Visibility = Visibility.Collapsed;
                 cashPaymentTB.Visibility = Visibility.Visible;
             }
 

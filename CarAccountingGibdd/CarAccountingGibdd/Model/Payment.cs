@@ -13,8 +13,6 @@ public partial class Payment
 
     public sbyte PaymentMethod { get; set; }
 
-    public string? BankName { get; set; }
-
     public decimal Amount { get; set; }
 
     public DateTime PaymentDatetime { get; set; }
