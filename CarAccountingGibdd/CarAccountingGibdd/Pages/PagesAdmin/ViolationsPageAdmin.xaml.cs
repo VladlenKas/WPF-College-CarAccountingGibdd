@@ -19,19 +19,15 @@ using System.Windows.Shapes;
 namespace CarAccountingGibdd.Pages.PagesAdmin
 {
     /// <summary>
-    /// Логика взаимодействия для EmployeePageAdmin.xaml
+    /// Логика взаимодействия для ViolationsPageAdmin.xaml
     /// </summary>
-    public partial class EmployeePageAdmin : Page
+    public partial class ViolationsPageAdmin : Page
     {
-        // Поля
-        private Employee _admin;
-
         // Конструктор
-        public EmployeePageAdmin(Employee admin)
+        public ViolationsPageAdmin()
         {
             InitializeComponent();
 
-            _admin = admin;
             // Фильтры
             UpdateIC();
         }
@@ -39,7 +35,7 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
         // Методы
         private void UpdateIC()
         {
-            var employees = App.DbContext.Employees.ToList();
+            var owners = App.DbContext.Violations.ToList();
 
             // Фильтры
             /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
@@ -48,24 +44,18 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
             orders = _orderDataService.ApplySearch(orders);*/
 
             itemsDG.ItemsSource = null;
-            itemsDG.ItemsSource = employees;
+            itemsDG.ItemsSource = owners;
         }
 
         private void Delete()
         {
-            var employee = itemsDG.SelectedItem as Employee;
-            if (_admin.EmployeeId == employee.EmployeeId)
-            {
-                MessageHelper.MessageUniversal("Вы не можете удалить сами себя!");
-                return;
-            }
-
-            bool confirm = MessageHelper.ConfirmDeleteEmployee();
+            bool confirm = MessageHelper.ConfirmDeleteViolation();
             if (confirm)
             {
-                employee.Deleted = 1;
+                var violation = itemsDG.SelectedItem as Violation;
+                violation.Deleted = 1;
 
-                App.DbContext.Update(employee);
+                App.DbContext.Update(violation);
                 App.DbContext.SaveChanges();
 
                 UpdateIC();
@@ -75,9 +65,9 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
         // Обработчики событий
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            var employee = itemsDG.SelectedItem as Employee;
+            var violation = itemsDG.SelectedItem as Violation;
 
-            EditEmployeeDialog dialog = new(employee, _admin);
+            EditViolationDialog dialog = new(violation);
             ComponentsHelper.ShowDialogWindowDark(dialog);
 
             bool saved = dialog.Saved;
@@ -86,7 +76,7 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            AddEmployeeDialog dialog = new();
+            AddViolationDialog dialog = new();
             ComponentsHelper.ShowDialogWindowDark(dialog);
 
             bool saved = dialog.Saved;

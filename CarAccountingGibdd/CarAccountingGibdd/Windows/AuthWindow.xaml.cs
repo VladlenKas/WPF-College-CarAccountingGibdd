@@ -95,7 +95,18 @@ namespace CarAccountingGibdd
         // Обработчики событий
         private void Login_Click(object sender, RoutedEventArgs e) => Auth();
 
-        private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            var resultChanged = MessageBox.Show("Вы действительно хотите выйти?",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (resultChanged == MessageBoxResult.Yes)
+            {
+                System.Windows.Application.Current.Shutdown();
+            }
+        }
 
         private void VisibilityPassword_Click(object sender, RoutedEventArgs e) => ComponentsHelper.ToggleVisibility(sender, PassPB, PassTB);
 

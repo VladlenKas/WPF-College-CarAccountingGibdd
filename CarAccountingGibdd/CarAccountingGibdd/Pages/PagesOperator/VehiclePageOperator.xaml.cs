@@ -35,7 +35,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
         // Методы
         private void UpdateIC()
         {
-            var owners = App.DbContext.Vehicles.ToList();
+            var vehicles = App.DbContext.Vehicles.ToList();
                 
             // Фильтры
             /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
@@ -44,7 +44,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             orders = _orderDataService.ApplySearch(orders);*/
 
             itemsDG.ItemsSource = null;
-            itemsDG.ItemsSource = owners;
+            itemsDG.ItemsSource = vehicles;
         }
 
         // Обработчики событий

@@ -38,36 +38,43 @@
                 <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                            Foreground="#ffffff"
                            Text="Справочники"
-                           FontWeight="SemiBold"/>
-                
+                           Margin="0 0 0 10"/>
+
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Name="ownerRB"
+                             Content="Сотрудники"
+                             Tag="AccountTieHatOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="EmployeeRButton_Checked"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Департаменты"
+                             Tag="HomeCityOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="DepartmentRButton_Checked"/>
+                
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Нарушения"
+                             Tag="BookOpenOutline"
+                             GroupName="navItems"
+                             Margin="0 0 0 5"
+                             Checked="ViolationPageRB_Checked"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Владельцы"
                              Tag="userOutline"
                              GroupName="navItems"
-                             Margin="0 5"
+                             Margin="0 0 0 5"
                              Checked="OwnerRButton_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Content="Автомобили"
                              Tag="carOutline"
                              GroupName="navItems"
-                             Margin="0 0 0 5"
+                             Margin="0 0 0 20"
                              Checked="VehicleRButton_Checked"/>
-
-                <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Сотруники"
-                             Tag="AccountTieHatOutline"
-                             GroupName="navItems"
-                             Margin="0 0 0 5"
-                             Checked="EmployeeRButton_Checked"/>
-                
-                <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Департаменты"
-                             Tag="homeSiloOutline"
-                             GroupName="navItems"
-                             Margin="0 0 0 10"
-                             Checked="DepartmentRButton_Checked"/>
 
                 <Separator Background="#ffffff"
                            Margin="0 0 0 10"/>

@@ -1,0 +1,75 @@
+﻿<Window x:Class="CarAccountingGibdd.Dialogs.EditDepartmentsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CarAccountingGibdd.Dialogs"
+        mc:Ignorable="d"
+       
+        xmlns:behaviors="clr-namespace:CarAccountingGibdd.Classes.Behaviors"
+        xmlns:components="clr-namespace:CarAccountingGibdd.Components"
+        
+        SizeToContent="Height"
+        MinHeight="650"
+        MinWidth="450" Width="450"
+        Title="Редактирование департамента" 
+        Style="{StaticResource Window.Ordinary}"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Name="grid"
+          Margin="35">
+
+        <DockPanel LastChildFill="False"
+                   MaxWidth="450">
+
+            <!-- Заголовок -->
+            <TextBlock Style="{StaticResource TextBlock.H2}"
+                       DockPanel.Dock="Top"
+                       Margin="0 0 0 16"
+                       TextWrapping="Wrap">
+                <Run Text="Редактирование департамента"/>
+            </TextBlock>
+
+            <!-- Подзаголовок -->
+            <TextBlock Style="{StaticResource TextBlock.Subtitle}"
+                       Margin="0 0 0 24"
+                       Text="Внимательно проверьте поля и подтвердите добавление. Обязательно заполните все данные!"
+                       Foreground="{StaticResource Text.Secondary.Brush}"
+                       DockPanel.Dock="Top"/>
+
+            <TextBox DockPanel.Dock="Top"
+                     Name="nameTB"
+                     Tag="Название"
+                     Margin="0 0 0 12"
+                     MaxLength="40"
+                     behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
+
+            <components:BindablePhoneBox DockPanel.Dock="Top"
+                                         x:Name="phoneTB"
+                                         Placeholder="Номер телефона"
+                                         Margin="0 0 0 12"/>
+
+            <TextBox DockPanel.Dock="Top"
+                     Name="addressTB"
+                     Tag="Адрес"
+                     Margin="0 0 0 40"
+                     MaxLength="120"
+                     Height="102"
+                     behaviors:TextBoxValidationBehavior.ValidationType="Description"/>
+
+            <Button Style="{StaticResource Button.Ordinary}"
+                    DockPanel.Dock="Bottom"
+                    Content="Выйти"
+                    Click="Exit_Click"/>
+
+            <Button Style="{StaticResource Button.Primary}"
+                    DockPanel.Dock="Bottom"
+                    Content="Сохранить"
+                    Margin="0 0 0 12"
+                    Click="Add_Click"/>
+
+        </DockPanel>
+
+    </Grid>
+
+</Window>

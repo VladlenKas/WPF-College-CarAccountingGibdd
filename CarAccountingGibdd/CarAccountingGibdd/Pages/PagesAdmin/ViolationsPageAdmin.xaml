@@ -1,4 +1,4 @@
-﻿<Page x:Class="CarAccountingGibdd.Pages.PagesAdmin.EmployeePageAdmin"
+﻿<Page x:Class="CarAccountingGibdd.Pages.PagesAdmin.ViolationsPageAdmin"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:CarAccountingGibdd.Pages.PagesAdmin"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="1000"
-    
+      
       d:Width="1000" d:Height="450"
       d:Background="{StaticResource Background.Window.Brush}"
       xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters">
@@ -18,8 +18,8 @@
             <StackPanel Orientation="Horizontal">
                 <Button Style="{StaticResource Button.Icon.Small}"
                         Tag="EditOutline"
-                        Margin="0 0 12 0"
                         Click="Edit_Click"
+                        Margin="0 0 12 0"
                         ToolTip="Отредактировать"/>
 
                 <Button Style="{StaticResource Button.Icon.Small}"
@@ -29,7 +29,7 @@
             </StackPanel>
         </DataTemplate>
     </Page.Resources>
-
+    
     <DockPanel>
         <!-- Область параметров -->
         <DockPanel DockPanel.Dock="Top"
@@ -75,51 +75,30 @@
                     Content="Добавить"
                     Tag="add"
                     Click="Add_Click"/>
-
         </DockPanel>
 
         <!-- Область вывода информации -->
         <Grid>
-            <DataGrid Name="itemsDG">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fullname, Mode=OneWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="MaxWidth" Value="200"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthdate, StringFormat=dd.MM.yyyy}"/>
-                    <DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
-                    <DataGridTextColumn Header="Департамент" Binding="{Binding Department.Name}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="MaxWidth" Value="130"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Post.Name}"/>
-                    <DataGridTextColumn Header="Эл. почта" Binding="{Binding Email}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="MaxWidth" Value="130"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Пароль" Binding="{Binding Password}"/>
-                    <DataGridTemplateColumn CellTemplate="{StaticResource Button.DataGrid}"/>
-                </DataGrid.Columns>
-            </DataGrid>
 
-            <TextBlock Text="Данные о сотрудниках отсутствуют"
-                       Style="{StaticResource TextBlock.H6}"
-                       FontSize="18"
-                       Margin="20 80 0 0"
-                       Visibility="{Binding Items.Count, ElementName=itemsDG, 
-                       Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
+            <!-- Контент -->
+            <Grid>
+                <!-- Контент -->
+                <DataGrid Name="itemsDG">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Номер" Binding="{Binding ViolationId, StringFormat={}№{0}}"/>
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
+                        <DataGridTemplateColumn CellTemplate="{StaticResource Button.DataGrid}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Text="Данные о нарушениях отсутствуют"
+                          Style="{StaticResource TextBlock.H6}"
+                          FontSize="18"
+                          Margin="20 80 0 0"
+                          Visibility="{Binding Items.Count, ElementName=itemsDG, 
+                          Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
+
+            </Grid>
 
         </Grid>
 

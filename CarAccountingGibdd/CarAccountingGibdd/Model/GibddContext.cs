@@ -75,7 +75,8 @@ public partial class GibddContext : DbContext
         .AsSplitQuery(); // для оптимизации
 
     public IQueryable<Employee> Employees => AllEmployees
-        .Include(r => r.Post);
+        .Include(r => r.Post)
+        .Include(r => r.Department);
 
     public IQueryable<Department> Departments => AllDepartments
         .Include(r => r.Employees)

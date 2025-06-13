@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CarAccountingGibdd.Pages.PagesInspector;
 
 namespace CarAccountingGibdd.Windows
 {
@@ -55,7 +56,7 @@ namespace CarAccountingGibdd.Windows
         
         private void EmployeeRButton_Checked(object sender, RoutedEventArgs e)
         {
-            CurrentPage.Navigate(new EmployeePageAdmin());
+            CurrentPage.Navigate(new EmployeePageAdmin(_admin));
             titlePage.Text = "Сотрудники";
         }
         
@@ -64,7 +65,13 @@ namespace CarAccountingGibdd.Windows
             CurrentPage.Navigate(new DepartmentPageAmdin());
             titlePage.Text = "Департаменты";
         }
-        
+
+        private void ViolationPageRB_Checked(object sender, RoutedEventArgs e)
+        {
+            CurrentPage.Navigate(new ViolationsPageAdmin());
+            titlePage.Text = "Нарушения";
+        }
+
         private void ExitRButton_Checked(object sender, RoutedEventArgs e)
         {
             AuthWindow window = new();

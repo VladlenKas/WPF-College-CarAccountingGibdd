@@ -5,10 +5,104 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CarAccountingGibdd.Pages.PagesAdmin"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="DepartmentPageAmdin">
+      d:DesignHeight="450" d:DesignWidth="1000"
+    
+      d:Width="1000" d:Height="450"
+      d:Background="{StaticResource Background.Window.Brush}"
+      xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters">
 
-    <Grid>
-        
-    </Grid>
+    <Page.Resources>
+
+        <!-- Кнопки для дата грид -->
+        <DataTemplate x:Key="Button.DataGrid">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource Button.Icon.Small}"
+                        Tag="EditOutline"
+                        Click="Edit_Click"
+                        Margin="0 0 12 0"
+                        ToolTip="Отредактировать"/>
+
+                <Button Style="{StaticResource Button.Icon.Small}"
+                        Tag="DeleteOutline"
+                        Click="Delete_Click"
+                        ToolTip="Удалить"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <DockPanel>
+        <!-- Область параметров -->
+        <DockPanel DockPanel.Dock="Top"
+                   Margin="0 0 0 35"
+                   LastChildFill="False">
+
+            <Grid>
+                <TextBox Width="360"
+                         MinWidth="150"
+                         Name="searchTB"
+                         Tag="Поиск"
+                         MaxLength="70"
+                         ToolTip="Нажмите на значок поиска для обновления данных"/>
+
+                <Button Name="searchBTN"
+                        HorizontalAlignment="Right"
+                        Tag="Search"
+                        Style="{StaticResource Button.Icon.Transperent}"/>
+            </Grid>
+
+            <ComboBox Style="{StaticResource ComboBox.Filter}"
+                      Margin="10 0"
+                      Name="filterCB"
+                      Tag="Фильтр"/>
+
+            <ComboBox Style="{StaticResource ComboBox.Sorter}"
+                      Name="sorterCB"
+                      Tag="Сортировка"/>
+
+            <CheckBox Style="{StaticResource CheckBox.Ascending}"
+                      Margin="5 0 10 0"
+                      Name="ascendingCHB"/>
+
+            <Button Name="resetFiltersBTN"
+                    Style="{StaticResource Button.Icon.Medium}"
+                    Content="Очистить все"
+                    Tag="restore"
+                    ToolTip="Сброс фильтров"/>
+
+            <Button Style="{StaticResource Button.Primary.Icon}"
+                    DockPanel.Dock="Right"
+                    MinWidth="200"
+                    Content="Добавить"
+                    Tag="add"
+                    Click="Add_Click"/>
+        </DockPanel>
+
+        <!-- Область вывода информации -->
+        <Grid>
+
+            <!-- Контент -->
+            <Grid>
+                <!-- Контент -->
+                <DataGrid Name="itemsDG">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Адрес" Binding="{Binding Address}"/>
+                        <DataGridTextColumn Header="Номер телефона" Binding="{Binding Phone}"/>
+                        <DataGridTemplateColumn CellTemplate="{StaticResource Button.DataGrid}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Text="Данные о департаментах отсутствуют"
+                          Style="{StaticResource TextBlock.H6}"
+                          FontSize="18"
+                          Margin="20 80 0 0"
+                          Visibility="{Binding Items.Count, ElementName=itemsDG, 
+                          Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
+
+            </Grid>
+
+        </Grid>
+
+    </DockPanel>
+
 </Page>
