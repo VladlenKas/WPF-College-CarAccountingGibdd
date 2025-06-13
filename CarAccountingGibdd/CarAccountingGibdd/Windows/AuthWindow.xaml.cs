@@ -53,7 +53,7 @@ namespace CarAccountingGibdd
             if (employee == null)
             {
                 // Если пользователь не найден
-                MessageBox.Show("Пользователь с указанными данными не найден. Проверьте логин и пароль",
+                MessageBox.Show("Пользователь с указанными данными не найден. Проверьте электронную почту и пароль",
                                 "Ошибка авторизации",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
@@ -98,5 +98,15 @@ namespace CarAccountingGibdd
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
         private void VisibilityPassword_Click(object sender, RoutedEventArgs e) => ComponentsHelper.ToggleVisibility(sender, PassPB, PassTB);
+
+        private void ChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+
+            ChangePasswordDialog dialog = new();
+            dialog.ShowDialog();
+
+            this.Show();
+        }
     }
 }
