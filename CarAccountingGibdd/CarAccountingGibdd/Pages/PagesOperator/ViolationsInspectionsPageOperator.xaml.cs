@@ -1,4 +1,5 @@
-﻿using CarAccountingGibdd.Controls;
+﻿using CarAccountingGibdd.Classes.Services;
+using CarAccountingGibdd.Controls;
 using CarAccountingGibdd.Model;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
     /// </summary>
     public partial class ViolationsInspectionsPageOperator : Page
     {
+        private ViolationsInspectionsDataService _dataService;
         // Поля
         private Employee _operator;
 
@@ -32,7 +34,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             InitializeComponent();
 
             _operator = @operator;
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
@@ -44,10 +46,9 @@ namespace CarAccountingGibdd.Pages.PagesOperator
                 .ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            violationsInspections = _dataService.ApplyFilter(violationsInspections);
+            violationsInspections = _dataService.ApplySort(violationsInspections);
+            violationsInspections = _dataService.ApplySearch(violationsInspections);
 
             cardsIC.Items.Clear();
             foreach (var violationsInspection in violationsInspections)

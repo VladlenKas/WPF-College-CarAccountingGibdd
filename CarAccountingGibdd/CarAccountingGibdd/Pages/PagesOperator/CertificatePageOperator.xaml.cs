@@ -1,4 +1,5 @@
-﻿using CarAccountingGibdd.Controls;
+﻿using CarAccountingGibdd.Classes.Services;
+using CarAccountingGibdd.Controls;
 using CarAccountingGibdd.Model;
 using System;
 using System.Collections.Generic;
@@ -23,13 +24,14 @@ namespace CarAccountingGibdd.Pages.PagesOperator
     public partial class CertificatePageOperator : Page
     {
         private Employee _operator;
+        private CertificatesDataService _dataService;
 
         public CertificatePageOperator(Employee @operator)
         {
             InitializeComponent();
 
             _operator = @operator;
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
@@ -39,10 +41,9 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             var certificates = App.DbContext.Certificates.ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            certificates = _dataService.ApplyFilter(certificates);
+            certificates = _dataService.ApplySort(certificates);
+            certificates = _dataService.ApplySearch(certificates);
 
             cardsIC.Items.Clear();
             foreach (var certificate in certificates)

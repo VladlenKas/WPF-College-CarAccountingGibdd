@@ -28,13 +28,14 @@ namespace CarAccountingGibdd.Pages.PagesOperator
         //  Поля и свойства 
         private ApplicationService _service;
         private Employee _operator;
+        private ApplicationDataService _dataService;
 
         public ApplicationPageOperator(Employee @operator)
         {
             InitializeComponent();
 
             _operator = @operator;
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
@@ -44,10 +45,9 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             var applications = App.DbContext.Applications.ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            applications = _dataService.ApplyFilter(applications, _operator);
+            applications = _dataService.ApplySort(applications);
+            applications = _dataService.ApplySearch(applications);
 
             cardsIC.Items.Clear();
             foreach (var application in applications)

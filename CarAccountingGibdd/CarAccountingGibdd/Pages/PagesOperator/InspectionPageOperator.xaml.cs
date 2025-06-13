@@ -1,4 +1,5 @@
 ﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Controls;
 using CarAccountingGibdd.Model;
 using System;
@@ -25,13 +26,14 @@ namespace CarAccountingGibdd.Pages.PagesOperator
     {
         //  Поля и свойства 
         private Employee _operator;
+        private InspectionDataService _dataService;
 
         public InspectionPageOperator(Employee @operator)
         {
             InitializeComponent();
 
             _operator = @operator;
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
@@ -41,10 +43,9 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             var inspections = App.DbContext.Inspections.ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            inspections = _dataService.ApplyFilter(inspections);
+            inspections = _dataService.ApplySort(inspections);
+            inspections = _dataService.ApplySearch(inspections);
 
             cardsIC.Items.Clear();
             foreach (var inspection in inspections)

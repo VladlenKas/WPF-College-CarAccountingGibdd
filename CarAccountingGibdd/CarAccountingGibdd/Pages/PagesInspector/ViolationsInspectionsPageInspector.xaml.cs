@@ -1,4 +1,5 @@
-﻿using CarAccountingGibdd.Controls;
+﻿using CarAccountingGibdd.Classes.Services;
+using CarAccountingGibdd.Controls;
 using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,6 +26,7 @@ namespace CarAccountingGibdd.Pages.PagesInspector
     {
         // Поля
         private Employee _inspector;
+        private ViolationsInspectionsDataService _dataService;
 
         // Конструктор
         public ViolationsInspectionsPageInspector(Employee inspector)
@@ -32,7 +34,7 @@ namespace CarAccountingGibdd.Pages.PagesInspector
             InitializeComponent();
 
             _inspector = inspector;
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
@@ -44,10 +46,9 @@ namespace CarAccountingGibdd.Pages.PagesInspector
                 .ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            violationsInspections = _dataService.ApplyFilter(violationsInspections);
+            violationsInspections = _dataService.ApplySort(violationsInspections);
+            violationsInspections = _dataService.ApplySearch(violationsInspections);
 
             cardsIC.Items.Clear();
             foreach (var violationsInspection in violationsInspections)

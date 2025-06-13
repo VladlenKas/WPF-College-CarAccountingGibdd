@@ -24,24 +24,24 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
     /// </summary>
     public partial class VehiclePageAdmin : Page
     {
+        private VehiclesDataService _dataService;
         public VehiclePageAdmin()
         {
             InitializeComponent();
 
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
         // Методы
         private void UpdateIC()
         {
-            var vehicles = App.DbContext.Vehicles.ToList();
+            var vehicles = App.DbContext.Vehicles.Where(r => r.Deleted != 1).ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            vehicles = _dataService.ApplyFilter(vehicles);
+            vehicles = _dataService.ApplySort(vehicles);
+            vehicles = _dataService.ApplySearch(vehicles);
 
             itemsDG.ItemsSource = null;
             itemsDG.ItemsSource = vehicles;

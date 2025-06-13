@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CarAccountingGibdd.Pages.PagesInspector
 {
@@ -26,13 +27,14 @@ namespace CarAccountingGibdd.Pages.PagesInspector
     {
         //  Поля и свойства 
         private Employee _inspector;
+        private InspectionDataService _dataService;
 
         public InspectionPageInspector(Employee inspector)
         {
             InitializeComponent();
 
             _inspector = inspector;
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
@@ -42,10 +44,10 @@ namespace CarAccountingGibdd.Pages.PagesInspector
             var inspections = App.DbContext.Inspections.ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            inspections = _dataService.ApplyInspector(inspections, _inspector);
+            inspections = _dataService.ApplyFilter(inspections);
+            inspections = _dataService.ApplySort(inspections);
+            inspections = _dataService.ApplySearch(inspections);
 
             cardsIC.Items.Clear();
             foreach (var inspection in inspections)

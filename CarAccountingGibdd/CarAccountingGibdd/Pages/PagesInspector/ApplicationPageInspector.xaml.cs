@@ -28,13 +28,14 @@ namespace CarAccountingGibdd.Pages.PagesInspector
     {
         //  Поля и свойства 
         private Employee _inspector;
+        private ApplicationDataService _dataService;
 
         public ApplicationPageInspector(Employee inspector)
         {
             InitializeComponent();
 
             _inspector = inspector;
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
@@ -44,10 +45,10 @@ namespace CarAccountingGibdd.Pages.PagesInspector
             var applications = App.DbContext.Applications.ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            applications = _dataService.ApplyInspector(applications, _inspector);
+            applications = _dataService.ApplyFilter(applications, _inspector);
+            applications = _dataService.ApplySort(applications);
+            applications = _dataService.ApplySearch(applications);
 
             cardsIC.Items.Clear();
             foreach (var application in applications)

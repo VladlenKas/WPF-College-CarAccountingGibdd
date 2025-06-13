@@ -1,4 +1,5 @@
 ﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Dialogs;
 using CarAccountingGibdd.Model;
 using System;
@@ -24,24 +25,25 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
     /// </summary>
     public partial class OwnerPageAdmin : Page
     {
+        private OwnersDataService _dataService;
+
         public OwnerPageAdmin()
         {
             InitializeComponent();
 
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
         // Методы
         private void UpdateIC()
         {
-            var owners = App.DbContext.Owners.ToList();
+            var owners = App.DbContext.Owners.Where(r => r.Deleted != 1).ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            owners = _dataService.ApplyFilter(owners);
+            owners = _dataService.ApplySort(owners);
+            owners = _dataService.ApplySearch(owners);
 
             itemsDG.ItemsSource = null;
             itemsDG.ItemsSource = owners;

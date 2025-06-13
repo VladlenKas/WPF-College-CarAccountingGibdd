@@ -1,4 +1,5 @@
 ﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Dialogs;
 using CarAccountingGibdd.Model;
 using System;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CarAccountingGibdd.Pages.PagesAdmin
 {
@@ -23,28 +25,28 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
     /// </summary>
     public partial class ViolationsPageAdmin : Page
     {
+        private ViolationDataService _dataService;
+
         // Конструктор
         public ViolationsPageAdmin()
         {
             InitializeComponent();
 
-            // Фильтры
+            _dataService = new(sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
         // Методы
         private void UpdateIC()
         {
-            var owners = App.DbContext.Violations.ToList();
+            var violations = App.DbContext.Violations.Where(r => r.Deleted != 1).ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            violations = _dataService.ApplySort(violations);
+            violations = _dataService.ApplySearch(violations);
 
             itemsDG.ItemsSource = null;
-            itemsDG.ItemsSource = owners;
+            itemsDG.ItemsSource = violations;
         }
 
         private void Delete()

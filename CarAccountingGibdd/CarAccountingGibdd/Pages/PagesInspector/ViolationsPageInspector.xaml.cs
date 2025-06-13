@@ -1,4 +1,5 @@
-﻿using CarAccountingGibdd.Model;
+﻿using CarAccountingGibdd.Classes.Services;
+using CarAccountingGibdd.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace CarAccountingGibdd.Pages.PagesInspector
     {
         // Поля
         private Employee _inspector;
+        private ViolationDataService _dataService;
 
         // Конструктор
         public ViolationsPageInspector(Employee inspector)
@@ -30,23 +32,21 @@ namespace CarAccountingGibdd.Pages.PagesInspector
             InitializeComponent();
 
             _inspector = inspector;
-            // Фильтры
+            _dataService = new(sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
         // Методы
         private void UpdateIC()
         {
-            var owners = App.DbContext.Violations.ToList();
+            var violations = App.DbContext.Violations.Where(r => r.Deleted != 1).ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            violations = _dataService.ApplySort(violations);
+            violations = _dataService.ApplySearch(violations);
 
             itemsDG.ItemsSource = null;
-            itemsDG.ItemsSource = owners;
+            itemsDG.ItemsSource = violations;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Dialogs;
 using CarAccountingGibdd.Model;
 using System;
@@ -25,6 +26,7 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
     {
         // Поля
         private Employee _admin;
+        private EmployeesDataService _dataService;
 
         // Конструктор
         public EmployeePageAdmin(Employee admin)
@@ -32,20 +34,19 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
             InitializeComponent();
 
             _admin = admin;
-            // Фильтры
+            _dataService = new(filterCB, sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, UpdateIC);
             UpdateIC();
         }
 
         // Методы
         private void UpdateIC()
         {
-            var employees = App.DbContext.Employees.ToList();
+            var employees = App.DbContext.Employees.Where(r => r.Deleted != 1).ToList();
 
             // Фильтры
-            /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
-            orders = _orderDataService.ApplyFilter(orders);
-            orders = _orderDataService.ApplySort(orders);
-            orders = _orderDataService.ApplySearch(orders);*/
+            employees = _dataService.ApplyFilter(employees);
+            employees = _dataService.ApplySort(employees);
+            employees = _dataService.ApplySearch(employees);
 
             itemsDG.ItemsSource = null;
             itemsDG.ItemsSource = employees;
