@@ -17,10 +17,11 @@ namespace CarAccountingGibdd.Classes.Services
         private readonly string _color;
         private readonly string _licensePlate;
         private readonly VehicleType _vehicleType;
+        private readonly List<PhotosVehicle> _photos;
 
         // Контруктор
         public VehicleService(string vin, string brand, string model, string year, 
-            string color, string licensePlate, VehicleType? vehicleType)
+            string color, string licensePlate, VehicleType? vehicleType, List<PhotosVehicle> photos)
         {
             _vin = vin;
             _brand = brand;
@@ -29,6 +30,7 @@ namespace CarAccountingGibdd.Classes.Services
             _color = color;
             _licensePlate = licensePlate;
             _vehicleType = vehicleType;
+            _photos = photos;
         }
 
         // Добавление
@@ -47,6 +49,18 @@ namespace CarAccountingGibdd.Classes.Services
 
             App.DbContext.Add(vehicle); 
             App.DbContext.SaveChanges();
+
+            // Добавляем фото
+            foreach (var photo in _photos)
+            {
+                var photoEntity = new PhotosVehicle
+                {
+                    VehicleId = vehicle.VehicleId,
+                    Photo = photo.Photo
+                };
+                App.DbContext.Add(photoEntity);
+            }
+            App.DbContext.SaveChanges();
         }
 
         // Редактированиие
@@ -59,6 +73,21 @@ namespace CarAccountingGibdd.Classes.Services
             vehicle.Color = _color;
             vehicle.LicensePlate = _licensePlate;
             vehicle.VehicleTypeId = _vehicleType.VehicleTypeId;
+
+            // Удаляем старые фото
+            var oldPhotos = App.DbContext.PhotosVehicles.Where(p => p.VehicleId == vehicle.VehicleId).ToList();
+            App.DbContext.PhotosVehicles.RemoveRange(oldPhotos);
+
+            // Добавляем новые фото
+            foreach (var photo in _photos)
+            {
+                var photoEntity = new PhotosVehicle
+                {
+                    VehicleId = vehicle.VehicleId,
+                    Photo = photo.Photo
+                };
+                App.DbContext.Add(photoEntity);
+            }
 
             App.DbContext.Update(vehicle); 
             App.DbContext.SaveChanges();
@@ -206,7 +235,10 @@ namespace CarAccountingGibdd.Classes.Services
                 vehicle.Year == _year &&
                 vehicle.Color == _color &&
                 vehicle.VehicleTypeId == _vehicleType.VehicleTypeId;
-            if (hasNotChanges)
+
+            bool areSimilarPhotos = ArePhotoListsEqual(_photos, vehicle.PhotosVehicles.ToList());
+
+            if (hasNotChanges && areSimilarPhotos)
             {
                 MessageHelper.MessageNotChanges();
                 return false;
@@ -259,5 +291,26 @@ namespace CarAccountingGibdd.Classes.Services
             return true; // Все проверки пройдены
         }
 
+        // Проверка на изменение изображений
+        private bool ArePhotoListsEqual(List<PhotosVehicle> list1, List<PhotosVehicle> list2)
+        {
+            // Если оба списка null или пустые — считаем равными
+            if ((list1 == null || list1.Count == 0) && (list2 == null || list2.Count == 0))
+                return true;
+
+            // Если только один из списков пустой — не равны
+            if ((list1 == null || list2 == null) || (list1.Count != list2.Count))
+                return false;
+
+            // Сравниваем поэлементно массивы байт
+            for (int i = 0; i < list1.Count; i++)
+            {
+                var img1 = list1[i].Photo;
+                var img2 = list2[i].Photo;
+                if (!img1.SequenceEqual(img2))
+                    return false;
+            }
+            return true;
+        }
     }
 }

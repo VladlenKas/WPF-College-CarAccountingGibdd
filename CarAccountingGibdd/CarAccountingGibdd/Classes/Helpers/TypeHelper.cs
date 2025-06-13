@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace CarAccountingGibdd.Classes
 {
@@ -23,7 +25,7 @@ namespace CarAccountingGibdd.Classes
             }
         }
 
-        // Преобразовывает текст в строку либо возвращает 0
+        // Преобразовывает текст в decimal либо возвращает 0
         public static decimal DecemalParse(string str)
         {
             try
@@ -65,14 +67,53 @@ namespace CarAccountingGibdd.Classes
             }
         }
 
-        public static string PaymentMethodToString(sbyte? method)
+        // Конвертер из byte[] в BitmapImage
+        public static BitmapImage GetBitmapImage(byte[] photo)
         {
-            return method switch
+            if (photo == null || photo.Length == 0)
+                return null;
+
+            using (var ms = new MemoryStream(photo))
             {
-                0 => "Наличный расчет",
-                1 => "Оплата картой",
-                _ => "Заказ отменен"
-            };
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = ms;
+                image.EndInit();
+                image.Freeze();
+                return image;
+            }
+        }
+
+        // Конвертер из BitmapImage в byte[]
+        public static byte[] ImageToByteArray(BitmapSource image)
+        {
+            if (image == null)
+                return Array.Empty<byte>();
+
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(image));
+            using (var ms = new MemoryStream())
+            {
+                encoder.Save(ms);
+                return ms.ToArray();
+            }
+        }
+
+        // Конвертер из пути в BitmapImage
+        public static BitmapImage PathToBitmapImage(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                return null;
+
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.EndInit();
+            bitmap.Freeze(); // Делаем изображение потокобезопасным и неизменяемым
+
+            return bitmap;
         }
     }
 }

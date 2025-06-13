@@ -44,8 +44,8 @@ public partial class Vehicle
         .Owner ?? null;
 
     // Фи и пасспорт владельца
-    public string OwnerFIAndPassport =>
-        Owner?.FIpassport ?? "Отсутствует";
+    public string OwnerPassport =>
+        Owner?.Passport ?? "Владелец отсутствует";
 
     public string UsedValueString => Used switch
     {

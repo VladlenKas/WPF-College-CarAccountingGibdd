@@ -36,7 +36,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
         private void UpdateIC()
         {
             var owners = App.DbContext.Vehicles.ToList();
-
+                
             // Фильтры
             /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
             orders = _orderDataService.ApplyFilter(orders);
@@ -86,6 +86,15 @@ namespace CarAccountingGibdd.Pages.PagesOperator
 
             bool saved = dialog.Saved;
             if (saved) UpdateIC();
+        }
+
+        private void ImageView_Click(object sender, RoutedEventArgs e)
+        {
+            var vehicle = itemsDG.SelectedItem as Vehicle;
+            List<PhotosVehicle> photos = vehicle.PhotosVehicles.ToList();
+
+            ViewImageForVehicleDialog dialog = new(photos);
+            ComponentsHelper.ShowDialogWindowDark(dialog);
         }
     }
 }

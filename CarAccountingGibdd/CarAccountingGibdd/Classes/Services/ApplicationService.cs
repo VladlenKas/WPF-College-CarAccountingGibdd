@@ -248,7 +248,6 @@ namespace CarAccountingGibdd.Classes.Services
                 {
                     return false;
                 }
-
             }
 
             // Если ошибок нет, то возвращаем true

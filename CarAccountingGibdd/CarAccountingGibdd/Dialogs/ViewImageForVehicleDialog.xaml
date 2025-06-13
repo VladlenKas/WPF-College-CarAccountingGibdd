@@ -1,0 +1,65 @@
+﻿<Window x:Class="CarAccountingGibdd.Dialogs.ViewImageForVehicleDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CarAccountingGibdd.Dialogs"
+        mc:Ignorable="d"
+       
+        xmlns:behaviors="clr-namespace:CarAccountingGibdd.Classes.Behaviors"
+        xmlns:components="clr-namespace:CarAccountingGibdd.Components"
+        xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters"
+        
+        SizeToContent="Height"
+        MinHeight="850"
+        MinWidth="450" Width="450"
+        Title="Просмотр фото ТС" 
+        Style="{StaticResource Window.Ordinary}"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Name="grid"
+          Margin="35">
+
+        <DockPanel LastChildFill="False"
+                   MaxWidth="450">
+
+            <!-- Заголовок -->
+            <TextBlock Style="{StaticResource TextBlock.H2}"
+                       DockPanel.Dock="Top"
+                       Margin="0 0 0 16"
+                       TextWrapping="Wrap"
+                       Name="titleTB">
+                <Run Text="Просмотр фото ТС"/>
+            </TextBlock>
+
+            <!-- Подзаголовок -->
+            <TextBlock Style="{StaticResource TextBlock.Subtitle}"
+                       Margin="0 0 0 24"
+                       Text="Нажмите на фотографию, чтобы открыть ее в большем разрешении!"
+                       Foreground="{StaticResource Text.Secondary.Brush}"
+                       DockPanel.Dock="Top"/>
+
+            <!-- Фото -->
+            <Grid DockPanel.Dock="Top" Margin="0 0 0 24">
+                <ScrollViewer Name="contentScroll" VerticalScrollBarVisibility="Hidden">
+                    <ItemsControl Name="cardsIC">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"
+                                           HorizontalAlignment="Left"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+
+            <Button Style="{StaticResource Button.Primary}"
+                    DockPanel.Dock="Bottom"
+                    Content="Назад"
+                    Click="Exit_Click"/>
+
+        </DockPanel>
+
+    </Grid>
+
+</Window>

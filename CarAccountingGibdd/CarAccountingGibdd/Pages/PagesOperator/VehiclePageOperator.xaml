@@ -16,6 +16,14 @@
         <DataTemplate x:Key="Button.DataGrid">
             <StackPanel Orientation="Horizontal">
                 <Button Style="{StaticResource Button.Icon.Small}"
+                        Tag="image"
+                        Click="ImageView_Click"
+                        Margin="0 0 12 0"
+                        ToolTip="Просмотреть фото"
+                        IsEnabled="{Binding PhotosVehicles.Count, 
+                        Converter={x:Static converters:CollectionToIsEnabledConverter.Instance}}"/>
+                
+                <Button Style="{StaticResource Button.Icon.Small}"
                         Tag="EditOutline"
                         Click="Edit_Click"
                         Margin="0 0 12 0"
@@ -24,7 +32,9 @@
                 <Button Style="{StaticResource Button.Icon.Small}"
                         Tag="LinkVariantOff"
                         Click="DetachOwner_Click"
-                        ToolTip="Отвязать ТС от текущего владельца"/>
+                        ToolTip="Отвязать ТС от текущего владельца"
+                        IsEnabled="{Binding Owner, 
+                        Converter={x:Static converters:CollectionToIsEnabledConverter.Instance}}"/>
             </StackPanel>
         </DataTemplate>
     </Page.Resources>
@@ -87,8 +97,7 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ВИН" Binding="{Binding Vin}"/>
                         <DataGridTextColumn Header="Номерной знак" Binding="{Binding LicensePlateValue, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Марка" Binding="{Binding Brand}"/>
-                        <DataGridTextColumn Header="Модель" Binding="{Binding Model}"/>
+                        <DataGridTextColumn Header="Марка, модель" Binding="{Binding BrandModel, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Цвет" Binding="{Binding Color}"/>
                         <DataGridTextColumn Header="Год выпуска" Binding="{Binding Year, StringFormat={}{0} г.}"/>
                         <DataGridTextColumn Header="Тип" Binding="{Binding VehicleType.Name}">
@@ -100,7 +109,7 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
                         <DataGridTextColumn Header="Б/У" Binding="{Binding UsedValueString}"/>
-                        <DataGridTextColumn Header="ФИ, паспорт владельца" Binding="{Binding OwnerFIAndPassport, Mode=OneWay}">
+                        <DataGridTextColumn Header="Паспорт владельца" Binding="{Binding OwnerPassport, Mode=OneWay}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="TextWrapping" Value="Wrap"/>

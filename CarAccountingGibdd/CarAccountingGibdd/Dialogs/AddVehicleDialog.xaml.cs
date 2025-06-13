@@ -23,8 +23,11 @@ namespace CarAccountingGibdd.Dialogs
     /// </summary>
     public partial class AddVehicleDialog : Window
     {
-        // Поля и свойства
+        // Свойства
         public bool Saved { get; private set; } // Флаг сохранения
+
+        // Поля
+        private List<PhotosVehicle> _photosVehicles;
 
         // Конструктор
         public AddVehicleDialog()
@@ -32,8 +35,10 @@ namespace CarAccountingGibdd.Dialogs
             InitializeComponent();
 
             typeCB.ItemsSource = App.DbContext.VehicleTypes.ToList();
+            _photosVehicles = new();
         }
 
+        // Методы
         private void AddVehicle()
         {
             // Получаем данные для добавления
@@ -46,7 +51,7 @@ namespace CarAccountingGibdd.Dialogs
             VehicleType? type = (VehicleType?)typeCB.SelectedItem;
 
             // Создаем экземпляр сервиса
-            VehicleService service = new VehicleService(vin, brand, model, year, color, licensePlate, type);
+            VehicleService service = new VehicleService(vin, brand, model, year, color, licensePlate, type, _photosVehicles);
 
             // Проверка
             bool notError = service.Check();
@@ -64,9 +69,37 @@ namespace CarAccountingGibdd.Dialogs
             Close();
         }
 
+        private void AddImages()
+        {
+            this.Hide();
+
+            AddImageForVehicleDialog dialog = new AddImageForVehicleDialog(_photosVehicles);
+            dialog.ShowDialog();
+
+            bool saved = dialog.Saved;
+            if (saved)
+            {
+                int countImages = dialog.CountImages;
+                if (countImages > 0)
+                {
+                    addImagesBTN.Content = $"Фото выбрано: {countImages}";
+                }
+                else
+                {
+                    addImagesBTN.Content = "Добавить фото";
+                }
+
+                _photosVehicles = dialog.PhotosVehicles;
+            }
+
+            this.ShowDialog();
+        }
+
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
         private void Add_Click(object sender, RoutedEventArgs e) => AddVehicle();
+
+        private void AddImages_Click(object sender, RoutedEventArgs e) => AddImages();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using System.Reflection;
 using System.Text;
 
 namespace CarAccountingGibdd.Model;
@@ -33,7 +34,23 @@ public partial class Owner
 
     public sbyte Deleted { get; set; }
 
-    public string VehiclesList
+    public int VehiclesCount
+    {
+        get
+        {
+            List<Vehicle> vehicles = new List<Vehicle>();
+            Applications?
+                .Where(a => a.Certificates?.Any(c => c.IsActive == 0) == true)?
+                .ToList()
+                .ForEach(a =>
+                {
+                    vehicles.Add(a.Vehicle);
+                });
+            return vehicles.Count;
+        }
+    }
+
+    public string VehiclesNames
     {
         get
         {
@@ -44,8 +61,8 @@ public partial class Owner
             Applications?
                 .Where(a => a.Certificates?.Any(c => c.IsActive == 0) == true)?
                 .ToList()
-            .ForEach(a =>
-            {
+                .ForEach(a =>
+                {
                     vehiclesList.AppendLine($"{counter++}. {a.Vehicle.FullInfo}");
                 });
 
@@ -54,7 +71,7 @@ public partial class Owner
                 return vehiclesList.ToString();
             }
 
-            return "У владельца нет ТС";
+            return "У владельца нет транспортных средств";
         }
     }
 

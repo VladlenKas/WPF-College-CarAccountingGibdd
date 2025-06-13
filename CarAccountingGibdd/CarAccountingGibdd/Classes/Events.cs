@@ -21,3 +21,8 @@ public class ViolationEventArgs : EventArgs
 {
     public Violation Violation { get; set; } = null!;
 }
+
+public class PhotosVehicleEventArgs : EventArgs
+{
+    public PhotosVehicle PhotosVehicle { get; set; } = null!;
+}

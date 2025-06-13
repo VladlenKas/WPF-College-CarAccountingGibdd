@@ -637,6 +637,7 @@
                         <!-- Триггер для неактивной кнопки -->
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{StaticResource Background.Disabled.Brush}"/>
+                            <Setter Property="Opacity" Value="0.5"/>
                             <Setter Property="Cursor" Value="Arrow"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

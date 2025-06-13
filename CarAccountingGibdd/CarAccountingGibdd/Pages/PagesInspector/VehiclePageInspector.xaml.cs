@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CarAccountingGibdd.Classes;
+using CarAccountingGibdd.Dialogs;
+using CarAccountingGibdd.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +34,7 @@ namespace CarAccountingGibdd.Pages.PagesInspector
         // Методы
         private void UpdateIC()
         {
-            var owners = App.DbContext.Vehicles.ToList();
+            var vehicles = App.DbContext.Vehicles.ToList();
 
             // Фильтры
             /*orders = _orderDataService.ApplyCourier(orders, _thisCourier);
@@ -40,7 +43,17 @@ namespace CarAccountingGibdd.Pages.PagesInspector
             orders = _orderDataService.ApplySearch(orders);*/
 
             itemsDG.ItemsSource = null;
-            itemsDG.ItemsSource = owners;
+            itemsDG.ItemsSource = vehicles;
+        }
+
+        // Обработчики событий
+        private void ImageView_Click(object sender, RoutedEventArgs e)
+        {
+            var vehicle = itemsDG.SelectedItem as Vehicle;
+            List<PhotosVehicle> photos = vehicle.PhotosVehicles.ToList();
+
+            ViewImageForVehicleDialog dialog = new(photos);
+            ComponentsHelper.ShowDialogWindowDark(dialog);
         }
     }
 }

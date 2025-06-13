@@ -27,6 +27,7 @@ namespace CarAccountingGibdd.Dialogs
 
         // Поля
         private Vehicle _vehicle;
+        private List<PhotosVehicle> _photosVehicles;
 
         // Конструктор
         public EditVehicleDialog(Vehicle vehicle)
@@ -42,6 +43,16 @@ namespace CarAccountingGibdd.Dialogs
             yearTB.Text = vehicle.Year.ToString();
             colorTB.Text = vehicle.Color;
             typeCB.SelectedItem = vehicle.VehicleType;
+            _photosVehicles = new List<PhotosVehicle>(vehicle.PhotosVehicles.ToList());
+
+            if (_photosVehicles.Count > 0)
+            {
+                addImagesBTN.Content = $"Фото выбрано: {_photosVehicles.Count}";
+            }
+            else
+            {
+                addImagesBTN.Content = "Добавить фото";
+            }
 
             _vehicle = vehicle;
         }
@@ -58,7 +69,7 @@ namespace CarAccountingGibdd.Dialogs
             VehicleType? type = (VehicleType?)typeCB.SelectedItem;
 
             // Создаем экземпляр сервиса
-            VehicleService service = new VehicleService(vin, brand, model, year, color, licensePlate, type);
+            VehicleService service = new VehicleService(vin, brand, model, year, color, licensePlate, type, _photosVehicles);
 
             // Проверка
             bool notError = service.Check(_vehicle);
@@ -76,9 +87,37 @@ namespace CarAccountingGibdd.Dialogs
             Close();
         }
 
+        private void AddImages()
+        {
+            this.Hide();
+
+            AddImageForVehicleDialog dialog = new AddImageForVehicleDialog(_photosVehicles);
+            dialog.ShowDialog();
+
+            bool saved = dialog.Saved;
+            if (saved)
+            {
+                int countImages = dialog.CountImages;
+                if (countImages > 0)
+                {
+                    addImagesBTN.Content = $"Фото выбрано: {countImages}";
+                }
+                else
+                {
+                    addImagesBTN.Content = "Добавить фото";
+                }
+
+                _photosVehicles = dialog.PhotosVehicles;
+            }
+
+            this.ShowDialog();
+        }
+
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
         private void Add_Click(object sender, RoutedEventArgs e) => UpdateVehicle();
+
+        private void AddImages_Click(object sender, RoutedEventArgs e) => AddImages();
     }
 }

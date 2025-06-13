@@ -54,11 +54,38 @@
                             </TextBlock>
                             
                             <TextBlock DockPanel.Dock="Top"
-                                       Margin="0 0 0 24"
+                                       Margin="0 0 0 12"
                                        TextWrapping="Wrap">
                                 <Run Text="Номер телефона:"
                                      Style="{StaticResource Run.Subtitle}"/>
-                                <Run Text="{Binding Phone, Mode=OneWay}"
+                                <Run Text="{Binding Phone}"
+                                     Style="{StaticResource Run.Description}"/>
+                            </TextBlock>
+
+                            <TextBlock DockPanel.Dock="Top"
+                                       Margin="0 0 0 12"
+                                       TextWrapping="Wrap">
+                                <Run Text="Паспорт:"
+                                     Style="{StaticResource Run.Subtitle}"/>
+                                <Run Text="{Binding Passport}"
+                                     Style="{StaticResource Run.Description}"/>
+                            </TextBlock>
+
+                            <TextBlock DockPanel.Dock="Top"
+                                       Margin="0 0 0 12"
+                                       TextWrapping="Wrap">
+                                <Run Text="Электронная почта:"
+                                     Style="{StaticResource Run.Subtitle}"/>
+                                <Run Text="{Binding EmailValue, Mode=OneWay}"
+                                     Style="{StaticResource Run.Description}"/>
+                            </TextBlock>
+
+                            <TextBlock DockPanel.Dock="Top"
+                                       Margin="0 0 0 24"
+                                       TextWrapping="Wrap">
+                                <Run Text="Адрес проживания:"
+                                     Style="{StaticResource Run.Subtitle}"/>
+                                <Run Text="{Binding Address}"
                                      Style="{StaticResource Run.Description}"/>
                             </TextBlock>
 
@@ -72,7 +99,7 @@
                             <TextBlock DockPanel.Dock="Top"
                                        Margin="0 0 0 24"
                                        TextWrapping="Wrap">
-                                <Run Text="{Binding VehiclesList, Mode=OneWay}"
+                                <Run Text="{Binding VehiclesNames, Mode=OneWay}"
                                      Style="{StaticResource Run.Description}"/>
                             </TextBlock>
                         </DockPanel>

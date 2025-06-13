@@ -24,7 +24,9 @@
                 <Button Style="{StaticResource Button.Icon.Small}"
                         Tag="CarInfo"
                         Click="CarInfo_Click"
-                        ToolTip="Просмотреть список ТС"/>
+                        ToolTip="Просмотреть список ТС"
+                        IsEnabled="{Binding VehiclesCount, 
+                        Converter={x:Static converters:CollectionToIsEnabledConverter.Instance}}"/>
             </StackPanel>
         </DataTemplate>
     </Page.Resources>

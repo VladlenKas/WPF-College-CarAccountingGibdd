@@ -47,9 +47,17 @@
             <TextBox DockPanel.Dock="Top"
                      Name="licensePlateTB"
                      Tag="Номерной знак (при наличии)"
-                     Margin="0 0 0 24"
+                     Margin="0 0 0 12"
                      MaxLength="6"
                      behaviors:TextBoxValidationBehavior.ValidationType="LicensePlate"/>
+
+            <Button Style="{StaticResource Button.Ordinary}"
+                    DockPanel.Dock="Top"
+                    Name="addImagesBTN"
+                    Tag="Тип ТС"
+                    Content="Добавить фото"
+                    Margin="0 0 0 24"
+                    Click="AddImages_Click"/>
 
             <TextBox DockPanel.Dock="Top"
                      Name="markaTB"
