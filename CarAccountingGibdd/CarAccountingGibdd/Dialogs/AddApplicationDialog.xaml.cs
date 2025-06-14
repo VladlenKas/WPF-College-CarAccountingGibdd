@@ -24,12 +24,15 @@ namespace CarAccountingGibdd.Dialogs
     /// </summary>
     public partial class AddApplicationDialog : Window, INotifyPropertyChanged
     {
-        // Поля и свойства
+        // Свойства
         public bool Saved { get; private set; } // Флаг сохранения
         public string ChangeForPayment { get; set; } // Свойства для контекста
 
+        // Поля
+        private Employee _operator;
+
         // Конструктор
-        public AddApplicationDialog()
+        public AddApplicationDialog(Employee @operator)
         {
             InitializeComponent();
 
@@ -39,6 +42,8 @@ namespace CarAccountingGibdd.Dialogs
 
             DataContext = this;
             ChangeForPayment = "0 р.";
+
+            _operator = @operator;
         }
 
         // Методы
@@ -79,7 +84,7 @@ namespace CarAccountingGibdd.Dialogs
             if (!accept) return;
 
             // Формирование 
-            applicationService.Create();
+            applicationService.Create(_operator);
 
             // Закрываем
             Close();

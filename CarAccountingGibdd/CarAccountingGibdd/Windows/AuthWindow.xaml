@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CarAccountingGibdd"
         mc:Ignorable="d"
         
+        xmlns:behaviors="clr-namespace:CarAccountingGibdd.Classes.Behaviors"
         xmlns:components="clr-namespace:CarAccountingGibdd.Components"
         
         Title="Вход в систему управления ГИБДД" 
@@ -32,14 +33,16 @@
             <TextBox Margin="0 0 0 12"
                      Tag="Электронная почта"
                      Name="emailTB"
-                     DockPanel.Dock="Top"/>
+                     DockPanel.Dock="Top"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"/>
 
             <Grid DockPanel.Dock="Top"
                   Margin="0 0 0 12">
 
                 <TextBox Tag="Пароль"
                          Visibility="Hidden"
-                         Name="PassTB"/>
+                         Name="PassTB"
+                         behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"/>
 
                 <components:BindablePasswordBox Password="{Binding Password}"
                                                 Visibility="Visible"

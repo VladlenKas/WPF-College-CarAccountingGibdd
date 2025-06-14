@@ -207,22 +207,6 @@
                         <TextBlock DockPanel.Dock="Top"
                                    Margin="0 0 0 12"
                                    TextWrapping="Wrap">
-                            <Run Text="Номер платежа:" Style="{StaticResource Run.Subtitle}"/>
-                            <Run Text="{Binding PaymentStatusNumber, Mode=OneWay}"
-                                 Style="{StaticResource Run.Description}"/>
-                        </TextBlock>
-
-                        <TextBlock DockPanel.Dock="Top"
-                                   Margin="0 0 0 12"
-                                   TextWrapping="Wrap">
-                            <Run Text="Статус платежа:" Style="{StaticResource Run.Subtitle}"/>
-                            <Run Text="{Binding PaymentStatusName, Mode=OneWay}"
-                                 Style="{StaticResource Run.Description}"/>
-                        </TextBlock>
-
-                        <TextBlock DockPanel.Dock="Top"
-                                   Margin="0 0 0 12"
-                                   TextWrapping="Wrap">
                             <Run Text="ФИО оператора:" Style="{StaticResource Run.Subtitle}"/>
                             <Run Text="{Binding OperatorFullname, Mode=OneWay}"
                                  Style="{StaticResource Run.Description}"/>

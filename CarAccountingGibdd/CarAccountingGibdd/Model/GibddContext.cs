@@ -35,8 +35,6 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<Owner> Owners { get; set; }
 
-    public virtual DbSet<Payment> Payments { get; set; }
-
     public virtual DbSet<PhotosVehicle> PhotosVehicles { get; set; }
 
     public virtual DbSet<Post> Posts { get; set; }
@@ -68,8 +66,6 @@ public partial class GibddContext : DbContext
         .Include(ins => ins.Inspections)
             .ThenInclude(s => s.Status)
         .Include(a => a.ApplicationStatus)
-        .Include(p => p.Payments)
-            .ThenInclude(s => s.Status)
         .Include(op => op.Operator)
         .Include(c => c.Certificates)
         .AsSplitQuery(); // для оптимизации
@@ -123,7 +119,7 @@ public partial class GibddContext : DbContext
 
             entity.HasIndex(e => e.ApplicationStatusId, "fk_application_status_idx");
 
-            entity.HasIndex(e => e.OperatorId, "inspector_id_idx");
+            entity.HasIndex(e => e.OperatorId, "operator_id_idx");
 
             entity.HasIndex(e => e.OwnerId, "owner_id_idx");
 
@@ -353,50 +349,6 @@ public partial class GibddContext : DbContext
             entity.Property(e => e.Phone)
                 .HasMaxLength(11)
                 .HasColumnName("phone");
-        });
-
-        modelBuilder.Entity<Payment>(entity =>
-        {
-            entity.HasKey(e => e.PaymentId).HasName("PRIMARY");
-
-            entity.ToTable("payment");
-
-            entity.HasIndex(e => e.ApplicationId, "application_id_idx");
-
-            entity.HasIndex(e => e.PaymentId, "payment_id_idx");
-
-            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
-            entity.Property(e => e.StatusId).HasColumnName("status_id");
-            entity.Property(e => e.Amount)
-                .HasPrecision(10, 2)
-                .HasColumnName("amount");
-            entity.Property(e => e.ApplicationId).HasColumnName("application_id");
-            entity.Property(e => e.PaymentDatetime)
-                .HasColumnType("datetime")
-                .HasColumnName("payment_datetime");
-            entity.Property(e => e.PaymentMethod).HasColumnName("payment_method");
-
-            entity.HasOne(d => d.Application).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.ApplicationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fkey_application");
-
-            entity.HasOne(d => d.Status).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.StatusId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("status_id");
-        });
-
-        modelBuilder.Entity<PaymentStatus>(entity =>
-        {
-            entity.HasKey(e => e.PaymentStatusId).HasName("PRIMARY");
-
-            entity.ToTable("payment_status");
-
-            entity.Property(e => e.PaymentStatusId).HasColumnName("payment_status_id");
-            entity.Property(e => e.Name)
-                .HasMaxLength(45)
-                .HasColumnName("name");
         });
 
         modelBuilder.Entity<PhotosVehicle>(entity =>

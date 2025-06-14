@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using CarAccountingGibdd.Model;
+using DnsClient;
+using System.Net;
 
 namespace CarAccountingGibdd.Classes
 {
@@ -249,20 +251,54 @@ namespace CarAccountingGibdd.Classes
         }
 
         // Ограничение на валидность почты
-        public static bool ValidateCorrectEmail(string email)
+        public static async Task<bool> ValidateEmailAsync(string email)
         {
-            var regex = new Regex(@"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$");
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            // 1. Проверка синтаксиса email (более расширенное регулярное выражение)
+            var regex = new Regex(@"^[\w\.-]+@([\w-]+\.)+[\w-]{2,}$");
             if (!regex.IsMatch(email))
+                return false;
+
+            // 2. Извлекаем домен
+            var domain = email.Split('@').Last();
+
+            // 3. Настройка DNS-клиента с российским DNS-сервером Яндекса
+            var lookupOptions = new LookupClientOptions(new IPEndPoint(IPAddress.Parse("77.88.8.8"), 53))
             {
+                Timeout = TimeSpan.FromSeconds(2),
+                Retries = 1,
+                UseCache = true
+            };
+            var lookup = new LookupClient(lookupOptions);
+
+            try
+            {
+                // 4. Проверяем наличие MX-записей
+                var result = await lookup.QueryAsync(domain, QueryType.MX);
+                bool hasMx = result.Answers.MxRecords().Any();
+
+                // Если MX-записей нет, проверяем наличие A-записи (IP)
+                if (!hasMx)
+                {
+                    var aResult = await lookup.QueryAsync(domain, QueryType.A);
+                    hasMx = aResult.Answers.ARecords().Any();
+                }
+
+                return hasMx;
+            }
+            catch
+            {
+                // При ошибках DNS считаем домен недействительным
                 return false;
             }
-            return true;
         }
 
         // Ограничение на валидность лицензионного номера
         public static bool ValidateCorrectLicensePlate(string licensePlate)
         {
-            var regex = new Regex(@"^[А-Я]{1}[0-9]{3}[А-Я]{2}$");
+            var regex = new Regex(@"^[АВЕКМНОРСТУХ]{1}[0-9]{3}[АВЕКМНОРСТУХ]{2}[0-9]{2,3}$");
             if (!regex.IsMatch(licensePlate))
             {
                 return false;
@@ -358,6 +394,11 @@ namespace CarAccountingGibdd.Classes
             }
 
             return true;
+        }
+
+        internal static async Task<bool> ValidateEmailAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

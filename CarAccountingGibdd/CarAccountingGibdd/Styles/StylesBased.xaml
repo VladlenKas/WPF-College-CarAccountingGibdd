@@ -1598,7 +1598,6 @@
 
                         <!-- Hover State -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="arrowIcon" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
                             <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
                             <Setter Property="BorderThickness" Value="1"/>
                         </Trigger>
@@ -1669,7 +1668,7 @@
                                                 Kind="ChevronDown"
                                                 Width="24"
                                                 Height="24"
-                                                Foreground="{StaticResource Text.Secondary.Brush}"
+                                                Foreground="{StaticResource Text.Static.Brush}"
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Center"
                                                 Margin="0 0 12 0"/>
@@ -1719,13 +1718,13 @@
 
                         <!-- Hover State -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="arrowIcon" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
                             <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
                             <Setter Property="BorderThickness" Value="1"/>
                         </Trigger>
 
                         <!-- Dropdown Opened -->
                         <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter TargetName="arrowIcon" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
                             <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
                             <Setter Property="BorderThickness" Value="1"/>
                         </Trigger>

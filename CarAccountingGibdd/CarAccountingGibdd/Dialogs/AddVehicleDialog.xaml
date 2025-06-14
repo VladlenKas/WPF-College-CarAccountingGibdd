@@ -42,13 +42,15 @@
                      Tag="ВИН"
                      Margin="0 0 0 12"
                      MaxLength="17"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Vin"/>
 
             <TextBox DockPanel.Dock="Top"
                      Name="licensePlateTB"
                      Tag="Номерной знак (при наличии)"
                      Margin="0 0 0 12"
-                     MaxLength="6"
+                     MaxLength="9"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="LicensePlate"/>
 
             <Button Style="{StaticResource Button.Ordinary}"
@@ -64,6 +66,7 @@
                      Tag="Марка"
                      Margin="0 0 0 12"
                      MaxLength="15"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Description"/>
 
             <TextBox DockPanel.Dock="Top"
@@ -78,6 +81,7 @@
                      Tag="Год выпуска"
                      Margin="0 0 0 12"
                      MaxLength="4"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Numbers"/>
 
             <TextBox DockPanel.Dock="Top"
@@ -85,6 +89,7 @@
                      Tag="Цвет"
                      Margin="0 0 0 12"
                      MaxLength="10"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
 
             <ComboBox Style="{StaticResource ComboBox.Name}"

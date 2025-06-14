@@ -31,7 +31,7 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private void AddOwner()
+        private async void AddOwner()
         {
             // Получаем данные для добавления владельца
             string firstname = firstnameTB.Text;
@@ -47,7 +47,7 @@ namespace CarAccountingGibdd.Dialogs
             OwnerService service = new OwnerService(firstname, lastname, patronymic, birthdate, email, phone, passport, address);
 
             // Проверка
-            bool notError = service.Check();
+            bool notError = await service.CheckAsync();
             if (!notError) return;
 
             // Подтверждение

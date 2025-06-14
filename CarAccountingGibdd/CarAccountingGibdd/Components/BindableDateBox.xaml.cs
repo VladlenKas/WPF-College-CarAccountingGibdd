@@ -95,6 +95,11 @@ namespace CarAccountingGibdd.Components
 
         private void DateBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true; // Блокируем ввод пробела
+            }
+
             if (e.Key == Key.Back || e.Key == Key.Delete)
             {
                 var text = dateBox.Text;

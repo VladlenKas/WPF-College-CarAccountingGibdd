@@ -66,6 +66,7 @@
                          MaxLength="4"
                          Visibility="Collapsed"
                          TextChanged="CashPaymentTB_TextChanged"
+                         behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                          behaviors:TextBoxValidationBehavior.ValidationType="Numbers"/>
 
                 <!-- Здесь область с комбобоксом при оплате безналом -->

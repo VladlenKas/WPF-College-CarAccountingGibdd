@@ -96,6 +96,7 @@ namespace CarAccountingGibdd.Components
             InitializeComponent();
 
             PopupIsOpen = false;
+            ToggleButton.IsChecked = false;
             this.Loaded += AutoCompleteControl_Loaded; // Подписка на событие загрузки
             this.PreviewMouseDown += OnPreviewMouseDown;
             this.LostFocus += OnLostFocus;

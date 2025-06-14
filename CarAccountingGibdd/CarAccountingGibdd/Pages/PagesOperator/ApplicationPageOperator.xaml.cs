@@ -62,7 +62,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            AddApplicationDialog dialog = new();
+            AddApplicationDialog dialog = new(_operator);
             ComponentsHelper.ShowDialogWindowDark(dialog);
 
             bool saved = dialog.Saved;

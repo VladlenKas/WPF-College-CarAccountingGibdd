@@ -74,7 +74,7 @@ namespace CarAccountingGibdd.Classes.Services
         }
 
         // Проверка
-        public bool Check(Employee? employee = null)
+        public async Task<bool> CheckAsync(Employee? employee = null)
         {
             // Пустые поля  
             bool hasNullFields = new[] { _firstname, _lastname, _passport, _email, _password }.Any(string.IsNullOrWhiteSpace);
@@ -112,7 +112,7 @@ namespace CarAccountingGibdd.Classes.Services
             // Валидность почты
             if (!string.IsNullOrWhiteSpace(_email))
             {
-                bool isValidEmail = Validations.ValidateCorrectEmail(_email);
+                bool isValidEmail = await Validations.ValidateEmailAsync(_email);
                 if (!isValidEmail)
                 {
                     MessageHelper.MessageInvalidEmail();

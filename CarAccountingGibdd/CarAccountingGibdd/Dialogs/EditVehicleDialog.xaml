@@ -48,7 +48,7 @@
                      Name="licensePlateTB"
                      Tag="Номерной знак (при наличии)"
                      Margin="0 0 0 12"
-                     MaxLength="6"
+                     MaxLength="9"
                      behaviors:TextBoxValidationBehavior.ValidationType="LicensePlate"/>
 
             <Button Style="{StaticResource Button.Ordinary}"

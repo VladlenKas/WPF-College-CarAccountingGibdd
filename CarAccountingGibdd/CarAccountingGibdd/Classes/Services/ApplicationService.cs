@@ -34,29 +34,19 @@ namespace CarAccountingGibdd.Classes.Services
         }
 
         // Добавление
-        public void Create()
+        public void Create(Employee @operator)
         {
             Application application = new()
             {
                 OwnerId = _owner.OwnerId,
+                OperatorId = @operator.EmployeeId,
                 VehicleId = _vehicle.VehicleId,
                 ApplicationStatusId = 1, // На проверке документов
+                Amount = 400,
                 DatetimeSupply = DateTime.Now
             };
 
             App.DbContext.Add(application);
-            App.DbContext.SaveChanges();
-
-            Payment payment = new()
-            {
-                PaymentMethod = (sbyte)_paymentMethod,
-                ApplicationId = application.ApplicationId,
-                Amount = 400,
-                PaymentDatetime = DateTime.Now,
-                StatusId = 1,
-            };
-
-            App.DbContext.Add(payment);
             App.DbContext.SaveChanges();
         }
 

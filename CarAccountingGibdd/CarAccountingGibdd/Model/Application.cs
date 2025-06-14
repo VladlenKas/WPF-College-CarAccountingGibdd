@@ -21,6 +21,8 @@ public partial class Application
 
     public DateTime? DatetimeAccept { get; set; }
 
+    public decimal Amount { get; set; }
+
     public virtual ApplicationStatus ApplicationStatus { get; set; } = null!;
 
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
@@ -31,8 +33,6 @@ public partial class Application
 
     public virtual Owner Owner { get; set; } = null!;
 
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
-
     public virtual Vehicle Vehicle { get; set; } = null!;
 
     public string OperatorFullname =>
@@ -40,12 +40,6 @@ public partial class Application
 
     public string DepartmentId =>
         Operator?.DepartmentId.ToString() ?? "Отсутствует";
-
-    public string PaymentStatusName =>
-        Payments?.FirstOrDefault()?.Status?.Name ?? "Отсутствует";
-
-    public string PaymentStatusNumber =>
-        Payments?.FirstOrDefault()?.PaymentId.ToString() ?? "Отсутствует";
 
     public string InspectorFullname =>
         Inspections?.FirstOrDefault()?.Inspector?.Fullname ?? "Отсутствует";

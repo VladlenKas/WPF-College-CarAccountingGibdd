@@ -37,6 +37,7 @@
 
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="arrowIcon" Property="Kind" Value="ChevronUp"/>
+                                <Setter TargetName="arrowIcon" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
                             </Trigger>
 
                             <Trigger Property="IsMouseOver" Value="True">

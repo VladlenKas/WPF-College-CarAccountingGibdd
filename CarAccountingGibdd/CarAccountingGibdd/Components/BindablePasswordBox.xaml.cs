@@ -72,5 +72,13 @@ namespace CarAccountingGibdd.Components
         {
             placeholder.Foreground = new SolidColorBrush(Color.FromRgb(143, 143, 143));
         }
+
+        private void PasswordBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true; // Блокируем ввод пробела
+            }
+        }
     }   
 }

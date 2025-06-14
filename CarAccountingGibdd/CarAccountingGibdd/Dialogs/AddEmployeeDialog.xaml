@@ -42,6 +42,7 @@
                      Tag="Фамилия"
                      Margin="0 0 0 12"
                      MaxLength="15"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
 
             <TextBox DockPanel.Dock="Top"
@@ -49,6 +50,7 @@
                      Tag="Имя"
                      Margin="0 0 0 12"
                      MaxLength="15"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
 
             <TextBox DockPanel.Dock="Top"
@@ -56,6 +58,7 @@
                      Tag="Отчество (при наличии)"
                      Margin="0 0 0 24"
                      MaxLength="15"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
 
             <components:BindableDateBox DockPanel.Dock="Top"
@@ -68,6 +71,7 @@
                      Tag="Серия и номер паспорта"
                      Margin="0 0 0 24"
                      MaxLength="10"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Numbers"/>
 
             <ComboBox DockPanel.Dock="Top"
@@ -77,18 +81,18 @@
                       Tag="Выберите должность"
                       Margin="0 0 0 12"/>
 
-            <ComboBox DockPanel.Dock="Top"
-                      Name="departmentCB"
-                      DisplayMemberPath="Name"
-                      Style="{StaticResource ComboBox.Name}"
-                      Tag="Выберите департамент"
-                      Margin="0 0 0 24"/>
+            <components:AutoCompleteTextBox DockPanel.Dock="Top"
+                                            x:Name="departmentCB"
+                                            DisplayMemberPath="Name"
+                                            Placeholder="Выберите департамент"
+                                            Margin="0 0 0 24"/>   
 
             <TextBox DockPanel.Dock="Top"
                      Name="emailTB"
                      Tag="Электронная почта"
                      Margin="0 0 0 12"
                      MaxLength="90"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Email"/>
 
             <Grid DockPanel.Dock="Top"
@@ -96,6 +100,7 @@
 
                 <TextBox Tag="Пароль"
                          Visibility="Hidden"
+                         behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                          Name="PassTB"/>
 
                 <components:BindablePasswordBox Password="{Binding Password}"

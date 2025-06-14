@@ -42,6 +42,7 @@
                      Tag="Фамилия"
                      Margin="0 0 0 12"
                      MaxLength="15"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
 
             <TextBox DockPanel.Dock="Top"
@@ -49,6 +50,7 @@
                      Tag="Имя"
                      Margin="0 0 0 12"
                      MaxLength="15"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
 
             <TextBox DockPanel.Dock="Top"
@@ -56,6 +58,7 @@
                      Tag="Отчество (при наличии)"
                      Margin="0 0 0 12"
                      MaxLength="15"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
 
             <components:BindableDateBox DockPanel.Dock="Top"
@@ -68,6 +71,7 @@
                      Tag="Эл. почта (необязательно)"
                      Margin="0 0 0 12"
                      MaxLength="90"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Email"/>
 
             <components:BindablePhoneBox DockPanel.Dock="Top"
@@ -80,6 +84,7 @@
                      Tag="Серия и номер паспорта"
                      Margin="0 0 0 24"
                      MaxLength="10"
+                     behaviors:NoSpacesTextBoxBehavior.DisallowSpaces="True"
                      behaviors:TextBoxValidationBehavior.ValidationType="Numbers"/>
 
             <TextBox DockPanel.Dock="Top"

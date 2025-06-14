@@ -35,7 +35,7 @@ namespace CarAccountingGibdd.Dialogs
 
             DataContext = this;
 
-            _secondsLeft = 6; // Показываем, что осталось 5 секунд
+            _secondsLeft = 5; // Показываем, что осталось 5 секунд
 
             _dispatcherTimer = new DispatcherTimer()
             {

@@ -81,7 +81,7 @@ namespace CarAccountingGibdd.Classes.Services
         }
 
         // Проверка
-        public bool Check(Owner? owner = null)
+        public async Task<bool> CheckAsync(Owner? owner = null)
         {
             // Пустые поля  
             bool hasNullFields = new[] { _firstname, _lastname, _phone, _passport, _address }.Any(string.IsNullOrWhiteSpace);
@@ -118,12 +118,12 @@ namespace CarAccountingGibdd.Classes.Services
             // Валидность почты
             if (!string.IsNullOrWhiteSpace(_email))
             {
-                bool isValidEmail = Validations.ValidateCorrectEmail(_email);
+                bool isValidEmail = await Validations.ValidateEmailAsync(_email);
                 if (!isValidEmail)
                 {
                     MessageHelper.MessageInvalidEmail();
                     return false;
-                } 
+                }
             }
 
             // Длина телефона
@@ -154,7 +154,7 @@ namespace CarAccountingGibdd.Classes.Services
             if (owner == null)
             {
                 // Дубликат почты
-                bool isDublicateEmail = App.DbContext.Owners.Any(o => o.Email == _email);
+                bool isDublicateEmail = App.DbContext.Owners.Any(o => o.Email == _email && !string.IsNullOrEmpty(_email));
                 if (isDublicateEmail)
                 {
                     MessageHelper.MessageDuplicateEmail();
@@ -182,7 +182,7 @@ namespace CarAccountingGibdd.Classes.Services
             if (owner != null)
             {
                 // Дубликат почты
-                bool isDublicateEmail = App.DbContext.Owners.Any(o => o.Email == _email && o.OwnerId != owner.OwnerId);
+                bool isDublicateEmail = App.DbContext.Owners.Any(o => o.Email == _email && !string.IsNullOrEmpty(_email) && o.OwnerId != owner.OwnerId);
                 if (isDublicateEmail)
                 {
                     MessageHelper.MessageDuplicateEmail();
