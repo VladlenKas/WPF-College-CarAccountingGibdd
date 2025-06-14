@@ -124,7 +124,7 @@
                 <TextBlock Text="Данные о транспортных средствах отсутствуют"
                           Style="{StaticResource TextBlock.H6}"
                           FontSize="18"
-                          Margin="20 80 0 0"
+                          Margin="20 90 0 0"
                           Visibility="{Binding Items.Count, ElementName=itemsDG, 
                           Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
 

@@ -25,11 +25,18 @@ namespace CarAccountingGibdd.Controls
     {
         // Поля
         private Certificate _certificate;
-
+        private Employee _employee;
         // Конструктор
-        public CertificateCard(Certificate certificate)
+        public CertificateCard(Certificate certificate, Employee employee)
         {
             InitializeComponent();
+
+            // Даем возможность инспектору печатать документ
+            if (employee.PostId == 2)
+            {
+                saveDocumentBTN.Visibility = Visibility.Visible;
+                _employee = employee;
+            }
 
             if (certificate.IsActive == 1)
             {
@@ -52,6 +59,14 @@ namespace CarAccountingGibdd.Controls
             e.Handled = true; // Останавливаем всплытие события
 
             InfoCertificateDialog dialog = new(_certificate);
+            ComponentsHelper.ShowDialogWindowDark(dialog);
+        }
+
+        private void SaveDocument_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            e.Handled = true; // Останавливаем всплытие события
+
+            SaveDocumentDialog dialog = new(_certificate, _employee);
             ComponentsHelper.ShowDialogWindowDark(dialog);
         }
     }

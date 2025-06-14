@@ -30,8 +30,6 @@ namespace CarAccountingGibdd.Controls
         // Свойства
         public PhotosVehicle PhotosVehicle { get; private set; }
 
-        // Поля
-        private Window _parentDialog;
 
         // Конструктор для редактирования
         public ImageMiniatureCard(PhotosVehicle photosVehicle, Window dialog)
@@ -60,20 +58,8 @@ namespace CarAccountingGibdd.Controls
 
         private void ImageVehicle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_parentDialog != null)
-            {
-                _parentDialog.Hide();
-
-                OpenImageDialog dialog = new OpenImageDialog(PhotosVehicle);
-                dialog.ShowDialog();
-
-                _parentDialog.ShowDialog();
-            }
-            else
-            {
-                OpenImageDialog dialog = new OpenImageDialog(PhotosVehicle);
-                dialog.ShowDialog();
-            }
+            OpenImageDialog dialog = new OpenImageDialog(PhotosVehicle);
+            dialog.ShowDialog();
         }
     }
 }

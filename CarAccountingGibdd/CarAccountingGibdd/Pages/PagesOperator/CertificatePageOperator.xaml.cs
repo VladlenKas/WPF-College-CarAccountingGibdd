@@ -48,7 +48,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             cardsIC.Items.Clear();
             foreach (var certificate in certificates)
             {
-                var card = new CertificateCard(certificate);
+                var card = new CertificateCard(certificate, _operator);
                 cardsIC.Items.Add(card);
             }
         }

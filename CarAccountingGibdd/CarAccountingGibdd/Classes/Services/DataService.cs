@@ -821,7 +821,6 @@ namespace CarAccountingGibdd.Classes.Services
 
     public class ViolationDataService
     {
-        private ComboBox _filterCB;
         private ComboBox _sorterCB;
         private TextBox _searchTB;
         private CheckBox _ascendingCHB;
@@ -1255,7 +1254,6 @@ namespace CarAccountingGibdd.Classes.Services
 
     public class DepartmentDataService
     {
-        private ComboBox _filterCB;
         private ComboBox _sorterCB;
         private TextBox _searchTB;
         private CheckBox _ascendingCHB;

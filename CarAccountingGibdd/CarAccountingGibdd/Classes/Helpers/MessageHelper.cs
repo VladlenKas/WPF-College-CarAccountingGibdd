@@ -20,6 +20,10 @@ namespace CarAccountingGibdd.Classes
         public static void MessageNullFields() =>
             ShowWarning("Заполните все поля!");
 
+        public static void MessageNullFilepath() =>
+            ShowWarning("Выберите путь для сохранения документа! Для этого нажмите на кнопку " +
+                "«Выбрать путь к документу»");
+
         public static void MessageShortFio() =>
             ShowWarning("Фамилия имя и отчество должны содержать минимум 3 символа!");
 

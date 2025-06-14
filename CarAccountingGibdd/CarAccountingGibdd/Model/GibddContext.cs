@@ -33,7 +33,7 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<InspectionStatus> InspectionStatuses { get; set; }
 
-    public virtual DbSet<Owner> AllOwners { get; set; }
+    public virtual DbSet<Owner> Owners { get; set; }
 
     public virtual DbSet<Payment> Payments { get; set; }
 
@@ -45,11 +45,11 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<VehicleType> VehicleTypes { get; set; }
 
-    public virtual DbSet<Violation> Violations { get; set; }
+    public virtual DbSet<Violation> AllViolations { get; set; }
 
     public virtual DbSet<ViolationInspection> AllViolationInspections { get; set; }
 
-    #region Записи активные и с контекстом
+    // Записи активные и с контекстом
 
     public IQueryable<Inspection> Inspections => AllInspections
         .Include(a => a.Application)
@@ -75,14 +75,17 @@ public partial class GibddContext : DbContext
         .AsSplitQuery(); // для оптимизации
 
     public IQueryable<Employee> Employees => AllEmployees
+        .Where(r => r.Deleted != 1)
         .Include(r => r.Post)
         .Include(r => r.Department);
 
     public IQueryable<Department> Departments => AllDepartments
+        .Where(r => r.Deleted != 1)
         .Include(r => r.Employees)
             .ThenInclude(r => r.Post);
 
-    public IQueryable<Owner> Owners => AllOwners;
+    public IQueryable<Violation> Violations => AllViolations
+        .Where(r => r.Deleted != 1);
 
     public IQueryable<ViolationInspection> ViolationInspection => AllViolationInspections
         .Include(v => v.Violation)
@@ -101,8 +104,6 @@ public partial class GibddContext : DbContext
         .Include(a => a.Application)
             .ThenInclude(ins => ins.Inspections)
                 .ThenInclude(i => i.Inspector);
-
-    #endregion
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.

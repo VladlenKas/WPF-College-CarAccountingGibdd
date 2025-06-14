@@ -26,7 +26,6 @@ namespace CarAccountingGibdd.Pages.PagesOperator
     public partial class ApplicationPageOperator : Page
     {
         //  Поля и свойства 
-        private ApplicationService _service;
         private Employee _operator;
         private ApplicationDataService _dataService;
 

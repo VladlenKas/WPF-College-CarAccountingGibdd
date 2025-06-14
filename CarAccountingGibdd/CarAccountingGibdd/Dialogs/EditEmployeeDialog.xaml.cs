@@ -27,7 +27,6 @@ namespace CarAccountingGibdd.Dialogs
 
         // Поля
         private Employee _employee;
-        private Employee _admin;
 
         // Конструктор
         public EditEmployeeDialog(Employee employee, Employee admin)
