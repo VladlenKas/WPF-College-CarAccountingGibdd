@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using static iTextSharp.text.pdf.hyphenation.TernaryTree;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CarAccountingGibdd.Classes.Services
 {
@@ -32,7 +34,7 @@ namespace CarAccountingGibdd.Classes.Services
 
             filterCB.ItemsSource = new[] { "Все заявки", "Активные заявки", "Завершенные заявки" };
             filterCB.SelectedIndex = 1;
-            sorterCB.ItemsSource = new[] { "По дате подачи", "По номеру заявки", "По ФИО владельца", "По названию ТС" };
+            sorterCB.ItemsSource = new[] { "По дате подачи", "По номеру заявки", "По ФИО владельца", "По инфо. ТС", "По статусу" };
             sorterCB.SelectedIndex = 0;
             ascendingCHB.IsChecked = false;
 
@@ -47,9 +49,18 @@ namespace CarAccountingGibdd.Classes.Services
             {
                 applications = applications.Where(r =>
                     r.ApplicationId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    r.Operator?.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.DatetimeSupply.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.DatetimeAccept?.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.DatetimeConfirm?.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.ApplicationStatus.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.DepartmentId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.Department.Name.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.Department.Address.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                     r.Owner.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    r.Vehicle.Info.Contains(search, StringComparison.OrdinalIgnoreCase)
+                    r.Owner.Passport.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Owner.Phone.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Owner.Email?.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.Vehicle.FullInfo.Contains(search, StringComparison.OrdinalIgnoreCase)
                     ).ToList();
             }
             return applications;
@@ -68,6 +79,7 @@ namespace CarAccountingGibdd.Classes.Services
                     1 => applications.OrderBy(e => e.ApplicationId).ToList(),
                     2 => applications.OrderBy(e => e.Owner.Fullname).ToList(),
                     3 => applications.OrderBy(e => e.Vehicle.BrandModel).ToList(),
+                    4 => applications.OrderBy(e => e.ApplicationStatusId).ToList(),
                     _ => applications.OrderBy(e => e.DatetimeSupply).ToList(),
                 };
             }
@@ -78,13 +90,14 @@ namespace CarAccountingGibdd.Classes.Services
                     1 => applications.OrderByDescending(e => e.ApplicationId).ToList(),
                     2 => applications.OrderByDescending(e => e.Owner.Fullname).ToList(),
                     3 => applications.OrderByDescending(e => e.Vehicle.BrandModel).ToList(),
+                    4 => applications.OrderByDescending(e => e.ApplicationStatusId).ToList(),
                     _ => applications.OrderByDescending(e => e.DatetimeSupply).ToList(),
                 };
             }
         }
 
         // Фильтрация
-        public List<Model.Application> ApplyFilter(List<Model.Application> applications, Employee @operator)
+        public List<Model.Application> ApplyFilter(List<Model.Application> applications)
         {
             int dateIndex = _filterCB.SelectedIndex;
 
@@ -93,8 +106,10 @@ namespace CarAccountingGibdd.Classes.Services
                 case 1: // "Активные заявки"
                     return applications
                         .Where(r => 
-                            r.ApplicationStatusId == 2 || 
-                            r.ApplicationStatusId == 1)
+                            r.ApplicationStatusId == 1 || 
+                            r.ApplicationStatusId == 2 ||
+                            r.ApplicationStatusId == 3 ||
+                            r.ApplicationStatusId == 4)
                         .ToList();
 
                 case 2: // "Завершенные заявки"
@@ -110,18 +125,31 @@ namespace CarAccountingGibdd.Classes.Services
             }
         }
 
-        // Фильтр по незначенным заявкам
-        public List<Model.Application> ApplyInspector(List<Model.Application> applications, Employee inspector)
+        // Разделение функционала
+        public List<Model.Application> ApplyAccessControl(List<Model.Application> applications, Employee employee)
         {
-            // Возвращает только те заявки, которые еще не имеют назначенного инспектора
-            // ИЛИ имеют заявку с конкретным инспектором
-            return applications
-                .Where(order =>
-                    (order.ApplicationStatusId == 2) ||
-                     order.Inspections
-                        .Any(ed => ed.InspectorId == inspector.EmployeeId)
-                )
-                .ToList();
+            /*
+             2. Инспектор => В своем департаменте ЛИБО свои ЛИБО не принятые
+             3. Оператор => Все в своем департаменте
+             */
+
+            switch (employee.PostId)
+            {
+                case 2:
+                    return applications
+                        .Where(app =>
+                            (app.DepartmentId == employee.DepartmentId && app.ApplicationStatusId == 2) ||
+                            app.Inspections.Any(ins => ins.InspectorId == employee.DepartmentId))
+                        .ToList();
+
+                case 3:
+                    return applications
+                        .Where(r => r.DepartmentId == employee.DepartmentId)
+                        .ToList();
+
+                default:
+                    return applications.ToList();
+            }
         }
 
         // Свойства
@@ -204,7 +232,7 @@ namespace CarAccountingGibdd.Classes.Services
 
             filterCB.ItemsSource = new[] { "Все осмотры", "Активные осмотры", "Завершенные осмотры" };
             filterCB.SelectedIndex = 1;
-            sorterCB.ItemsSource = new[] { "По дате подачи", "По номеру осмотра", "По номеру заявки", "По ФИО владельца", "По названию ТС" };
+            sorterCB.ItemsSource = new[] { "По дате", "По номеру осмотра", "По номеру заявки", "По ФИО владельца", "По инфо. ТС", "По статусу" };
             sorterCB.SelectedIndex = 0;
             ascendingCHB.IsChecked = false;
 
@@ -218,11 +246,19 @@ namespace CarAccountingGibdd.Classes.Services
             if (!string.IsNullOrWhiteSpace(search))
             {
                 inspections = inspections.Where(r =>
-                    r.ApplicationId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
                     r.InspectionId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    r.Application.Operator?.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.DatetimePlanned.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.DatetimeCompleted?.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.Inspector.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Status.Name.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Application.DepartmentId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.Application.Department.Name.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.Application.Department.Address.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                     r.Application.Owner.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    r.Application.Vehicle.Info.Contains(search, StringComparison.OrdinalIgnoreCase)
+                    r.Application.Owner.Passport.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Application.Owner.Phone.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Application.Owner.Email?.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.Application.Vehicle.FullInfo.Contains(search, StringComparison.OrdinalIgnoreCase) 
                     ).ToList();
             }
             return inspections;
@@ -238,9 +274,11 @@ namespace CarAccountingGibdd.Classes.Services
             {
                 return sortIndex switch
                 {
-                    1 => inspections.OrderBy(e => e.ApplicationId).ToList(),
-                    2 => inspections.OrderBy(e => e.Application.Owner.Fullname).ToList(),
-                    3 => inspections.OrderBy(e => e.Application.Vehicle.BrandModel).ToList(),
+                    1 => inspections.OrderBy(e => e.InspectionId).ToList(),
+                    2 => inspections.OrderBy(e => e.ApplicationId).ToList(),
+                    3 => inspections.OrderBy(e => e.Application.Owner.Fullname).ToList(),
+                    4 => inspections.OrderBy(e => e.Application.Vehicle.Info).ToList(),
+                    5 => inspections.OrderBy(e => e.Status.Name).ToList(),
                     _ => inspections.OrderBy(e => e.DatetimePlanned).ToList(),
                 };
             }
@@ -248,9 +286,11 @@ namespace CarAccountingGibdd.Classes.Services
             {
                 return sortIndex switch
                 {
-                    1 => inspections.OrderByDescending(e => e.ApplicationId).ToList(),
-                    2 => inspections.OrderByDescending(e => e.Application.Owner.Fullname).ToList(),
-                    3 => inspections.OrderByDescending(e => e.Application.Vehicle.BrandModel).ToList(),
+                    1 => inspections.OrderByDescending(e => e.InspectionId).ToList(),
+                    2 => inspections.OrderByDescending(e => e.ApplicationId).ToList(),
+                    3 => inspections.OrderByDescending(e => e.Application.Owner.Fullname).ToList(),
+                    4 => inspections.OrderByDescending(e => e.Application.Vehicle.Info).ToList(),
+                    5 => inspections.OrderByDescending(e => e.Status.Name).ToList(),
                     _ => inspections.OrderByDescending(e => e.DatetimePlanned).ToList(),
                 };
             }
@@ -266,8 +306,8 @@ namespace CarAccountingGibdd.Classes.Services
                 case 1: // "Активные осмотры"
                     return inspections
                         .Where(r =>
-                            r.StatusId == 2 ||
-                            r.StatusId == 1)
+                            r.StatusId == 1 ||
+                            r.StatusId == 2)
                         .ToList();
 
                 case 2: // "Завершенные осмотры"
@@ -284,13 +324,28 @@ namespace CarAccountingGibdd.Classes.Services
         }
 
         // Фильтр по незначенным осмотрам
-        public List<Model.Inspection> ApplyInspector(List<Inspection> inspections, Employee inspector)
+        public List<Model.Inspection> ApplyAccessControl(List<Inspection> inspections, Employee employee)
         {
-            // Возвращает только те заявки, которые еще не имеют назначенного инспектора
-            // ИЛИ имеют заявку с конкретным инспектором
-            return inspections
-                .Where(ins => ins.InspectorId == inspector.EmployeeId)
-                .ToList();
+            /*
+             2. Инспектор => Только свои
+             3. Оператор => Все в своем департаменте
+             */
+
+            switch (employee.PostId)
+            {
+                case 2:
+                    return inspections
+                        .Where(app => app.InspectorId == employee.EmployeeId)
+                        .ToList();
+
+                case 3:
+                    return inspections
+                        .Where(app => app.Application.DepartmentId == employee.DepartmentId)
+                        .ToList();
+
+                default:
+                    return inspections.ToList();
+            }
         }
 
         // Свойства
@@ -955,7 +1010,7 @@ namespace CarAccountingGibdd.Classes.Services
 
             filterCB.ItemsSource = new[] { "Все свидетельства", "Действительные", "Истекшие" };
             filterCB.SelectedIndex = 1;
-            sorterCB.ItemsSource = new[] { "По дате добавления", "По ФИО владельца", "По ФИО оператора", "По ФИО инспектора", "По названию ТС" };
+            sorterCB.ItemsSource = new[] { "По дате", "По номеру", "По номеру заявки", "По ФИО владельца", "По инфо. ТС" };
             sorterCB.SelectedIndex = 0;
             ascendingCHB.IsChecked = false;
 
@@ -969,10 +1024,14 @@ namespace CarAccountingGibdd.Classes.Services
             if (!string.IsNullOrWhiteSpace(search))
             {
                 certificates = certificates.Where(r =>
-                    r.Application.Owner?.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
-                    r.Application.Vehicle?.FullInfo.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
-                    r.Application.Operator?.Fullname.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
-                    r.ApplicationId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.CertificateId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Number.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.IssueDate.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Application.Owner.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Application.Owner.Passport.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Application.Owner.Phone.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.Application.Owner.Email?.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                    r.Application.Vehicle.FullInfo.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                     r.Application.InspectionNumber?.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                     r.Application.InspectorFullname?.Contains(search, StringComparison.OrdinalIgnoreCase) == true 
                     ).ToList();
@@ -990,9 +1049,9 @@ namespace CarAccountingGibdd.Classes.Services
             {
                 return sortIndex switch
                 {
-                    1 => certificates.OrderBy(e => e.Application.Owner?.Fullname).ToList(),
-                    2 => certificates.OrderBy(e => e.Application.Operator?.Fullname).ToList(),
-                    3 => certificates.OrderBy(e => e.Application.InspectorFullname).ToList(),
+                    1 => certificates.OrderBy(e => e.CertificateId).ToList(),
+                    2 => certificates.OrderBy(e => e.ApplicationId).ToList(),
+                    3 => certificates.OrderBy(e => e.Application.Owner.Fullname).ToList(),
                     4 => certificates.OrderBy(e => e.Application.Vehicle.BrandModel).ToList(),
                     _ => certificates.OrderBy(e => e.IssueDate).ToList(),
                 };
@@ -1001,9 +1060,9 @@ namespace CarAccountingGibdd.Classes.Services
             {
                 return sortIndex switch
                 {
-                    1 => certificates.OrderByDescending(e => e.Application.Owner?.Fullname).ToList(),
-                    2 => certificates.OrderByDescending(e => e.Application.Operator?.Fullname).ToList(),
-                    3 => certificates.OrderByDescending(e => e.Application.InspectorFullname).ToList(),
+                    1 => certificates.OrderByDescending(e => e.CertificateId).ToList(),
+                    2 => certificates.OrderByDescending(e => e.ApplicationId.ToString()).ToList(),
+                    3 => certificates.OrderByDescending(e => e.Application.Owner.Fullname).ToList(),
                     4 => certificates.OrderByDescending(e => e.Application.Vehicle.BrandModel).ToList(),
                     _ => certificates.OrderByDescending(e => e.IssueDate).ToList(),
                 };
@@ -1028,6 +1087,31 @@ namespace CarAccountingGibdd.Classes.Services
                         .ToList();
 
                 default: // "Все"
+                    return certificates.ToList();
+            }
+        }
+
+        // Разделение функционала
+        public List<Certificate> ApplyAccessControl(List<Certificate> certificates, Employee employee)
+        {
+            /*
+             2. Инспектор => Только свои
+             3. Оператор => Все в своем департаменте
+             */
+
+            switch (employee.PostId)
+            {
+                case 2:
+                    return certificates
+                        .Where(app => app.Application.InspectorId == employee.EmployeeId)
+                        .ToList();
+
+                case 3:
+                    return certificates
+                        .Where(r => r.Application.DepartmentId == employee.DepartmentId)
+                        .ToList();
+
+                default:
                     return certificates.ToList();
             }
         }
@@ -1110,9 +1194,9 @@ namespace CarAccountingGibdd.Classes.Services
             _reserFiltersBTN = reserFiltersBTN;
             UpdateIC = Action;
 
-            filterCB.ItemsSource = new[] { "Все списки нарушений", "За последние 7 дней", "За последний месяц", "За последний год" };
+            filterCB.ItemsSource = new[] { "Все списки", "За последние 7 дней", "За последний месяц", "За последний год" };
             filterCB.SelectedIndex = 1;
-            sorterCB.ItemsSource = new[] { "По дате добавления", "По ФИО владельца", "По ФИО оператора", "По ФИО инспектора", "По названию ТС" };
+            sorterCB.ItemsSource = new[] { "По дате", "По ФИО владельца", "По ФИО инспектора", "По названию ТС", "По кол-ву нарушенй" };
             sorterCB.SelectedIndex = 0;
             ascendingCHB.IsChecked = false;
 
@@ -1128,8 +1212,8 @@ namespace CarAccountingGibdd.Classes.Services
                 violationsInspections = violationsInspections.Where(r =>
                     r.First().Inspection.Application.Owner?.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                     r.First().Inspection.Application.Vehicle?.FullInfo.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
-                    r.First().Inspection.Application.Operator?.Fullname.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                     r.First().Inspection.ApplicationId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    r.First().Violation.Description.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
                     r.First().Inspection.Application.InspectionNumber?.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                     r.First().Inspection.Application.InspectorFullname?.Contains(search, StringComparison.OrdinalIgnoreCase) == true
                     ).ToList();
@@ -1148,9 +1232,9 @@ namespace CarAccountingGibdd.Classes.Services
                 return sortIndex switch
                 {
                     1 => violationsInspections.OrderBy(e => e.First().Inspection.Application.Owner?.Fullname).ToList(),
-                    2 => violationsInspections.OrderBy(e => e.First().Inspection.Application.Operator?.Fullname).ToList(),
-                    3 => violationsInspections.OrderBy(e => e.First().Inspection.Application.InspectorFullname).ToList(),
-                    4 => violationsInspections.OrderBy(e => e.First().Inspection.Application.Vehicle.BrandModel).ToList(),
+                    2 => violationsInspections.OrderBy(e => e.First().Inspection.Application.InspectorFullname).ToList(),
+                    3 => violationsInspections.OrderBy(e => e.First().Inspection.Application.Vehicle.BrandModel).ToList(),
+                    4 => violationsInspections.OrderBy(e => e.Count()).ToList(),
                     _ => violationsInspections.OrderBy(e => e.First().Inspection.DatetimeCompleted).ToList(),
                 };
             }
@@ -1159,9 +1243,9 @@ namespace CarAccountingGibdd.Classes.Services
                 return sortIndex switch
                 {
                     1 => violationsInspections.OrderByDescending(e => e.First().Inspection.Application.Owner?.Fullname).ToList(),
-                    2 => violationsInspections.OrderByDescending(e => e.First().Inspection.Application.Operator?.Fullname).ToList(),
-                    3 => violationsInspections.OrderByDescending(e => e.First().Inspection.Application.InspectorFullname).ToList(),
-                    4 => violationsInspections.OrderByDescending(e => e.First().Inspection.Application.Vehicle.BrandModel).ToList(),
+                    2 => violationsInspections.OrderByDescending(e => e.First().Inspection.Application.InspectorFullname).ToList(),
+                    3 => violationsInspections.OrderByDescending(e => e.First().Inspection.Application.Vehicle.BrandModel).ToList(),
+                    4 => violationsInspections.OrderBy(e => e.Count()).ToList(),
                     _ => violationsInspections.OrderByDescending(e => e.First().Inspection.DatetimeCompleted).ToList(),
                 };
             }
@@ -1191,6 +1275,31 @@ namespace CarAccountingGibdd.Classes.Services
                         .ToList();
 
                 default: // Все списки нарушений
+                    return violationsInspections.ToList();
+            }
+        }
+
+        // Разделение функционала
+        public List<IGrouping<int, ViolationInspection>> ApplyAccessControl(List<IGrouping<int, ViolationInspection>> violationsInspections, Employee employee)
+        {
+            /*
+             2. Инспектор => Только свои
+             3. Оператор => Все в своем департаменте
+             */
+
+            switch (employee.PostId)
+            {
+                case 2:
+                    return violationsInspections
+                        .Where(list => list.FirstOrDefault()?.Inspection.InspectorId == employee.EmployeeId)
+                        .ToList();
+
+                case 3:
+                    return violationsInspections
+                        .Where(list => list.FirstOrDefault()?.Inspection.Application.DepartmentId == employee.DepartmentId)
+                        .ToList();
+
+                default:
                     return violationsInspections.ToList();
             }
         }

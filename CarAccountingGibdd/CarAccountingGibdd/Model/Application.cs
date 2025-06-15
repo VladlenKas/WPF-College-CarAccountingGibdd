@@ -9,7 +9,7 @@ public partial class Application
 
     public int ApplicationStatusId { get; set; }
 
-    public int? OperatorId { get; set; }
+    public int DepartmentId { get; set; }
 
     public int OwnerId { get; set; }
 
@@ -29,20 +29,17 @@ public partial class Application
 
     public virtual ICollection<Inspection> Inspections { get; set; } = new List<Inspection>();
 
-    public virtual Employee? Operator { get; set; }
+    public virtual Department Department { get; set; } = null!;
 
     public virtual Owner Owner { get; set; } = null!;
 
     public virtual Vehicle Vehicle { get; set; } = null!;
 
-    public string OperatorFullname =>
-        Operator?.Fullname ?? "Отсутствует";
-
-    public string DepartmentId =>
-        Operator?.DepartmentId.ToString() ?? "Отсутствует";
-
     public string InspectorFullname =>
         Inspections?.FirstOrDefault()?.Inspector?.Fullname ?? "Отсутствует";
+
+    public int? InspectorId =>
+        Inspections?.FirstOrDefault()?.Inspector?.EmployeeId ?? null;
 
     public string InspectionNumber =>
         Inspections?.FirstOrDefault()?.InspectionId.ToString() ?? "Отсутствует";

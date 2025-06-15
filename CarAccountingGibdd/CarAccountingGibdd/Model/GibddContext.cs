@@ -55,6 +55,10 @@ public partial class GibddContext : DbContext
         .Include(a => a.Application)
             .ThenInclude(v => v.Vehicle)
             .ThenInclude(vt => vt.VehicleType)
+        .Include(a => a.Application)
+            .ThenInclude(d => d.Department)
+        .Include(a => a.Application)
+            .ThenInclude(d => d.Certificates)
         .Include(s => s.Status);
 
     public IQueryable<Application> Applications => AllApplications
@@ -66,7 +70,6 @@ public partial class GibddContext : DbContext
         .Include(ins => ins.Inspections)
             .ThenInclude(s => s.Status)
         .Include(a => a.ApplicationStatus)
-        .Include(op => op.Operator)
         .Include(c => c.Certificates)
         .AsSplitQuery(); // для оптимизации
 
@@ -119,7 +122,7 @@ public partial class GibddContext : DbContext
 
             entity.HasIndex(e => e.ApplicationStatusId, "fk_application_status_idx");
 
-            entity.HasIndex(e => e.OperatorId, "operator_id_idx");
+            entity.HasIndex(e => e.DepartmentId, "department_fk_idx");
 
             entity.HasIndex(e => e.OwnerId, "owner_id_idx");
 
@@ -136,18 +139,19 @@ public partial class GibddContext : DbContext
             entity.Property(e => e.DatetimeAccept)
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_accept");
-            entity.Property(e => e.OperatorId).HasColumnName("operator_id");
+            entity.Property(e => e.DepartmentId).HasColumnName("department_id");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
+
+            entity.HasOne(d => d.Department).WithMany(p => p.Applications)
+                .HasForeignKey(d => d.DepartmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("department_id");
 
             entity.HasOne(d => d.ApplicationStatus).WithMany(p => p.Applications)
                 .HasForeignKey(d => d.ApplicationStatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_application_status");
-
-            entity.HasOne(d => d.Operator).WithMany(p => p.Applications)
-                .HasForeignKey(d => d.OperatorId)
-                .HasConstraintName("operator_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Applications)
                 .HasForeignKey(d => d.OwnerId)
@@ -182,8 +186,11 @@ public partial class GibddContext : DbContext
 
             entity.HasIndex(e => e.Number, "number_UNIQUE").IsUnique();
 
+            entity.HasIndex(e => e.LicensePlate, "license_plate_UNIQUE").IsUnique();
+
             entity.Property(e => e.CertificateId).HasColumnName("certificate_id");
             entity.Property(e => e.ApplicationId).HasColumnName("application_id");
+            entity.Property(e => e.LicensePlate).HasColumnName("license_plate");
             entity.Property(e => e.IsActive).HasColumnName("is_active");
             entity.Property(e => e.IssueDate).HasColumnName("issue_date");
             entity.Property(e => e.Number)

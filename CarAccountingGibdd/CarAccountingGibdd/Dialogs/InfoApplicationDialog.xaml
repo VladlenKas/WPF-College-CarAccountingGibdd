@@ -205,18 +205,10 @@
                         </TextBlock>
 
                         <TextBlock DockPanel.Dock="Top"
-                                   Margin="0 0 0 12"
-                                   TextWrapping="Wrap">
-                            <Run Text="ФИО оператора:" Style="{StaticResource Run.Subtitle}"/>
-                            <Run Text="{Binding OperatorFullname, Mode=OneWay}"
-                                 Style="{StaticResource Run.Description}"/>
-                        </TextBlock>
-
-                        <TextBlock DockPanel.Dock="Top"
                                    Margin="0 0 0 24"
                                    TextWrapping="Wrap">
                             <Run Text="Департамент:" Style="{StaticResource Run.Subtitle}"/>
-                            <Run Text="{Binding DepartmentId, Mode=OneWay}"
+                            <Run Text="{Binding Department.Name, Mode=OneWay}"
                                  Style="{StaticResource Run.Description}"/>
                         </TextBlock>
 

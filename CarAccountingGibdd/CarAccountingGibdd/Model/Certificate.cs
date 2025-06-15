@@ -13,6 +13,8 @@ public partial class Certificate
 
     public DateOnly IssueDate { get; set; }
 
+    public string LicensePlate { get; set; } = null!;
+
     public sbyte IsActive { get; set; }
 
     public virtual Application Application { get; set; } = null!;

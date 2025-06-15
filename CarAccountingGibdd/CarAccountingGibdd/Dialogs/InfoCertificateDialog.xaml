@@ -194,8 +194,8 @@
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
-                    <Run Text="Заявка рассмотрена (кем):" Style="{StaticResource Run.Subtitle}"/>
-                    <Run Text="{Binding Application.OperatorFullname, Mode=OneWay}"
+                    <Run Text="В департаменте:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="{Binding Application.Department.Name, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 

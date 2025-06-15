@@ -51,7 +51,12 @@ namespace CarAccountingGibdd.Controls
             int post = _employee.PostId;
             int status = _application.ApplicationStatusId;
 
-            if (post == 2 && status == 2) // инспектор, если еще нет осмотра
+            if (_employee.DepartmentId != _application.DepartmentId)
+            {
+                infoBTN.Visibility = System.Windows.Visibility.Visible;
+                Opacity = 0.5;
+            }
+            else if (post == 2 && status == 2) // инспектор, если еще нет осмотра
             {
                 acceptForInspectionBTN.Visibility = System.Windows.Visibility.Visible;
             }

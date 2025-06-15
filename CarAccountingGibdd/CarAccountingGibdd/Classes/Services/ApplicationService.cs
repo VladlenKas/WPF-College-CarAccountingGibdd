@@ -39,7 +39,7 @@ namespace CarAccountingGibdd.Classes.Services
             Application application = new()
             {
                 OwnerId = _owner.OwnerId,
-                OperatorId = @operator.EmployeeId,
+                DepartmentId = @operator.DepartmentId,
                 VehicleId = _vehicle.VehicleId,
                 ApplicationStatusId = 1, // На проверке документов
                 Amount = 400,
@@ -64,7 +64,6 @@ namespace CarAccountingGibdd.Classes.Services
         public static void Confirm(Application application, Employee @operator)
         {
             application.ApplicationStatusId = 2;
-            application.OperatorId = @operator.EmployeeId;
             application.DatetimeConfirm = DateTime.Now;
 
             App.DbContext.Update(application);
@@ -96,7 +95,6 @@ namespace CarAccountingGibdd.Classes.Services
         public static void Reject(Application application, Employee @operator)
         {
             application.ApplicationStatusId = 6;
-            application.OperatorId = @operator.EmployeeId;
             application.DatetimeConfirm = DateTime.Now;
 
             App.DbContext.Update(application);

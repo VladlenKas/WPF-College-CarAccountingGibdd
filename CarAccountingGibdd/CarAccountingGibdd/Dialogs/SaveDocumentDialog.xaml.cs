@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -116,6 +117,13 @@ namespace CarAccountingGibdd.Dialogs
             {
                 MessageHelper.MessageNullFilepath();
                 return;
+            }
+
+            // Проверка на то, что путь выбран
+            if (File.Exists(_filepath))
+            {
+                bool result = MessageHelper.ConfirmResaveDocument();
+                if (!result) return;
             }
 
             SaveDocument();

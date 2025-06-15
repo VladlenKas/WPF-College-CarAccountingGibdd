@@ -136,7 +136,7 @@ namespace CarAccountingGibdd.Controls
 
             if (result)
             {
-                AddSertificateDialog dialog = new(_inspection);
+                AddCertificateDialog dialog = new(_inspection);
                 ComponentsHelper.ShowDialogWindowDark(dialog);
             }
             else if (!result)

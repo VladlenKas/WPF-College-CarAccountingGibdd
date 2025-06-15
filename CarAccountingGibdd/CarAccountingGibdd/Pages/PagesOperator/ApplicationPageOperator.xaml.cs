@@ -44,7 +44,8 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             var applications = App.DbContext.Applications.ToList();
 
             // Фильтры
-            applications = _dataService.ApplyFilter(applications, _operator);
+            applications = _dataService.ApplyAccessControl(applications, _operator);
+            applications = _dataService.ApplyFilter(applications);
             applications = _dataService.ApplySort(applications);
             applications = _dataService.ApplySearch(applications);
 

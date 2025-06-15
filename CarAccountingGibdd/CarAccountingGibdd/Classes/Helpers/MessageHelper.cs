@@ -113,6 +113,9 @@ namespace CarAccountingGibdd.Classes
 
         public static bool ConfirmSave() =>
             ConfirmAction("Вы уверены, что все поля заполнены верно?", "Добавление прошло успешно");
+        
+        public static bool ConfirmResaveDocument() =>
+            ConfirmAction("Такой файл уже существует. Перезаписать документ?", "Файл перезаписан!");
 
         public static bool ConfirmEdit() =>
             ConfirmAction("Вы уверены, что все поля заполнены верно?", "Изменение прошло успешно");

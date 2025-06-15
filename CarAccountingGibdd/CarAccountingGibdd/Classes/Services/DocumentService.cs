@@ -107,7 +107,8 @@ namespace CarAccountingGibdd.Classes.Services
                     $"ФИО: {owner.Fullname}\n" +
                     $"Паспорт: {owner.Passport}\n" +
                     $"Адрес: {owner.Address}\n" +
-                    $"Телефон: {owner.Phone}",
+                    $"Телефон: {owner.Phone}\n" +
+                    $"Эл. почта: {owner.EmailValue}",
                     normalFont)
                 {
                     SpacingAfter = 15f
@@ -123,8 +124,9 @@ namespace CarAccountingGibdd.Classes.Services
                     $"Марка, модель: {vehicle.Brand} {vehicle.Model} {vehicle.Year}\n" +
                     $"Цвет: {vehicle.Color}\n" +
                     $"VIN: {vehicle.Vin}\n" +
-                    $"Гос. номер: {(vehicle.LicensePlate ?? "Отсутствует")}\n" +
-                    $"Тип ТС: {vehicle.VehicleType?.Name.ToString() ?? "Отсутствует"}",
+                    $"Гос. номер: {(certificate.LicensePlate)}\n" +
+                    $"Тип ТС: {vehicle.VehicleType.Name}\n" +
+                    $"Поддержанное: {vehicle.UsedValueString}",
                     normalFont)
                 {
                     SpacingAfter = 15f
@@ -139,8 +141,8 @@ namespace CarAccountingGibdd.Classes.Services
                 Paragraph appInfo = new Paragraph(
                     $"Номер заявки: {app.ApplicationId}\n" +
                     $"Дата подачи: {app.DatetimeSupply:dd.MM.yyyy}\n" +
-                    $"Статус: {app.ApplicationStatus?.Name.ToString() ?? "Отсутствует"}\n" +
-                    $"Инспектор: {app.InspectorFullname}",
+                    $"Инспектор: {app.InspectorFullname}\n" +
+                    $"Департамент: {app.Department.Name}",
                     normalFont)
                 {
                     SpacingAfter = 15f
@@ -223,7 +225,6 @@ namespace CarAccountingGibdd.Classes.Services
                     cb.SetGState(graphicsState);
                     cb.AddImage(signatureImage);
                 }
-
 
                 document.Close();
                 // fs и document автоматически закроются и освободятся

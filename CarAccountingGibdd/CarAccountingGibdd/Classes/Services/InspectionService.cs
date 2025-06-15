@@ -47,14 +47,16 @@ namespace CarAccountingGibdd.Classes.Services
         }
 
         // Формирование свидетельства
-        public void CreateCertificate(string number, string newLicensePlate)
+        public Certificate CreateCertificate(string number, string newLicensePlate)
         {
             // Формируем свидетельство
             Certificate certificate = new Certificate
             {
                 ApplicationId = _inspection.ApplicationId,
                 IssueDate = DateOnly.FromDateTime(DateTime.Now),
-                Number = number
+                LicensePlate = newLicensePlate,
+                Number = number,
+                IsActive = 0
             };
 
             // Меняем данные ТС
@@ -67,9 +69,30 @@ namespace CarAccountingGibdd.Classes.Services
             // Меняем статус заявки
             _inspection.Application.ApplicationStatusId = 7;
 
+            Vehicle vehicle = _inspection.Application.Vehicle;
+            if (vehicle.Used == 0)
+            {
+                // Получаем всех владельцев из сертификатов текущего ТС
+                var owners = _inspection.Application.Certificates
+                    .Select(c => c.Application.Owner)
+                    .Distinct()
+                    .ToList();
+
+                // Проверяем, одинаковые ли владельцы
+                bool allOwnersAreSame = owners.Count <= 1;
+
+                if (allOwnersAreSame)
+                {
+                    vehicle.Used = 1;
+                }
+            }
+
+            App.DbContext.Update(vehicle);
             App.DbContext.Update(_inspection);
             App.DbContext.Add(certificate);
             App.DbContext.SaveChanges();
+
+            return certificate;
         }
 
         public void CreateViolationsInspection(List<Violation> violations)
@@ -105,11 +128,6 @@ namespace CarAccountingGibdd.Classes.Services
         private void ChangeLicensePlate(string newLicensePlate)
         {
             var vehicle = _inspection.Application.Vehicle;
-
-            if (vehicle.LicensePlate != null) 
-            {
-                vehicle.Used = 1;
-            }
             vehicle.LicensePlate = newLicensePlate;
 
             App.DbContext.Update(vehicle);

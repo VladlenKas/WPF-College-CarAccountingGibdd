@@ -43,6 +43,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             var inspections = App.DbContext.Inspections.ToList();
 
             // Фильтры
+            inspections = _dataService.ApplyAccessControl(inspections, _operator);
             inspections = _dataService.ApplyFilter(inspections);
             inspections = _dataService.ApplySort(inspections);
             inspections = _dataService.ApplySearch(inspections);

@@ -49,8 +49,8 @@ public partial class Vehicle
 
     public string UsedValueString => Used switch
     {
-        0 => "Да",
-        1 => "Нет",
+        0 => "Нет",
+        1 => "Да",
         _ => "NULL VALUE"
     };
 

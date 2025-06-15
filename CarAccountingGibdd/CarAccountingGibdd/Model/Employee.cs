@@ -31,8 +31,6 @@ public partial class Employee
 
     public sbyte Deleted { get; set; }
 
-    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
-
     public virtual Department Department { get; set; } = null!;
 
     public virtual ICollection<Inspection> Inspections { get; set; } = new List<Inspection>();

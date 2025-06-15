@@ -46,6 +46,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
                 .ToList();
 
             // Фильтры
+            violationsInspections = _dataService.ApplyAccessControl(violationsInspections, _operator);
             violationsInspections = _dataService.ApplyFilter(violationsInspections);
             violationsInspections = _dataService.ApplySort(violationsInspections);
             violationsInspections = _dataService.ApplySearch(violationsInspections);

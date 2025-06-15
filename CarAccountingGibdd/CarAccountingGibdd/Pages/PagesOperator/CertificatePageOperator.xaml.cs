@@ -41,6 +41,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             var certificates = App.DbContext.Certificates.ToList();
 
             // Фильтры
+            certificates = _dataService.ApplyAccessControl(certificates, _operator);
             certificates = _dataService.ApplyFilter(certificates);
             certificates = _dataService.ApplySort(certificates);
             certificates = _dataService.ApplySearch(certificates);
