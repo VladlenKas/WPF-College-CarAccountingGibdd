@@ -82,42 +82,21 @@
         <Grid>
             <DataGrid Name="itemsDG">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fullname, Mode=OneWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="MaxWidth" Value="200"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthdate, StringFormat=dd.MM.yyyy}"/>
-                    <DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
-                    <DataGridTextColumn Header="Департамент" Binding="{Binding Department.Name}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="MaxWidth" Value="130"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Post.Name}"/>
-                    <DataGridTextColumn Header="Эл. почта" Binding="{Binding Email}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="MaxWidth" Value="130"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Пароль" Binding="{Binding Password}"/>
-                    <DataGridTemplateColumn CellTemplate="{StaticResource Button.DataGrid}"/>
+                    <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="2*" Header="ФИО" Binding="{Binding Fullname, Mode=OneWay}"/>
+                    <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Дата рождения" Binding="{Binding Birthdate, StringFormat=dd.MM.yyyy}"/>
+                    <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Паспорт" Binding="{Binding Passport}"/>
+                    <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="2*" Header="Департамент" Binding="{Binding Department.Name}"/>
+                    <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.2*" Header="Должность" Binding="{Binding Post.Name}"/>
+                    <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="2*" Header="Эл. почта" Binding="{Binding Email}"/>
+                    <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Пароль" Binding="{Binding Password}"/>
+                    <DataGridTemplateColumn Width="120" CellTemplate="{StaticResource Button.DataGrid}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
             <TextBlock Text="Данные о сотрудниках отсутствуют"
                        Style="{StaticResource TextBlock.H6}"
                        FontSize="18"
-                       Margin="20 80 0 0"
+                       Margin="20 90 0 0"
                        Visibility="{Binding Items.Count, ElementName=itemsDG, 
                        Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
 

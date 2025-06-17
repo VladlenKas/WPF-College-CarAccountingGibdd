@@ -70,7 +70,7 @@
                              Checked="OwnerPageRB_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Автомобили"
+                             Content="Транспорты"
                              Tag="carOutline"
                              GroupName="navItems"
                              Margin="0 0 0 20"
@@ -83,7 +83,7 @@
                            Margin="0 0 0 10"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Списки нарушений"
+                             Content="Отчеты нарушений"
                              Tag="InvoiceTextRemoveOutline"
                              GroupName="navItems"
                              Margin="0 0 0 5"

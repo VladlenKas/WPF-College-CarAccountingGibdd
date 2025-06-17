@@ -36,8 +36,14 @@ namespace CarAccountingGibdd.Dialogs
         {
             InitializeComponent();
 
+            var excludedStatusIds = new[] { 1, 2, 3, 4 };
+            vehicleATB.ItemsSource = App.DbContext.Vehicles
+                .Where(v =>
+                    !v.Applications.Any(a => a.Certificates.Any(c => c.IsActive == 1)) &&
+                    !v.Applications.Any(a => excludedStatusIds.Contains(a.ApplicationStatusId))
+                );
+
             ownerATB.ItemsSource = App.DbContext.Owners;
-            vehicleATB.ItemsSource = App.DbContext.Vehicles;
             paymentCB.ItemsSource = new[] { "Безналичный", "Наличный" };
 
             DataContext = this;

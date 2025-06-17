@@ -11,8 +11,6 @@
   <ItemGroup>
     <None Remove="Resources\GifLoadCat.gif" />
     <None Remove="Resources\LogoGibdd.png" />
-    <None Remove="Resources\PrintGibdd.jpg" />
-    <None Remove="Resources\Signature.jpg" />
     <None Remove="Resources\Signature.png" />
   </ItemGroup>
 
@@ -33,10 +31,7 @@
     <Resource Include="Resources\GifLoadCat.gif" />
     <Resource Include="Resources\IconGibdd.ico" />
     <Resource Include="Resources\LogoGibdd.png" />
-    <Resource Include="Resources\PrintGibdd.jpg" />
-    <Resource Include="Resources\Signature.jpg" />
     <Resource Include="Resources\Signature.png" />
-    <Resource Include="Resources\SignatureGibdd.jpg" />
   </ItemGroup>
 
 </Project>

@@ -50,6 +50,8 @@ public partial class GibddContext : DbContext
     // Записи активные и с контекстом
 
     public IQueryable<Inspection> Inspections => AllInspections
+        .Include(a => a.Status)
+            .ThenInclude(a => a.Inspections)
         .Include(a => a.Application)
             .ThenInclude(o => o.Owner)
         .Include(a => a.Application)
@@ -59,7 +61,7 @@ public partial class GibddContext : DbContext
             .ThenInclude(d => d.Department)
         .Include(a => a.Application)
             .ThenInclude(d => d.Certificates)
-        .Include(s => s.Status);
+        .AsSplitQuery(); // для оптимизации
 
     public IQueryable<Application> Applications => AllApplications
         .Include(o => o.Owner)
@@ -70,6 +72,7 @@ public partial class GibddContext : DbContext
         .Include(ins => ins.Inspections)
             .ThenInclude(s => s.Status)
         .Include(a => a.ApplicationStatus)
+            .ThenInclude(a => a.Applications)
         .Include(c => c.Certificates)
         .AsSplitQuery(); // для оптимизации
 
@@ -91,6 +94,7 @@ public partial class GibddContext : DbContext
         .Include(i => i.Inspection);
 
     public IQueryable<Vehicle> Vehicles => AllVehicles
+        .Where(r => r.Deleted != 1)
         .Include(r => r.PhotosVehicles)
         .Include(r => r.VehicleType);
 
@@ -208,6 +212,13 @@ public partial class GibddContext : DbContext
             entity.HasKey(e => e.DepartmentId).HasName("PRIMARY");
 
             entity.ToTable("department");
+
+            entity.HasIndex(e => e.Address, "address_UNIQUE").IsUnique();
+
+            entity.HasIndex(e => e.Name, "name_UNIQUE").IsUnique();
+
+            entity.HasIndex(e => e.Phone, "phone_UNIQUE").IsUnique();
+
 
             entity.Property(e => e.DepartmentId).HasColumnName("department_id");
             entity.Property(e => e.Address)
@@ -445,8 +456,13 @@ public partial class GibddContext : DbContext
 
             entity.ToTable("violation");
 
+            entity.HasIndex(e => e.Number, "number_UNIQUE").IsUnique();
+
+            entity.HasIndex(e => e.Description, "description_UNIQUE").IsUnique();
+
             entity.Property(e => e.ViolationId).HasColumnName("violation_id");
             entity.Property(e => e.Deleted).HasColumnName("deleted");
+            entity.Property(e => e.Number).HasColumnName("number");
             entity.Property(e => e.Description)
                 .HasMaxLength(90)
                 .HasColumnName("description");

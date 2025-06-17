@@ -80,18 +80,27 @@
                     </TextBlock>
 
                     <!-- КНОПКИ -->
-                    <Grid DockPanel.Dock="Bottom"
-                          Width="Auto">
-
+                    <DockPanel DockPanel.Dock="Bottom"
+                               Width="Auto">
+                        
                         <!-- ВСЕ (инфо) -->
+                        <Button Style="{StaticResource Button.Icon.Large}"
+                                DockPanel.Dock="Right"
+                                Visibility="Collapsed"
+                                Margin="12 0 0 0"
+                                Name="saveDocumentBTN"
+                                Tag="FilePlusOutline"
+                                Click="SaveDocument_Click"/>
+
                         <Button Style="{StaticResource Button.Primary.Icon}"
-                                DockPanel.Dock="Bottom"
+                                DockPanel.Dock="Right"
                                 Visibility="Visible"
                                 Name="infoBTN"
                                 Content="Информация"
                                 Tag="infoCircleOutline"
                                 Click="GetInfo_Click"/>
-                    </Grid>
+
+                    </DockPanel>
                 </DockPanel>
             </Border>
         </Grid>

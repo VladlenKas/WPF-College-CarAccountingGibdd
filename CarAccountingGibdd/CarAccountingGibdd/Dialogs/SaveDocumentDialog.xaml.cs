@@ -90,7 +90,12 @@ namespace CarAccountingGibdd.Dialogs
             // Генерируем документ
             if (_certificate != null)
             {
-                DocumentService.GenerateCertificate(_filepath, _certificate, employeeFullname);
+                DocumentService.GenerateCertificateReport(_filepath, _certificate, employeeFullname);
+            }
+            else if (_violationInspections != null)
+            {
+                Inspection inspecton = _violationInspections.First().Inspection;
+                DocumentService.GenerateViolationsReport(_filepath, inspecton.InspectionId, employeeFullname);
             }
 
             // Открываем файл (или нет)

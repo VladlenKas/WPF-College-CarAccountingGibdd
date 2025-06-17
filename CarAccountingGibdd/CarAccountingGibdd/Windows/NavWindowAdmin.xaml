@@ -70,11 +70,24 @@
                              Checked="OwnerRButton_Checked"/>
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Автомобили"
+                             Content="Транспорты"
                              Tag="carOutline"
                              GroupName="navItems"
                              Margin="0 0 0 20"
                              Checked="VehicleRButton_Checked"/>
+
+                <!-- Справочные данные -->
+                <TextBlock Style="{StaticResource TextBlock.Subtitle}"
+                           Foreground="#ffffff"
+                           Text="Документы"
+                           Margin="0 0 0 10"/>
+
+                <RadioButton Style="{StaticResource RadioButton.Navigation}"
+                             Content="Просмотр отчета"
+                             Tag="chartLine"
+                             GroupName="navItems"
+                             Margin="0 0 0 10"
+                             Checked="ReportRButton_Checked"/>
 
                 <Separator Background="#ffffff"
                            Margin="0 0 0 10"/>

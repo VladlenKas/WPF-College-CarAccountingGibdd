@@ -95,7 +95,7 @@ namespace CarAccountingGibdd.Components
 
         private string FormatPhoneNumber(string number)
         {
-            number = number.Length > 10 ? number.Substring(0, 9) : number;
+            number = number.Length > 10 ? number.Substring(0, 10) : number;
 
             return number switch
             {

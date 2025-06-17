@@ -1,6 +1,7 @@
 ﻿using CarAccountingGibdd.Classes;
 using CarAccountingGibdd.Dialogs;
 using CarAccountingGibdd.Model;
+using Org.BouncyCastle.Tls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +30,19 @@ namespace CarAccountingGibdd.Controls
 
         // Поля
         private IGrouping<int, ViolationInspection> _violationsInspection;
+        private Employee _employee;
 
         // Конструктор
-        public ViolationsInspectionCard(IGrouping<int, ViolationInspection> violationsInspection)
+        public ViolationsInspectionCard(IGrouping<int, ViolationInspection> violationsInspection, Employee employee)
         {
             InitializeComponent();
+
+            // Даем возможность инспектору печатать документ
+            if (employee.PostId == 2)
+            {
+                saveDocumentBTN.Visibility = Visibility.Visible;
+                _employee = employee;
+            }
 
             _violationsInspection = violationsInspection;
             Inspection inspection = violationsInspection.First().Inspection;
@@ -55,6 +64,14 @@ namespace CarAccountingGibdd.Controls
             e.Handled = true; // Останавливаем всплытие события
 
             InfoViolationsInspectionDialog dialog = new(_violationsInspection);
+            ComponentsHelper.ShowDialogWindowDark(dialog);
+        }
+
+        private void SaveDocument_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            e.Handled = true; // Останавливаем всплытие события
+
+            SaveDocumentDialog dialog = new(_violationsInspection, _employee);
             ComponentsHelper.ShowDialogWindowDark(dialog);
         }
     }

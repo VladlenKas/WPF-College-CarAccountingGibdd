@@ -128,43 +128,6 @@ namespace CarAccountingGibdd.Classes.Services
                 return false;
             }
 
-            // Проверка на то, что действующих заявок нет
-            bool hasActiveApplication = App.DbContext.Applications.Any(r =>
-                (r.Vehicle.VehicleId == _vehicle.VehicleId) &&
-                (r.ApplicationStatusId != 5 && r.ApplicationStatusId != 6 && r.ApplicationStatusId != 7) &&
-                (r.ApplicationId != application.ApplicationId)); 
-
-            if (hasActiveApplication)
-            {
-                MessageHelper.MessageActiveApplication();
-                return false;
-            }
-
-            // Проверка на то, что у владельца и авто уже нет сертификата
-            bool hasCertificate = App.DbContext.Certificates.Any(r =>
-                r.Application.OwnerId == _owner.OwnerId &&
-                r.Application.VehicleId == _vehicle.VehicleId &&
-                r.IsActive == 0 &&
-                (r.ApplicationId != application.ApplicationId));
-
-            if (hasCertificate)
-            {
-                MessageHelper.MessageCerrentSertificate();
-                return false;
-            }
-
-            // Проверка на то, что у авто нет другого владельца
-            bool hasOtherOwner = App.DbContext.Certificates.Any(r =>
-                r.Application.VehicleId == _vehicle.VehicleId &&
-                r.IsActive == 0 &&
-                (r.ApplicationId != application.ApplicationId));
-
-            if (hasOtherOwner)
-            {
-                MessageHelper.MessageCerrentOwner();
-                return false;
-            }
-
             // Проверка на изменения 
             bool noChanges = 
                 application.OwnerId == _owner.OwnerId &&
@@ -194,37 +157,6 @@ namespace CarAccountingGibdd.Classes.Services
             else if (nullPay)
             {
                 MessageHelper.MessageNullCost();
-                return false;
-            }
-
-            // Проверка на то, что действующих заявок нет
-            bool hasActiveApplication = App.DbContext.Applications.Any(r =>
-                (r.Vehicle.VehicleId == _vehicle.VehicleId) &&
-                (r.ApplicationStatusId != 5 && r.ApplicationStatusId != 6 && r.ApplicationStatusId != 7));
-            if (hasActiveApplication)
-            {
-                MessageHelper.MessageActiveApplication();
-                return false;
-            }
-
-            // Проверка на то, что у владельца и авто уже нет сертификата
-            bool hasCertificate = App.DbContext.Certificates.Any(r =>
-                r.Application.OwnerId == _owner.OwnerId &&
-                r.Application.VehicleId == _vehicle.VehicleId &&
-                r.IsActive == 0);
-            if (hasCertificate)
-            {
-                MessageHelper.MessageCerrentSertificate();
-                return false;
-            }
-
-            // Проверка на то, что у авто нет другого владельца
-            bool hasOtherOwner = App.DbContext.Certificates.Any(r =>
-                r.Application.VehicleId == _vehicle.VehicleId &&
-                r.IsActive == 0);
-            if (hasOtherOwner)
-            {
-                MessageHelper.MessageCerrentOwner();
                 return false;
             }
 

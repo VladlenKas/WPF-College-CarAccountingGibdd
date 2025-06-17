@@ -35,8 +35,20 @@ namespace CarAccountingGibdd.Dialogs
         {
             InitializeComponent();
 
+            var excludedStatusIds = new[] { 1, 2, 3, 4 };
+            vehicleATB.ItemsSource = App.DbContext.Vehicles
+                .Where(v =>
+                    // Нет заявок (кроме текущей), у которых есть активные сертификаты
+                    !v.Applications
+                        .Where(a => a.ApplicationId != application.ApplicationId)
+                        .Any(a => a.Certificates.Any(c => c.IsActive == 1))
+                    &&
+                    // Нет заявок (кроме текущей), у которых статус в списке запрещённых
+                    !v.Applications
+                        .Where(a => a.ApplicationId != application.ApplicationId)
+                        .Any(a => excludedStatusIds.Contains(a.ApplicationStatusId))
+                );
             ownerATB.ItemsSource = App.DbContext.Owners;
-            vehicleATB.ItemsSource = App.DbContext.Vehicles;
 
             DataContext = this;
             ApplicationNumber = application.ApplicationId.ToString();

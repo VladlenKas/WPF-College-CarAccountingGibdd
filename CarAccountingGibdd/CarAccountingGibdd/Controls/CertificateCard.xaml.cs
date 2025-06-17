@@ -38,7 +38,7 @@ namespace CarAccountingGibdd.Controls
                 _employee = employee;
             }
 
-            if (certificate.IsActive == 1)
+            if (certificate.IsActive == 0)
             {
                 this.Opacity = 0.5;
             }

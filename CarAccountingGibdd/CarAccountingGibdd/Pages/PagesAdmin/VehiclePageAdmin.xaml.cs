@@ -36,7 +36,7 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
         // Методы
         private void UpdateIC()
         {
-            var vehicles = App.DbContext.Vehicles.Where(r => r.Deleted != 1).ToList();
+            var vehicles = App.DbContext.Vehicles.ToList();
 
             // Фильтры
             vehicles = _dataService.ApplyFilter(vehicles);
@@ -60,9 +60,9 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
                     .ForEach(a =>
                     {
                         a.Certificates?
-                            .Where(c => c.IsActive == 0)
+                            .Where(c => c.IsActive == 1)
                             .ToList()
-                            .ForEach(c => c.IsActive = 1);
+                            .ForEach(c => c.IsActive = 0);
                     });
 
                 vehicle.Deleted = 1;

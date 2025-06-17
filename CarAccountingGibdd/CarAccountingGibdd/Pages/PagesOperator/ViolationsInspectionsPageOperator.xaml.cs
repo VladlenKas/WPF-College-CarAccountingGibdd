@@ -54,7 +54,7 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             cardsIC.Items.Clear();
             foreach (var violationsInspection in violationsInspections)
             {
-                cardsIC.Items.Add(new ViolationsInspectionCard(violationsInspection));
+                cardsIC.Items.Add(new ViolationsInspectionCard(violationsInspection, _operator));
             }
         }
     }

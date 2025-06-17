@@ -21,8 +21,8 @@ public partial class Certificate
 
     public string IsActiveName => IsActive switch
     {
-        0 => "Действительный",
-        1 => "Недействительный",
+        0 => "Недействительный",
+        1 => "Действительный",
         _ => "NULL VALUE"
     };
 }

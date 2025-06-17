@@ -21,7 +21,7 @@ public partial class Vehicle
 
     public string? LicensePlate { get; set; }
 
-    public string Info => $"{Brand} {Model} {Year}, {Color}";
+    public string Info => $"{Brand} {Model} {Year}";
 
     public string FullInfo => $"{Brand} {Model} {Year}, {Color}. ВИН: {Vin}";
 
@@ -40,7 +40,7 @@ public partial class Vehicle
     // Владелец
     public Owner? Owner => Applications?
         .SingleOrDefault(a => a.Certificates?
-        .Any(c => c.IsActive == 0) == true)?
+        .Any(c => c.IsActive == 1) == true)?
         .Owner ?? null;
 
     // Фи и пасспорт владельца

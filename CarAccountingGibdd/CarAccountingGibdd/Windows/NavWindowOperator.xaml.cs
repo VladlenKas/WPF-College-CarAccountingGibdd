@@ -62,13 +62,13 @@ namespace CarAccountingGibdd.Windows
         private void VehiclePageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new VehiclePageOperator());
-            titlePage.Text = "Автомобили";
+            titlePage.Text = "Транспорты";
         }
 
         private void ViolationInspectionPageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new ViolationsInspectionsPageOperator(_operator));
-            titlePage.Text = "Списки нарушений";
+            titlePage.Text = "Отчеты нарушений";
         }
 
         private void CertificatePageRB_Checked(object sender, RoutedEventArgs e)

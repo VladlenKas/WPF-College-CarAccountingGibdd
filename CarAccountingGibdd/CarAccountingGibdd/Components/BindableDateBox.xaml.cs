@@ -26,6 +26,7 @@ namespace CarAccountingGibdd.Components
     public partial class BindableDateBox : UserControl
     {
         private bool _isUpdatingText;
+        public event TextChangedEventHandler DateTextChangedExternal;
 
         // Зависимое свойство для пути к отображаемому свойству (DateTextProperty)
         public static readonly DependencyProperty DateTextProperty =
@@ -65,7 +66,7 @@ namespace CarAccountingGibdd.Components
             }
         }
 
-        private void DateBox_TextChanged(object sender, TextChangedEventArgs e)
+        public void DateBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (_isUpdatingText) return;
 
@@ -79,6 +80,8 @@ namespace CarAccountingGibdd.Components
             dateBox.CaretIndex = newText.Length;
 
             _isUpdatingText = false;
+
+            DateTextChangedExternal?.Invoke(this, e);
         }
 
         private string FormatDateText(string input)
@@ -121,5 +124,6 @@ namespace CarAccountingGibdd.Components
         {
             Validations.ValidatePasteNumbers(e);
         }
+
     }
 }

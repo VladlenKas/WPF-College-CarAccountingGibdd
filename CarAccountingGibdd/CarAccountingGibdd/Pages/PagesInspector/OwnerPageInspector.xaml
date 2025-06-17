@@ -72,35 +72,14 @@
             <Grid>
                 <!-- Контент -->
                 <DataGrid Name="itemsDG">
-                    <DataGrid.Columns>  
-                        <DataGridTextColumn Header="ФИО" Binding="{Binding Fullname, Mode=OneWay}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                    <Setter Property="MaxWidth" Value="200"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthdate, StringFormat=dd.MM.yyyy}"/>
-                        <DataGridTextColumn Header="Эл. почта" Binding="{Binding EmailValue, Mode=OneWay}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                    <Setter Property="MaxWidth" Value="130"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}"/>
-                        <DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
-                        <DataGridTextColumn Header="Адрес" Binding="{Binding Address}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                    <Setter Property="MaxWidth" Value="130"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTemplateColumn CellTemplate="{StaticResource Button.DataGrid}"/>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.5*" Header="ФИО" Binding="{Binding Fullname, Mode=OneWay}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Дата рождения" Binding="{Binding Birthdate, StringFormat=dd.MM.yyyy}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="2*" Header="Эл. почта" Binding="{Binding EmailValue, Mode=OneWay}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Телефон" Binding="{Binding Phone}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Паспорт" Binding="{Binding Passport}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="2*" Header="Адрес" Binding="{Binding Address}"/>
+                        <DataGridTemplateColumn Width="70" CellTemplate="{StaticResource Button.DataGrid}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

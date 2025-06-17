@@ -40,7 +40,7 @@ public partial class Owner
         {
             List<Vehicle> vehicles = new List<Vehicle>();
             Applications?
-                .Where(a => a.Certificates?.Any(c => c.IsActive == 0) == true)?
+                .Where(a => a.Certificates?.Any(c => c.IsActive == 1) == true)?
                 .ToList()
                 .ForEach(a =>
                 {
@@ -59,7 +59,7 @@ public partial class Owner
 
             // Находим все автомобили, которые связаны с текущим владельцем
             Applications?
-                .Where(a => a.Certificates?.Any(c => c.IsActive == 0) == true)?
+                .Where(a => a.Certificates?.Any(c => c.IsActive == 1) == true)?
                 .ToList()
                 .ForEach(a =>
                 {

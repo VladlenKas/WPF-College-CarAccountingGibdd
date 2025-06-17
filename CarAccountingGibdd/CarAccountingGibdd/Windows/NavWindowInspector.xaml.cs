@@ -69,13 +69,13 @@ namespace CarAccountingGibdd.Windows
         private void VehiclePageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new VehiclePageInspector());
-            titlePage.Text = "Автомобили";
+            titlePage.Text = "Транспорты";
         }
         
         private void ViolationInspectionPageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new ViolationsInspectionsPageInspector(_inspector));
-            titlePage.Text = "Списки нарушений";
+            titlePage.Text = "Отчеты нарушений";
         }
 
         private void CertificatePageRB_Checked(object sender, RoutedEventArgs e)
@@ -89,11 +89,6 @@ namespace CarAccountingGibdd.Windows
             AuthWindow window = new();
             window.Show();
             Close();
-        }
-
-        private void ReportButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Открытие диалогового окна для создания отчета
         }
     }
 }

@@ -56,7 +56,7 @@ namespace CarAccountingGibdd.Classes.Services
                 IssueDate = DateOnly.FromDateTime(DateTime.Now),
                 LicensePlate = newLicensePlate,
                 Number = number,
-                IsActive = 0
+                IsActive = 1
             };
 
             // Меняем данные ТС

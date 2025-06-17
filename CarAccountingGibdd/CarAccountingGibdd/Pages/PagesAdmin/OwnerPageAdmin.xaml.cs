@@ -38,7 +38,7 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
         // Методы
         private void UpdateIC()
         {
-            var owners = App.DbContext.Owners.Where(r => r.Deleted != 1).ToList();
+            var owners = App.DbContext.Owners.ToList();
 
             // Фильтры
             owners = _dataService.ApplyFilter(owners);
@@ -62,9 +62,9 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
                     .ForEach(a =>
                     {
                         a.Certificates?
-                            .Where(c => c.IsActive == 0)
+                            .Where(c => c.IsActive == 1)
                             .ToList()
-                            .ForEach(c => c.IsActive = 1);
+                            .ForEach(c => c.IsActive = 0);
                     });
 
                 owner.Deleted = 1;

@@ -197,21 +197,21 @@ namespace CarAccountingGibdd.Components
                 // Фильтруем элементы на основе введенного текста
                 ItemsListBox.ItemsSource = ItemsSource.Cast<object>()
                     .Where(item => FilterItem(item, filter)).ToList();
+            }
 
-                if (ItemsListBox.Items.Count == 0)
-                {
-                    DisplayMemberPath = "Message";
-                    // Если ничего не найдено, можно добавить элемент "Ничего не найдено"
-                    var noDataItem = new[] { new { Message = "Ничего не найдено" } };
-                    ItemsListBox.ItemsSource = noDataItem;
-                }
-                else if (ItemsListBox.ItemsSource == null)
-                {
-                    DisplayMemberPath = "Message";
-                    // Если коллекции нет, можно добавить элемент "Нет элементов для выбора"
-                    var noDataItem = new[] { new { Message = "Нет элементов для выбора" } };
-                    ItemsListBox.ItemsSource = noDataItem;
-                }
+            if (ItemsListBox.ItemsSource == null)
+            {
+                DisplayMemberPath = "Message";
+                // Если коллекции нет, можно добавить элемент "Нет элементов для выбора"
+                var noDataItem = new[] { new { Message = "Нет данных для выбора" } };
+                ItemsListBox.ItemsSource = noDataItem;
+            }
+            else if (ItemsListBox.Items.Count == 0)
+            {
+                DisplayMemberPath = "Message";
+                // Если ничего не найдено, можно добавить элемент "Ничего не найдено"
+                var noDataItem = new[] { new { Message = "Ничего не найдено" } };
+                ItemsListBox.ItemsSource = noDataItem;
             }
         }
 

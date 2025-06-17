@@ -85,10 +85,10 @@
                 <!-- Контент -->
                 <DataGrid Name="itemsDG">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Адрес" Binding="{Binding Address}"/>
-                        <DataGridTextColumn Header="Номер телефона" Binding="{Binding Phone}"/>
-                        <DataGridTemplateColumn CellTemplate="{StaticResource Button.DataGrid}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="250" Header="Название" Binding="{Binding Name}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="160" Header="Номер телефона" Binding="{Binding Phone}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Адрес" Binding="{Binding Address}"/>
+                        <DataGridTemplateColumn Width="120" CellTemplate="{StaticResource Button.DataGrid}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

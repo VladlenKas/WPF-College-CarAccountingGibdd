@@ -1,12 +1,14 @@
-﻿<Page x:Class="CarAccountingGibdd.Pages.PagesInspector.ViolationsPageInspector"
+﻿<Page x:Class="CarAccountingGibdd.Pages.PagesAdmin.ReportPageAdmin"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CarAccountingGibdd.Pages.PagesInspector"
+      xmlns:local="clr-namespace:CarAccountingGibdd.Pages.PagesAdmin"
       mc:Ignorable="d" 
       
-      d:Width="1000" d:Height="450"
+      xmlns:components="clr-namespace:CarAccountingGibdd.Components"
+     
+      d:Width="1200" d:Height="450"
       d:Background="{StaticResource Background.Window.Brush}"
       xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters">
 
@@ -44,6 +46,23 @@
                     Content="Очистить все"
                     Tag="restore"
                     ToolTip="Сброс фильтров"/>
+
+            <components:BindableDateBox x:Name="startDateTB"
+                                        Margin="20 0 0 0"
+                                        PlaceholderDate="От даты:"
+                                        Width="140"/>
+            
+            <components:BindableDateBox x:Name="endDateTB"
+                                        Margin="10 0 0 0"
+                                        PlaceholderDate="До даты:"
+                                        Width="140"/>
+
+            <Button Style="{StaticResource Button.Primary.Icon}"
+                    DockPanel.Dock="Right"
+                    MinWidth="200"
+                    Content="Сохранить отчет"
+                    Tag="filePlusOutline"
+                    Click="Add_Click"/>
         </DockPanel>
 
         <!-- Область вывода информации -->
@@ -54,15 +73,20 @@
                 <!-- Контент -->
                 <DataGrid Name="itemsDG">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Номер" Binding="{Binding Number, StringFormat={}№{0:D3}}"/>
-                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.4*" Header="Номер заявки" Binding="{Binding ApplcationId}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.6*" Header="Статус" Binding="{Binding StatusName}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.1*" Header="ФИО владельца" Binding="{Binding OwnerFullname}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="2*" Header="Данные ТС" Binding="{Binding VehicleFullInfo}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.7*" Header="Департамент" Binding="{Binding DepartmentName}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.7*" Header="Дата подачи" Binding="{Binding DatetimeSupply, StringFormat=dd.MM.yyyy HH:mm}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.7*" Header="Дата рассмотрения" Binding="{Binding DatetimeConfirmValue}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <TextBlock Text="Данные о нарушениях отсутствуют"
+                <TextBlock Text="Данных для отчета нет"
                           Style="{StaticResource TextBlock.H6}"
                           FontSize="18"
-                          Margin="20 80 0 0"
+                          Margin="20 90 0 0"
                           Visibility="{Binding Items.Count, ElementName=itemsDG, 
                           Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
 

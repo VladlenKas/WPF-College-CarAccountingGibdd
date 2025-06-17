@@ -73,36 +73,22 @@
                 <!-- Контент -->
                 <DataGrid Name="itemsDG">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ВИН" Binding="{Binding Vin}"/>
-                        <DataGridTextColumn Header="Номерной знак" Binding="{Binding LicensePlateValue, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Марка, модель" Binding="{Binding BrandModel, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Цвет" Binding="{Binding Color}"/>
-                        <DataGridTextColumn Header="Год выпуска" Binding="{Binding Year, StringFormat={}{0} г.}"/>
-                        <DataGridTextColumn Header="Тип" Binding="{Binding VehicleType.Name}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                    <Setter Property="MaxWidth" Value="130"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Б/У" Binding="{Binding UsedValueString}"/>
-                        <DataGridTextColumn Header="Паспорт владельца" Binding="{Binding OwnerPassport, Mode=OneWay}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                    <Setter Property="MaxWidth" Value="130"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTemplateColumn CellTemplate="{StaticResource Button.DataGrid}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.4*" Header="ВИН" Binding="{Binding Vin}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Номерной знак" Binding="{Binding LicensePlateValue, Mode=OneWay}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Марка, модель" Binding="{Binding BrandModel, Mode=OneWay}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Цвет" Binding="{Binding Color}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Год выпуска" Binding="{Binding Year, StringFormat={}{0} г.}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.3*" Header="Тип" Binding="{Binding VehicleType.Name}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.3*" Header="Паспорт владельца" Binding="{Binding OwnerPassport, Mode=OneWay}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Поддержанное" Binding="{Binding UsedValueString}"/>
+                        <DataGridTemplateColumn Width="80" CellTemplate="{StaticResource Button.DataGrid}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
                 <TextBlock Text="Данные о транспортных средствах отсутствуют"
                           Style="{StaticResource TextBlock.H6}"
                           FontSize="18"
-                          Margin="20 90 0 0"
+                          Margin="20 80 0 0"
                           Visibility="{Binding Items.Count, ElementName=itemsDG, 
                           Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
 

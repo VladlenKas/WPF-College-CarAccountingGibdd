@@ -225,7 +225,7 @@ namespace CarAccountingGibdd.Dialogs
             Certificate certificate = inspectionService.CreateCertificate(CertificateNumber, NewLicensePlate);
 
             // Формирование документа 
-            DocumentService.GenerateCertificate(_filepath, certificate, Inspection.Inspector.Fullname);
+            DocumentService.GenerateCertificateReport(_filepath, certificate, Inspection.Inspector.Fullname);
 
             // Смена флажка о сохранении
             Saved = true;

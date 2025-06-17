@@ -21,8 +21,14 @@ namespace CarAccountingGibdd.Classes.Services
         // Добавление
         public void Add()
         {
+            int number = App.DbContext.AllViolations
+                .OrderBy(v => v.ViolationId)
+                .Last()
+                .Number;
+
             Violation violation = new Violation()
             {
+                Number = number + 1,
                 Description = _description
             };
 

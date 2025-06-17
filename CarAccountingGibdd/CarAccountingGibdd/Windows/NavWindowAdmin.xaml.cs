@@ -51,7 +51,7 @@ namespace CarAccountingGibdd.Windows
         private void VehicleRButton_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new VehiclePageAdmin());
-            titlePage.Text = "Автомобили";
+            titlePage.Text = "Транспорты";
         }
         
         private void EmployeeRButton_Checked(object sender, RoutedEventArgs e)
@@ -70,6 +70,12 @@ namespace CarAccountingGibdd.Windows
         {
             CurrentPage.Navigate(new ViolationsPageAdmin());
             titlePage.Text = "Нарушения";
+        }
+
+        private void ReportRButton_Checked(object sender, RoutedEventArgs e)
+        {
+            CurrentPage.Navigate(new ReportPageAdmin(_admin));
+            titlePage.Text = "Просмотр отчета";
         }
 
         private void ExitRButton_Checked(object sender, RoutedEventArgs e)

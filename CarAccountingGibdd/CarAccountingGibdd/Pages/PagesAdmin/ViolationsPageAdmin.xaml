@@ -81,8 +81,8 @@
                 <!-- Контент -->
                 <DataGrid Name="itemsDG">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Номер" Binding="{Binding ViolationId, StringFormat={}№{0}}"/>
-                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="100" Header="Номер" Binding="{Binding Number, StringFormat={}№{0:D3}}"/>
+                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="*" Header="Описание" Binding="{Binding Description}"/>
                         <DataGridTemplateColumn CellTemplate="{StaticResource Button.DataGrid}"/>
                     </DataGrid.Columns>
                 </DataGrid>
@@ -90,7 +90,7 @@
                 <TextBlock Text="Данные о нарушениях отсутствуют"
                           Style="{StaticResource TextBlock.H6}"
                           FontSize="18"
-                          Margin="20 80 0 0"
+                          Margin="20 70 0 0"
                           Visibility="{Binding Items.Count, ElementName=itemsDG, 
                           Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>
 
