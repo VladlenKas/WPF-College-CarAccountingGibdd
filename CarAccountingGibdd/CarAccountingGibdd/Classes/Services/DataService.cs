@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -51,12 +52,9 @@ public class ApplicationDataService
             applications = applications.Where(r =>
                 r.ApplicationId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 r.DatetimeSupply.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                r.DatetimeAccept?.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                 r.DatetimeConfirm?.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                 r.ApplicationStatus.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                r.DepartmentId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
-                r.Department.Name.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
-                r.Department.Address.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                r.DepartmentName.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                 r.Owner.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 r.Owner.Passport.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 r.Owner.Phone.Contains(search, StringComparison.OrdinalIgnoreCase) ||
@@ -130,8 +128,8 @@ public class ApplicationDataService
     public List<Model.Application> ApplyAccessControl(List<Model.Application> applications, Employee employee)
     {
         /*
-            2. Инспектор => В своем департаменте ЛИБО свои ЛИБО не принятые
-            3. Оператор => Все в своем департаменте
+            2. Инспектор => Все не принятые ЛИБО свои
+            3. Оператор => Все 
             */
 
         switch (employee.PostId)
@@ -139,13 +137,8 @@ public class ApplicationDataService
             case 2:
                 return applications
                     .Where(app =>
-                        (app.DepartmentId == employee.DepartmentId && app.ApplicationStatusId == 2) ||
+                        (app.ApplicationStatusId == 2) ||
                         app.Inspections.Any(ins => ins.InspectorId == employee.EmployeeId))
-                    .ToList();
-
-            case 3:
-                return applications
-                    .Where(r => r.DepartmentId == employee.DepartmentId)
                     .ToList();
 
             default:
@@ -174,7 +167,7 @@ public class ApplicationDataService
         if (sender != null) UpdateIC();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
@@ -252,9 +245,8 @@ public class InspectionDataService
                 r.DatetimeCompleted?.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                 r.Inspector.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 r.Status.Name.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                r.Application.DepartmentId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
-                r.Application.Department.Name.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
-                r.Application.Department.Address.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                r.Inspector.Department.Name.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                r.Inspector.Department.Address.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                 r.Application.Owner.Fullname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 r.Application.Owner.Passport.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 r.Application.Owner.Phone.Contains(search, StringComparison.OrdinalIgnoreCase) ||
@@ -339,11 +331,6 @@ public class InspectionDataService
                     .Where(app => app.InspectorId == employee.EmployeeId)
                     .ToList();
 
-            case 3:
-                return inspections
-                    .Where(app => app.Application.DepartmentId == employee.DepartmentId)
-                    .ToList();
-
             default:
                 return inspections.ToList();
         }
@@ -370,7 +357,7 @@ public class InspectionDataService
         if (sender != null) UpdateIC();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
@@ -529,7 +516,7 @@ public class EmployeesDataService
         if (sender != null) UpdateIC();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
@@ -682,7 +669,7 @@ public class OwnersDataService
         if (sender != null) UpdateIC();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
@@ -839,7 +826,7 @@ public class VehiclesDataService
         if (sender != null) UpdateIC();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
@@ -955,7 +942,7 @@ public class ViolationDataService
         if (sender != null) UpdateIC();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
@@ -1106,11 +1093,6 @@ public class CertificatesDataService
                     .Where(app => app.Application.InspectorId == employee.EmployeeId)
                     .ToList();
 
-            case 3:
-                return certificates
-                    .Where(r => r.Application.DepartmentId == employee.DepartmentId)
-                    .ToList();
-
             default:
                 return certificates.ToList();
         }
@@ -1137,7 +1119,7 @@ public class CertificatesDataService
         if (sender != null) UpdateIC();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
@@ -1294,11 +1276,6 @@ public class ViolationsInspectionsDataService
                     .Where(list => list.FirstOrDefault()?.Inspection.InspectorId == employee.EmployeeId)
                     .ToList();
 
-            case 3:
-                return violationsInspections
-                    .Where(list => list.FirstOrDefault()?.Inspection.Application.DepartmentId == employee.DepartmentId)
-                    .ToList();
-
             default:
                 return violationsInspections.ToList();
         }
@@ -1325,7 +1302,7 @@ public class ViolationsInspectionsDataService
         if (sender != null) UpdateIC();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
@@ -1442,7 +1419,7 @@ public class DepartmentDataService
         if (sender != null) UpdateIC();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
@@ -1477,139 +1454,83 @@ public class DepartmentDataService
 
 public class ReportDataService
 {
-    private ComboBox _sorterCB;
-    private TextBox _searchTB;
-    private CheckBox _ascendingCHB;
     private Button _reserFiltersBTN;
-    private Button _searchBTN;
-    private Action UpdateIC;
     private BindableDateBox _startDateTB;
     private BindableDateBox _endDateTB;
+    private DataGrid _itemsDG;
+    private Action UpdateIC;
 
-    public ReportDataService(ComboBox sorterCB, TextBox searchTB, CheckBox ascendingCHB,
-        Button searchBTN, Button reserFiltersBTN, BindableDateBox startDateTB, BindableDateBox endDateTB, Action Action)
+    public ReportDataService(Button reserFiltersBTN, BindableDateBox startDateTB, BindableDateBox endDateTB, DataGrid itemsDG, Action Action)
     {
-        _sorterCB = sorterCB;
-        _searchTB = searchTB;
-        _ascendingCHB = ascendingCHB;
-        _searchBTN = searchBTN;
         _reserFiltersBTN = reserFiltersBTN;
         _startDateTB = startDateTB;
         _endDateTB = endDateTB;
+        _itemsDG = itemsDG;
         UpdateIC = Action;
 
-        sorterCB.ItemsSource = new[] { "По дате", "По статусу", "По ФИО владельца", "По инфо. ТС", "По департаменту" };
-        sorterCB.SelectedIndex = 0;
-        ascendingCHB.IsChecked = false;
+        DateOnly endDate = DateOnly.FromDateTime(DateTime.Now);
+        DateOnly startDate = endDate.AddMonths(-1);
+
+        _endDateTB.DateText = endDate.ToString();
+        _startDateTB.DateText = startDate.ToString();
 
         OnTriggers();
     }
 
-    // Поиск
-    public List<Report> ApplySearch(List<Report> reports)
-    {
-        string search = _searchTB.Text.ToLower();
-        if (!string.IsNullOrWhiteSpace(search))
-        {
-            reports = reports.Where(r =>
-                r.ApplcationId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                r.StatusName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                r.OwnerFullname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                r.VehicleFullInfo.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                r.DepartmentName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                r.DatetimeSupply.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                r.DatetimeConfirm?.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true
-                ).ToList();
-        }
-        return reports;
-    }
-
-    // Сортировка
-    public List<Report> ApplySort(List<Report> reports)
-    {
-        int sortIndex = _sorterCB.SelectedIndex;
-        bool ascending = (bool)_ascendingCHB.IsChecked;
-
-        if (ascending)
-        {
-            return sortIndex switch
-            {
-                1 => reports.OrderBy(e => e.StatusName).ToList(),
-                2 => reports.OrderBy(e => e.OwnerFullname).ToList(),
-                3 => reports.OrderBy(e => e.VehicleFullInfo).ToList(),
-                4 => reports.OrderBy(e => e.DepartmentName).ToList(),
-                _ => reports.OrderBy(e => e.DatetimeSupply).ToList(),
-            };
-        }
-        else
-        {
-            return sortIndex switch
-            {
-                1 => reports.OrderByDescending(e => e.StatusName).ToList(),
-                2 => reports.OrderByDescending(e => e.OwnerFullname).ToList(),
-                3 => reports.OrderByDescending(e => e.VehicleFullInfo).ToList(),
-                4 => reports.OrderByDescending(e => e.DepartmentName).ToList(),
-                _ => reports.OrderByDescending(e => e.DatetimeSupply).ToList(),
-            };
-        }
-    }
-
     // Фильтрация по датам
-    public List<Report> ApplyDateFilter(List<Report> reports)
-    {
-        bool isStartDateValid = DateOnly.TryParse(_startDateTB.DateText, out DateOnly startDate);
-        bool isEndDateValid = DateOnly.TryParse(_endDateTB.DateText, out DateOnly endDate);
+    private static readonly Regex DateRegex = new Regex(@"^\d{2}\.\d{2}(\.\d{4})?$");
 
-        if (isStartDateValid && isEndDateValid)
+    private bool IsValidDateFormat(string dateText)
+    {
+        return DateRegex.IsMatch(dateText);
+    }
+
+    private void CheckDatesAndUpdate()
+    {
+        bool isStartValid = DateOnly.TryParse(_startDateTB.DateText, out DateOnly startDate);
+        bool isEndValid = DateOnly.TryParse(_endDateTB.DateText, out DateOnly endDate);
+
+        if (isStartValid && isEndValid)
         {
-            // Фильтруем заявки, у которых DatetimeSupply попадает в диапазон [startDate, endDate]
-            return reports.Where(r =>
+            string startDateStr = _startDateTB.DateText;
+            string endDateStr = _endDateTB.DateText;
+
+            if (IsValidDateFormat(startDateStr) && IsValidDateFormat(endDateStr))
             {
-                var supplyDate = DateOnly.FromDateTime(r.DatetimeSupply);
-                return supplyDate >= startDate && supplyDate <= endDate;
-            }).ToList();
+                UpdateIC();
+            }
+            else
+            {
+                _itemsDG.ItemsSource = null;
+            }
         }
         else
         {
-            // Если хотя бы одна дата невалидна — возвращаем все заявки без фильтрации
-            return reports;
+            _itemsDG.ItemsSource = null;
         }
     }
 
     // Обработчики событий
-    private void AscendingCHB_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender != null) UpdateIC();
-    }
-
-    private void SorterCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (sender != null) UpdateIC();
-    }
-
-    private void SearchBTN_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender != null) UpdateIC();
-    }
-
     private void StartDateTB_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (sender != null) UpdateIC();
+        if (sender != null) CheckDatesAndUpdate();
     }
 
     private void EndDateTB_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (sender != null) UpdateIC();
+        if (sender != null) CheckDatesAndUpdate();
     }
 
-    // СБрос фильтров
+    // Сброс фильтров
     private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
     {
         OffTriggers();
 
-        _sorterCB.SelectedIndex = 0;
-        _ascendingCHB.IsChecked = false;
-        _searchTB.Clear();
+        DateOnly endDate = DateOnly.FromDateTime(DateTime.Now);
+        DateOnly startDate = endDate.AddMonths(-1);
+
+        _endDateTB.DateText = endDate.ToString();
+        _startDateTB.DateText = startDate.ToString();
 
         UpdateIC();
         OnTriggers();
@@ -1618,9 +1539,6 @@ public class ReportDataService
     // Включает тригеры
     private void OnTriggers()
     {
-        _sorterCB.SelectionChanged += SorterCB_SelectionChanged;
-        _ascendingCHB.Click += AscendingCHB_Click;
-        _searchBTN.Click += SearchBTN_Click;
         _reserFiltersBTN.Click += ResetFiltersBTN_Click;
         _startDateTB.DateTextChangedExternal += StartDateTB_TextChanged;
         _endDateTB.DateTextChangedExternal += EndDateTB_TextChanged;
@@ -1629,9 +1547,6 @@ public class ReportDataService
     // Выключает тригеры
     private void OffTriggers()
     {
-        _sorterCB.SelectionChanged -= SorterCB_SelectionChanged;
-        _ascendingCHB.Click -= AscendingCHB_Click;
-        _searchBTN.Click -= SearchBTN_Click;
         _reserFiltersBTN.Click -= ResetFiltersBTN_Click;
         _startDateTB.DateTextChangedExternal -= StartDateTB_TextChanged;
         _endDateTB.DateTextChangedExternal -= EndDateTB_TextChanged;

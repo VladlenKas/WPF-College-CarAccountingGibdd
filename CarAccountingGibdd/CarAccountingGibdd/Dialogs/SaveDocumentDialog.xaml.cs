@@ -27,17 +27,20 @@ namespace CarAccountingGibdd.Dialogs
     public partial class SaveDocumentDialog : Window
     {
         private string _filepath;
+        private string _employeeFullname;
 
         private Certificate _certificate;
         private IGrouping<int, ViolationInspection> _violationInspections;
-        private string employeeFullname;
+        private List<ReportItem> _reportItems;
+        private DateOnly _startDate;
+        private DateOnly _endDate;
 
         // Конструктор для свидетельств
         public SaveDocumentDialog(Certificate certificate, Employee employee)
         {
             InitializeComponent();
             _certificate = certificate;
-            employeeFullname = employee.Fullname;
+            _employeeFullname = employee.Fullname;
         }
 
         // Конструктор для списка с нарушениями
@@ -45,16 +48,26 @@ namespace CarAccountingGibdd.Dialogs
         {
             InitializeComponent();
             _violationInspections = violationInspections;
-            employeeFullname = employee.Fullname;
+            _employeeFullname = employee.Fullname;
+        }
+
+        public SaveDocumentDialog(List<ReportItem> reportItems, DateOnly startDate, DateOnly endDate, Employee employee)
+        {
+            InitializeComponent();
+            _startDate = startDate;
+            _endDate = endDate;
+            _reportItems = reportItems;
+            _employeeFullname = employee.Fullname;
         }
 
         // Методы
         private void OpenSaveFileDialog()
         {
             SaveFileDialog saveFileDialog = null;
+            bool isXlsx = false;
+            bool isPdf = false;
 
-            // Для сертификата
-            if (_certificate != null)
+            if (_certificate != null) // Для сертификата
             {
                 // Выбор пути
                 saveFileDialog = new SaveFileDialog()
@@ -63,24 +76,42 @@ namespace CarAccountingGibdd.Dialogs
                     Title = "Сохранить PDF документ",
                     FileName = $"Свидетельство о регистрации транспортного средства №{_certificate.CertificateId}"
                 };
+                isPdf = true;
             }
-            
-            // Для списка с нарушениями
-            if (_violationInspections != null)
+            else if (_reportItems != null) // Для отчета
+            {
+                // Выбор пути
+                saveFileDialog = new SaveFileDialog()
+                {
+                    Filter = "Excel Files|*.xls;*.xlsx;*.xlsm",
+                    Title = "Сохранить EXCEL документ",
+                    FileName = $"Отчет за период с {_startDate:dd.MM.yyyy} по {_endDate:dd.MM.yyyy}"
+                };
+                isXlsx = true;
+            }
+            else if (_violationInspections != null) // Для списка с нарушениями
             {
                 // Выбор пути
                 saveFileDialog = new SaveFileDialog()
                 {
                     Filter = "Pdf Files|*.pdf*",
                     Title = "Сохранить PDF документ",
-                    FileName = $"Нарушения ТС по инспекции №{_violationInspections.First().InspectionId}"
+                    FileName = $"Отчёт о выявленных нарушениях №{_violationInspections.First().InspectionId}"
                 };
+                isPdf = true;
             }
 
             // Если пользователь выбрал путь для сохранения чека
             if (saveFileDialog.ShowDialog() == true)
             {
-                _filepath = $"{saveFileDialog.FileName}.pdf"; // Путь для открытия файла
+                if (isXlsx)
+                {
+                    _filepath = $"{saveFileDialog.FileName}.xlsx"; // Путь для открытия файла
+                }
+                else if (isPdf)
+                {
+                    _filepath = $"{saveFileDialog.FileName}.pdf"; // Путь для открытия файла
+                }
                 filepathTB.Text = $"Путь к документу: {_filepath}";
             }
         }
@@ -88,14 +119,18 @@ namespace CarAccountingGibdd.Dialogs
         private void SaveDocument()
         {
             // Генерируем документ
-            if (_certificate != null)
+            if (_certificate != null) // Для сертификата
             {
-                DocumentService.GenerateCertificateReport(_filepath, _certificate, employeeFullname);
+                DocumentService.GenerateCertificateReport(_filepath, _certificate, _employeeFullname);
             }
-            else if (_violationInspections != null)
+            else if (_violationInspections != null) // Для списка с нарушениями
             {
                 Inspection inspecton = _violationInspections.First().Inspection;
-                DocumentService.GenerateViolationsReport(_filepath, inspecton.InspectionId, employeeFullname);
+                DocumentService.GenerateViolationsReport(_filepath, inspecton.InspectionId, _employeeFullname);
+            }
+            else if (_reportItems != null)
+            {
+                DocumentService.GenerateExcelReport(_filepath, _reportItems, _startDate, _endDate, _employeeFullname);
             }
 
             // Открываем файл (или нет)

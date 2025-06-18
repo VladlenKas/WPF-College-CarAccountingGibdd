@@ -2,9 +2,12 @@
 using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Controls;
 using CarAccountingGibdd.Model;
+using Org.BouncyCastle.Tls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +18,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace CarAccountingGibdd.Dialogs
 {
@@ -29,6 +33,7 @@ namespace CarAccountingGibdd.Dialogs
         // Поля
         private Inspection _inspection;
         private List<Violation> _violationsList = new();
+        private string _filepath;
 
         // Конструктор
         public AddViolationInspectionDialog(Inspection inspection)
@@ -43,7 +48,84 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private void CreateViolationInspection()
+        private async Task SendMessageAsync()
+        {
+            string? email = _inspection.Application.Owner.Email;
+            if (email == null) return;
+
+            MessageBox.Show("Письмо формируется. Через несколько секунд вам придет уведомление о его завершении!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            MailAddress from = new MailAddress("kasimovvladlen2006@yandex.ru", "Управление ГИБДД");
+            MailAddress to = new MailAddress(email);
+            MailMessage message = new MailMessage(from, to);
+
+            message.Subject = "Уведомление о результатах проверки ТС";
+            message.Body =
+                $"Здравствуйте!<br><br>" +
+                $"Ваше транспортное средство не прошло инспекцию.<br>" +
+                $"Причина отказа указана в отчете о выявленных нарушениях, который прикреплен ниже к данному письму.<br><br>" +
+                "После исправления нарушений подайте заявку на повторную проверку.<br><br>" +
+                "С уважением,<br>" +
+                "Служба поддержки ГИБДД";
+            message.IsBodyHtml = true;
+
+            message.IsBodyHtml = true;
+
+            // Путь к документу с подтверждением (PDF, изображение и т.п.)
+            string filePath = _filepath; // замените на актуальный путь
+
+            Attachment attachment = new Attachment(filePath);
+            message.Attachments.Add(attachment);
+
+            SmtpClient smtp = new SmtpClient("smtp.yandex.ru", 25)
+            {
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential("kasimovvladlen2006@yandex.ru", "czwycjcedmqhebcd")
+            };
+
+            await smtp.SendMailAsync(message);
+            try
+            {
+                await smtp.SendMailAsync(message);
+                // Можно показать уведомление об успехе
+                MessageBox.Show("Письмо успешно отправлено!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                // Можно показать уведомление об ошибке
+                MessageBox.Show("Ошибка при отправке письма: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                attachment.Dispose();
+            }
+        }
+
+        private bool SaveFilePath()
+        {
+            SaveFileDialog saveFileDialog = null;
+
+            // Выбор пути
+            saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Pdf Files|*.pdf*",
+                Title = "Сохранить PDF документ",
+                FileName = $"Отчёт о выявленных нарушениях №{_inspection.InspectionId}"
+            };
+
+            // Если пользователь выбрал путь для сохранения чека
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                _filepath = $"{saveFileDialog.FileName}.pdf"; // Путь для открытия файла
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task CreateViolationInspection()
         {
             // Проверка
             if (_violationsList.Count <= 0)
@@ -51,6 +133,10 @@ namespace CarAccountingGibdd.Dialogs
                 MessageHelper.MessageNullViolations();
                 return;
             }
+
+            // Открытие окна и выбор пути к документу
+            bool saved = SaveFilePath();
+            if (!saved) return;
 
             // Подтверждение 
             bool accept = MessageHelper.ConfirmSave();
@@ -60,15 +146,21 @@ namespace CarAccountingGibdd.Dialogs
             InspectionService inspectionService = new(_inspection);
             inspectionService.CreateViolationsInspection(_violationsList);
 
+            // Формирование документа 
+            DocumentService.GenerateViolationsReport(_filepath, _inspection.InspectionId, _inspection.Inspector.Fullname);
+
             // Смена флажка о сохранении
             Saved = true;
             Close();
+
+            // Отправляем письмо в фоне
+            _ = SendMessageAsync();
         }
 
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) => CreateViolationInspection();
+        private async void Add_Click(object sender, RoutedEventArgs e) => await CreateViolationInspection();
 
         private void ViolationsATB_ItemSelected(object obj)
         {

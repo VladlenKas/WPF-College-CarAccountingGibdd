@@ -9,8 +9,6 @@ public partial class Application
 
     public int ApplicationStatusId { get; set; }
 
-    public int DepartmentId { get; set; }
-
     public int OwnerId { get; set; }
 
     public int VehicleId { get; set; }
@@ -19,9 +17,9 @@ public partial class Application
 
     public DateTime? DatetimeConfirm { get; set; }
 
-    public DateTime? DatetimeAccept { get; set; }
-
     public decimal Amount { get; set; }
+
+    public sbyte PaymentMethod { get; set; }
 
     public virtual ApplicationStatus ApplicationStatus { get; set; } = null!;
 
@@ -29,14 +27,15 @@ public partial class Application
 
     public virtual ICollection<Inspection> Inspections { get; set; } = new List<Inspection>();
 
-    public virtual Department Department { get; set; } = null!;
-
     public virtual Owner Owner { get; set; } = null!;
 
     public virtual Vehicle Vehicle { get; set; } = null!;
 
     public string InspectorFullname =>
         Inspections?.FirstOrDefault()?.Inspector?.Fullname ?? "Отсутствует";
+
+    public string DepartmentName =>
+        Inspections?.FirstOrDefault()?.Inspector?.Department.Name ?? "Отсутствует";
 
     public int? InspectorId =>
         Inspections?.FirstOrDefault()?.Inspector?.EmployeeId ?? null;

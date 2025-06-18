@@ -162,7 +162,7 @@
                         <TextBlock DockPanel.Dock="Top"
                                     Margin="0 0 0 12"
                                     TextWrapping="Wrap">
-                            <Run Text="Б/У:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="Поддержанное:" Style="{StaticResource Run.Subtitle}"/>
                             <Run Text="{Binding Vehicle.UsedValueString, Mode=OneWay}"
                                     Style="{StaticResource Run.Description}"/>
                         </TextBlock>
@@ -208,7 +208,7 @@
                                    Margin="0 0 0 24"
                                    TextWrapping="Wrap">
                             <Run Text="Департамент:" Style="{StaticResource Run.Subtitle}"/>
-                            <Run Text="{Binding Department.Name, Mode=OneWay}"
+                            <Run Text="{Binding DepartmentName, Mode=OneWay}"
                                  Style="{StaticResource Run.Description}"/>
                         </TextBlock>
 
@@ -223,16 +223,6 @@
                                    Text="Инспекция"
                                    TextWrapping="Wrap"
                                    Margin="0 0 0 18"/>
-
-                        <TextBlock DockPanel.Dock="Top"
-                                   Margin="0 0 0 12"
-                                   TextWrapping="Wrap">
-                            <Run Text="Дата принятия на осмотр:" 
-                                 Style="{StaticResource Run.Subtitle}"
-                                 Name="datetimeInspectionTB"/>
-                            <Run Text="{Binding DatetimeAccept, StringFormat={}{0:dd.MM.yyyy HH:mm}, TargetNullValue='Не принята'}"
-                                 Style="{StaticResource Run.Description}"/>
-                        </TextBlock>
 
                         <TextBlock DockPanel.Dock="Top"
                                    Margin="0 0 0 12"

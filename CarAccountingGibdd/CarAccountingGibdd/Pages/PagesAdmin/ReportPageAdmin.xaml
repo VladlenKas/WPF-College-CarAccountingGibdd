@@ -18,44 +18,35 @@
                    Margin="0 0 0 35"
                    LastChildFill="False">
 
-            <Grid>
-                <TextBox Width="360"
-                         MinWidth="150"
-                         Name="searchTB"
-                         Tag="Поиск"
-                         MaxLength="70"
-                         ToolTip="Нажмите на значок поиска для обновления данных"/>
+            <TextBlock Style="{StaticResource TextBlock.Normal}"
+                       Text="Дата начала периода:"
+                       Width="95"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       Margin="0 0 6 0"/>
+            
+            <components:BindableDateBox x:Name="startDateTB"
+                                        PlaceholderDate="От даты:"
+                                        Margin="0 0 24 0"
+                                        Width="140"/>
 
-                <Button Name="searchBTN"
-                        HorizontalAlignment="Right"
-                        Tag="Search"
-                        Style="{StaticResource Button.Icon.Transperent}"/>
-            </Grid>
+            <TextBlock Style="{StaticResource TextBlock.Normal}"
+                       Text="Дата окончания периода:"
+                       Width="120"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       Margin="0 0 6 0"/>
 
-            <ComboBox Style="{StaticResource ComboBox.Sorter}"
-                      Name="sorterCB"
-                      Margin="10 0 0 0"
-                      Tag="Сортировка"/>
-
-            <CheckBox Style="{StaticResource CheckBox.Ascending}"
-                      Margin="5 0 10 0"
-                      Name="ascendingCHB"/>
+            <components:BindableDateBox x:Name="endDateTB"
+                                        PlaceholderDate="До даты:"
+                                        Width="140"/>
 
             <Button Name="resetFiltersBTN"
                     Style="{StaticResource Button.Icon.Medium}"
+                    Margin="24 0 0 0"
                     Content="Очистить все"
                     Tag="restore"
                     ToolTip="Сброс фильтров"/>
-
-            <components:BindableDateBox x:Name="startDateTB"
-                                        Margin="20 0 0 0"
-                                        PlaceholderDate="От даты:"
-                                        Width="140"/>
-            
-            <components:BindableDateBox x:Name="endDateTB"
-                                        Margin="10 0 0 0"
-                                        PlaceholderDate="До даты:"
-                                        Width="140"/>
 
             <Button Style="{StaticResource Button.Primary.Icon}"
                     DockPanel.Dock="Right"
@@ -73,13 +64,8 @@
                 <!-- Контент -->
                 <DataGrid Name="itemsDG">
                     <DataGrid.Columns>
-                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.4*" Header="Номер заявки" Binding="{Binding ApplcationId}"/>
-                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.6*" Header="Статус" Binding="{Binding StatusName}"/>
-                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="1.1*" Header="ФИО владельца" Binding="{Binding OwnerFullname}"/>
-                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="2*" Header="Данные ТС" Binding="{Binding VehicleFullInfo}"/>
-                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.7*" Header="Департамент" Binding="{Binding DepartmentName}"/>
-                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.7*" Header="Дата подачи" Binding="{Binding DatetimeSupply, StringFormat=dd.MM.yyyy HH:mm}"/>
-                        <DataGridTextColumn ElementStyle="{StaticResource WrapStyle}" Width="0.7*" Header="Дата рассмотрения" Binding="{Binding DatetimeConfirmValue}"/>
+                        <DataGridTextColumn Width="500" Header="Показатель" Binding="{Binding Indicator}"/>
+                        <DataGridTextColumn Header="Значение" Binding="{Binding Value}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

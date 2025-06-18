@@ -1,4 +1,5 @@
 ﻿using CarAccountingGibdd.Model;
+using ClosedXML.Excel;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 //using Org.BouncyCastle.Tls;
@@ -11,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Resources;
+using System;
+using System.Windows;
 
 namespace CarAccountingGibdd.Classes.Services
 {
@@ -145,7 +148,7 @@ namespace CarAccountingGibdd.Classes.Services
                     $"Номер заявки: {app.ApplicationId}\n" +
                     $"Дата подачи: {app.DatetimeSupply:dd.MM.yyyy}\n" +
                     $"Инспектор: {app.InspectorFullname}\n" +
-                    $"Департамент: {app.Department.Name}",
+                    $"Департамент: {app.DepartmentName}",
                     normalFont)
                 {
                     SpacingAfter = 15f
@@ -224,7 +227,7 @@ namespace CarAccountingGibdd.Classes.Services
                     signatureImage.SetAbsolutePosition(xPos, yImage);
                     PdfContentByte cb = writer.DirectContent;
                     PdfGState graphicsState = new PdfGState();
-                    graphicsState.FillOpacity = 0.7f;  // 50% прозрачность
+                    graphicsState.FillOpacity = 0.7f;  // 70% прозрачность
                     cb.SetGState(graphicsState);
                     cb.AddImage(signatureImage);
                 }
@@ -347,7 +350,7 @@ namespace CarAccountingGibdd.Classes.Services
                     $"Номер инспекции: {inspection.InspectionId}\n" +
                     $"Дата и время: {inspection.DatetimePlanned:dd.MM.yyyy HH:mm}\n" +
                     $"Инспектор: {inspection.Inspector.Fullname}\n" +
-                    $"Департамент: {inspection.Application.Department.Name}",
+                    $"Департамент: {inspection.Application.DepartmentName}",
                     normalFont)
                 {
                     SpacingAfter = 15f
@@ -453,9 +456,94 @@ namespace CarAccountingGibdd.Classes.Services
 
 
         // Отчет
-        public static void GenerateReport(string outputPath)
+        public static void GenerateExcelReport(
+            string outputPath,
+            List<ReportItem> reportItems,
+            DateOnly startDate,
+            DateOnly endDate,
+            string employeeFullname,
+            string organizationName = "Департамент Государственной инспекции безопасности дорожного движения\n(ГИБДД)",
+            string logoResourceUri = "/CarAccountingGibdd;component/Resources/LogoGibdd.png")
         {
+            using (var workbook = new XLWorkbook())
+            {
+                var ws = workbook.Worksheets.Add("Отчёт");
 
+                int row = 1;
+
+                // Вставляем логотип из ресурса
+                InsertLogoFromResource(ws, row, 1, logoResourceUri);
+
+                // Название организации (рядом с логотипом)
+                ws.Cell(row, 2).Value = organizationName;
+                ws.Cell(row, 2).Style.Font.Bold = true;
+                ws.Cell(row, 2).Style.Font.FontSize = 16;
+                ws.Range(row, 2, row, 4).Merge();
+                row += 2;
+
+                // --- Период отчёта ---
+                ws.Cell(row, 1).Value = "Период отчёта:";
+                ws.Cell(row, 2).Value = $"{startDate:dd.MM.yyyy} - {endDate:dd.MM.yyyy}";
+                ws.Range(row, 2, row, 4).Merge();
+                row += 2;
+
+                // --- Таблица показателей ---
+                ws.Cell(row, 1).Value = "Показатель";
+                ws.Cell(row, 2).Value = "Значение";
+                ws.Range(row, 1, row, 2).Style.Font.Bold = true;
+                ws.Range(row, 1, row, 2).Style.Fill.BackgroundColor = XLColor.LightGray;
+                row++;
+
+                foreach (var item in reportItems)
+                {
+                    ws.Cell(row, 1).Value = item.Indicator;
+                    ws.Cell(row, 2).Value = item.Value;
+                    row++;
+                }
+
+                row += 1;
+
+                // --- Информация о сотруднике и дате ---
+                ws.Cell(row, 1).Value = "Составил:";
+                ws.Cell(row, 2).Value = $"{employeeFullname}";
+                row++;
+                ws.Cell(row, 1).Value = "Дата составления:";
+                ws.Cell(row, 2).Value = $"{DateTime.Now:dd.MM.yyyy}";
+
+                // --- Оформление ---
+                ws.Columns().AdjustToContents();
+
+                // Сохраняем файл
+                workbook.SaveAs(outputPath);
+            }
+        }
+
+        public static void InsertLogoFromResource(IXLWorksheet ws, int row, int column, string resourceUri)
+        {
+            var uri = new Uri(resourceUri, UriKind.Relative);
+            var resourceInfo = System.Windows.Application.GetResourceStream(uri);
+
+            if (resourceInfo != null)
+            {
+                using (var stream = resourceInfo.Stream)
+                {
+                    // Копируем поток в MemoryStream, так как ClosedXML требует Stream с поддержкой Seek
+                    using (var ms = new MemoryStream())
+                    {
+                        stream.CopyTo(ms);
+                        ms.Position = 0;
+
+                        var picture = ws.AddPicture(ms)
+                            .MoveTo(ws.Cell(row, column))
+                            .WithSize(50, 50);
+                    }
+                }
+            }
+            else
+            {
+                // Ресурс не найден — можно залогировать или обработать
+                // Например, ничего не делаем
+            }
         }
     }
 }

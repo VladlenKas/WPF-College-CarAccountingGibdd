@@ -46,7 +46,7 @@ namespace CarAccountingGibdd.Dialogs
             else if (inspection.StatusId == 4 || inspection.StatusId == 5) // Если инспекция не прошла осмотр
             {
                 titleInfoDocumentTB.Text = "Номер документа о нарушениях:";
-                infoDocumentTB.Text = $"Нарушения ТС по инспекции №{inspection.InspectionId}";
+                infoDocumentTB.Text = $"Отчёт о выявленных нарушениях №{inspection.InspectionId}";
             }
         }
 

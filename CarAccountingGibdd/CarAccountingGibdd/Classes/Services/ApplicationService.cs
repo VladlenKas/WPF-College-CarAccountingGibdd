@@ -39,10 +39,10 @@ namespace CarAccountingGibdd.Classes.Services
             Application application = new()
             {
                 OwnerId = _owner.OwnerId,
-                DepartmentId = @operator.DepartmentId,
                 VehicleId = _vehicle.VehicleId,
                 ApplicationStatusId = 1, // На проверке документов
                 Amount = 400,
+                PaymentMethod = (sbyte)_paymentMethod,
                 DatetimeSupply = DateTime.Now
             };
 
@@ -74,7 +74,6 @@ namespace CarAccountingGibdd.Classes.Services
         public static void Accept(Application application, Employee inspector, DateTime dateTimePlanned)
         {
             application.ApplicationStatusId = 3;
-            application.DatetimeAccept = DateTime.Now;
 
             App.DbContext.Update(application);
             App.DbContext.SaveChanges();

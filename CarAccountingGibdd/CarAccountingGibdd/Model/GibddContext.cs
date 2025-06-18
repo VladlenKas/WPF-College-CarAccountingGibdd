@@ -58,8 +58,6 @@ public partial class GibddContext : DbContext
             .ThenInclude(v => v.Vehicle)
             .ThenInclude(vt => vt.VehicleType)
         .Include(a => a.Application)
-            .ThenInclude(d => d.Department)
-        .Include(a => a.Application)
             .ThenInclude(d => d.Certificates)
         .AsSplitQuery(); // для оптимизации
 
@@ -126,8 +124,6 @@ public partial class GibddContext : DbContext
 
             entity.HasIndex(e => e.ApplicationStatusId, "fk_application_status_idx");
 
-            entity.HasIndex(e => e.DepartmentId, "department_fk_idx");
-
             entity.HasIndex(e => e.OwnerId, "owner_id_idx");
 
             entity.HasIndex(e => e.VehicleId, "vehicle_id_idx");
@@ -140,17 +136,10 @@ public partial class GibddContext : DbContext
             entity.Property(e => e.DatetimeSupply)
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_supply");            
-            entity.Property(e => e.DatetimeAccept)
-                .HasColumnType("datetime")
-                .HasColumnName("datetime_accept");
-            entity.Property(e => e.DepartmentId).HasColumnName("department_id");
+            entity.Property(e => e.Amount).HasColumnName("amount");
+            entity.Property(e => e.PaymentMethod).HasColumnName("payment_method");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
-
-            entity.HasOne(d => d.Department).WithMany(p => p.Applications)
-                .HasForeignKey(d => d.DepartmentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("department_id");
 
             entity.HasOne(d => d.ApplicationStatus).WithMany(p => p.Applications)
                 .HasForeignKey(d => d.ApplicationStatusId)
@@ -218,7 +207,6 @@ public partial class GibddContext : DbContext
             entity.HasIndex(e => e.Name, "name_UNIQUE").IsUnique();
 
             entity.HasIndex(e => e.Phone, "phone_UNIQUE").IsUnique();
-
 
             entity.Property(e => e.DepartmentId).HasColumnName("department_id");
             entity.Property(e => e.Address)

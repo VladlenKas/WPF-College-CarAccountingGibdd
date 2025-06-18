@@ -28,13 +28,13 @@
                        DockPanel.Dock="Top"
                        Margin="0 0 0 16"
                        TextWrapping="Wrap">
-                <Run Text="Формирования списка с нарушениями при осмотре"/>
+                <Run Text="Формирования отчета о выявленных нарушениях&#x0a;при проведении осмотра ТС"/>
             </TextBlock>
 
             <!-- Подзаголовок -->
             <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                        Margin="0 0 0 24"
-                       Text="Для добавления выберите нужные нарушения в выпадающем списке. Ниже будут показаны все выбранные варианты"
+                       Text="Для добавления выберите нужные нарушения в выпадающем списке. Ниже будут показаны все выбранные варианты&#x0a;Также если у владельца имеется электронная почта, свидетельство будет на нее выслано"
                        Foreground="{StaticResource Text.Secondary.Brush}"
                        DockPanel.Dock="Top"/>
 
@@ -104,7 +104,7 @@
                     <TextBlock DockPanel.Dock="Top"
                                     Margin="0 0 0 24"
                                     TextWrapping="Wrap">
-                            <Run Text="Б/У:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="Поддержанное:" Style="{StaticResource Run.Subtitle}"/>
                             <Run Text="{Binding Application.Vehicle.UsedValueString, Mode=OneWay}"
                                     Style="{StaticResource Run.Description}"/>
                     </TextBlock>
@@ -119,6 +119,14 @@
                                TextWrapping="Wrap">
                     <Run Text="ФИО владельца:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding Application.Owner.Fullname, Mode=OneWay}"
+                         Style="{StaticResource Run.Description}"/>
+                    </TextBlock>
+
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="0 0 0 12"
+                               TextWrapping="Wrap">
+                    <Run Text="Эл. почта:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="{Binding Application.Owner.EmailValue, Mode=OneWay}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
 
@@ -140,18 +148,18 @@
                 </DockPanel>
 
                 <DockPanel Grid.Column="1">
+
+                    <TextBlock Style="{StaticResource TextBlock.H3}"
+                               Text="Причина(-ы) отклонения заявки:"
+                               Margin="0 0 0 24"
+                               DockPanel.Dock="Top"/>
                     <!-- Текстовые поля с данными о сертификате-->
                     <components:AutoCompleteTextBox Placeholder="Выберите нарушение"
                                                     DisplayMemberPath="NumberDescription"
                                                     x:Name="violationsATB"
-                                                    Margin="0 0 0 24"
+                                                    Margin="0 0 0 16"
                                                     DockPanel.Dock="Top"
                                                     behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
-
-                    <TextBlock Style="{StaticResource TextBlock.H3}"
-                               Text="Причина(-ы) отклонения заявки:"
-                               Margin="0 0 0 16"
-                               DockPanel.Dock="Top"/>
 
                     <!-- Контент -->
                     <Grid DockPanel.Dock="Top"
@@ -180,11 +188,12 @@
                     Content="Выйти"
                     Click="Exit_Click"/>
 
-                <Button Style="{StaticResource Button.Primary}"
-                    DockPanel.Dock="Bottom"
-                    Content="Сохранить"
-                    Margin="0 0 0 12"
-                    Click="Add_Click"/>
+                <Button Style="{StaticResource Button.Primary.Icon}"
+                        Tag="FilePlusOutline"
+                        DockPanel.Dock="Bottom"
+                        Content="Сохранить"
+                        Margin="0 0 0 12"
+                        Click="Add_Click"/>
             </DockPanel>
 
         </DockPanel>

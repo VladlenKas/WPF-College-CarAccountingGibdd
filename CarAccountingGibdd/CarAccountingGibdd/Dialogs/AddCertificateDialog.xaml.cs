@@ -163,6 +163,8 @@ namespace CarAccountingGibdd.Dialogs
             string? email = Inspection.Application.Owner.Email;
             if (email == null) return;
 
+            MessageBox.Show("Письмо формируется. Через несколько секунд вам придет уведомление о его завершении!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+           
             MailAddress from = new MailAddress("kasimovvladlen2006@yandex.ru", "Управление ГИБДД");
             MailAddress to = new MailAddress(email);
             MailMessage message = new MailMessage(from, to);

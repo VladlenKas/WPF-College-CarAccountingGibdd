@@ -26,7 +26,7 @@
                                DockPanel.Dock="Top"
                                Margin="0 0 0 24"
                                TextWrapping="Wrap">
-                    <Run Text="Нарушения ТС по инспекции"/>
+                    <Run Text="Отчёт о выявленных нарушениях"/>
                     <Run Text="{Binding Inspection.InspectionId, StringFormat={}№{0}}"/>
                     </TextBlock>
 
