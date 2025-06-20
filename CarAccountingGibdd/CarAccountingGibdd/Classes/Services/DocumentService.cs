@@ -233,7 +233,6 @@ namespace CarAccountingGibdd.Classes.Services
                 }
 
                 document.Close();
-                // fs и document автоматически закроются и освободятся
             }
         }
 
@@ -514,11 +513,30 @@ namespace CarAccountingGibdd.Classes.Services
                 ws.Columns().AdjustToContents();
 
                 // Сохраняем файл
-                workbook.SaveAs(outputPath);
+                bool saved = false;
+                while (!saved)
+                {
+                    try
+                    {
+                        workbook.SaveAs(outputPath);
+                        saved = true; // Успешно сохранили — выходим из цикла
+                    }
+                    catch
+                    {
+                        var result = MessageBox.Show(
+                            "Файл уже открыт в другой программе. Пожалуйста, закройте его и нажмите 'OK' для повторной попытки, или 'Отмена', чтобы отобразить открытый файл.",
+                            "Файл занят",
+                            MessageBoxButton.OKCancel,
+                            MessageBoxImage.Warning);
+
+                        if (result == MessageBoxResult.Cancel)
+                            break; // Пользователь отменил попытку — выходим из цикла
+                    }
+                }
             }
         }
 
-        public static void InsertLogoFromResource(IXLWorksheet ws, int row, int column, string resourceUri)
+        private static void InsertLogoFromResource(IXLWorksheet ws, int row, int column, string resourceUri)
         {
             var uri = new Uri(resourceUri, UriKind.Relative);
             var resourceInfo = System.Windows.Application.GetResourceStream(uri);
@@ -539,11 +557,7 @@ namespace CarAccountingGibdd.Classes.Services
                     }
                 }
             }
-            else
-            {
-                // Ресурс не найден — можно залогировать или обработать
-                // Например, ничего не делаем
-            }
+            // Ресурс не найден — можно залогировать или обработать
         }
     }
 }

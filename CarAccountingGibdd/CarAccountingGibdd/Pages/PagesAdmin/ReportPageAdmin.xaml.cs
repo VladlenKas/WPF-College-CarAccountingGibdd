@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,10 +28,7 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
     {
         // Поля
         private Employee _admin;
-        private ReportDataService _dataService;
         private List<ReportItem> _reportItems;
-        private DateOnly _startDate;
-        private DateOnly _endDate;
 
         // Конструктор
         public ReportPageAdmin(Employee admin)
@@ -38,7 +36,7 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
             InitializeComponent();
 
             _admin = admin;
-            _dataService = new(resetFiltersBTN, startDateTB, endDateTB, itemsDG, UpdateIC);
+            ReportDataService dataService = new(resetFiltersBTN, startDateTB, endDateTB, itemsDG, UpdateIC);
 
             UpdateIC();
         }
@@ -46,8 +44,8 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
         // Методы
         private void UpdateIC()
         {
-            bool isStartValid = DateOnly.TryParse(startDateTB.DateText, out DateOnly startDate);
-            bool isEndValid = DateOnly.TryParse(endDateTB.DateText, out DateOnly endDate);
+            _ = DateOnly.TryParse(startDateTB.DateText, out DateOnly startDate);
+            _ = DateOnly.TryParse(endDateTB.DateText, out DateOnly endDate);
 
             var combinedReport = CombinedReport.GetCombinedReport(startDate, endDate, App.DbContext);
 
@@ -70,15 +68,34 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
             itemsDG.ItemsSource = null;
             itemsDG.ItemsSource = reportItems;
 
-            _startDate = startDate;
-            _endDate = endDate;
             _reportItems = reportItems;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            SaveDocumentDialog dialog = new(_reportItems, _startDate, _endDate, _admin);
-            ComponentsHelper.ShowDialogWindowDark(dialog);
+            bool isStartValid = DateOnly.TryParse(startDateTB.DateText, out DateOnly startDate);
+            bool isEndValid = DateOnly.TryParse(endDateTB.DateText, out DateOnly endDate);
+
+            if (isStartValid && isEndValid)
+            {
+                if (IsValidDateFormat(startDate.ToString()) && IsValidDateFormat(endDate.ToString()))
+                {
+                    SaveDocumentDialog dialog = new(_reportItems, startDate, endDate, _admin);
+                    ComponentsHelper.ShowDialogWindowDark(dialog);
+                }
+            }
+            else
+            {
+                MessageHelper.MessageUniversal("Выберите корректный формат даты!");
+            }
+        }
+
+        // Фильтрация по датам
+        private static readonly Regex DateRegex = new Regex(@"^\d{2}\.\d{2}(\.\d{4})?$");
+
+        private bool IsValidDateFormat(string dateText)
+        {
+            return DateRegex.IsMatch(dateText);
         }
     }
 }

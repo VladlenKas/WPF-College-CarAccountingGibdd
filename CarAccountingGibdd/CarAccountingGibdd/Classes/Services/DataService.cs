@@ -635,12 +635,12 @@ public class OwnersDataService
         {
             case 1: // "Есть авто"
                 return owners
-                    .Where(r => r.VehiclesCount < 0)
+                    .Where(r => r.VehiclesCount > 0)
                     .ToList();
 
             case 2: // "Нет авто"
                 return owners
-                    .Where(r => r.VehiclesCount >= 0)
+                    .Where(r => r.VehiclesCount <= 0)
                     .ToList();
 
             default: // "Все"

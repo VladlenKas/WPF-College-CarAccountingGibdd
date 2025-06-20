@@ -51,6 +51,7 @@ namespace CarAccountingGibdd.Dialogs
             _employeeFullname = employee.Fullname;
         }
 
+        // Конструктор для отчета
         public SaveDocumentDialog(List<ReportItem> reportItems, DateOnly startDate, DateOnly endDate, Employee employee)
         {
             InitializeComponent();
@@ -64,54 +65,42 @@ namespace CarAccountingGibdd.Dialogs
         private void OpenSaveFileDialog()
         {
             SaveFileDialog saveFileDialog = null;
-            bool isXlsx = false;
-            bool isPdf = false;
 
             if (_certificate != null) // Для сертификата
             {
                 // Выбор пути
                 saveFileDialog = new SaveFileDialog()
                 {
-                    Filter = "Pdf Files|*.pdf*",
+                    Filter = "Pdf Files|*.pdf",
                     Title = "Сохранить PDF документ",
                     FileName = $"Свидетельство о регистрации транспортного средства №{_certificate.CertificateId}"
                 };
-                isPdf = true;
             }
             else if (_reportItems != null) // Для отчета
             {
                 // Выбор пути
                 saveFileDialog = new SaveFileDialog()
                 {
-                    Filter = "Excel Files|*.xls;*.xlsx;*.xlsm",
+                    Filter = "Excel Files|*.xlsx;*.xlsm",
                     Title = "Сохранить EXCEL документ",
                     FileName = $"Отчет за период с {_startDate:dd.MM.yyyy} по {_endDate:dd.MM.yyyy}"
                 };
-                isXlsx = true;
             }
             else if (_violationInspections != null) // Для списка с нарушениями
             {
                 // Выбор пути
                 saveFileDialog = new SaveFileDialog()
                 {
-                    Filter = "Pdf Files|*.pdf*",
+                    Filter = "Pdf Files|*.pdf",
                     Title = "Сохранить PDF документ",
                     FileName = $"Отчёт о выявленных нарушениях №{_violationInspections.First().InspectionId}"
                 };
-                isPdf = true;
             }
 
             // Если пользователь выбрал путь для сохранения чека
             if (saveFileDialog.ShowDialog() == true)
             {
-                if (isXlsx)
-                {
-                    _filepath = $"{saveFileDialog.FileName}.xlsx"; // Путь для открытия файла
-                }
-                else if (isPdf)
-                {
-                    _filepath = $"{saveFileDialog.FileName}.pdf"; // Путь для открытия файла
-                }
+                _filepath = saveFileDialog.FileName;
                 filepathTB.Text = $"Путь к документу: {_filepath}";
             }
         }
@@ -137,12 +126,24 @@ namespace CarAccountingGibdd.Dialogs
             bool openedDocument = openedDocumentCB.IsChecked.Value;
             if (openedDocument == true)
             {
-                Process.Start(new ProcessStartInfo
+                if (File.Exists(_filepath))
                 {
-                    FileName = _filepath,
-                    UseShellExecute = true // Используем оболочку Windows для открытия файла
-                });
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = _filepath,
+                        UseShellExecute = true
+                    });
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Файл не найден. Сохранение было отменено или произошла ошибка.",
+                        "Ошибка открытия файла",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
             }
+
 
             Close();
         }
@@ -159,15 +160,7 @@ namespace CarAccountingGibdd.Dialogs
                 return;
             }
 
-            // Проверка на то, что путь выбран
-            if (File.Exists(_filepath))
-            {
-                bool result = MessageHelper.ConfirmResaveDocument();
-                if (!result) return;
-            }
-
             SaveDocument();
-
             Close();
         }
 
