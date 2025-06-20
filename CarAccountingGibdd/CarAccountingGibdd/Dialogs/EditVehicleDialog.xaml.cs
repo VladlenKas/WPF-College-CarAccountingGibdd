@@ -53,6 +53,13 @@ namespace CarAccountingGibdd.Dialogs
             {
                 addImagesBTN.Content = "Добавить фото";
             }
+            
+            // Если у владельца гос. номер выдан по свидетельству, то его поменять нельзя
+            bool hasCertificate = vehicle.Applications?.Any(a => a.Certificates?.Count > 0) == true;
+            if (hasCertificate)
+            {
+                licensePlateTB.IsEnabled = false;
+            }
 
             _vehicle = vehicle;
         }

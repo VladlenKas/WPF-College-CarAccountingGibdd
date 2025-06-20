@@ -18,7 +18,7 @@ using CarAccountingGibdd.Classes.Services;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.Win32;
-using CarAccountingGibdd.Dialogs.DialogsMessage;
+using CarAccountingGibdd.Dialogs;
 
 namespace CarAccountingGibdd.Dialogs
 {
@@ -39,12 +39,14 @@ namespace CarAccountingGibdd.Dialogs
 
         // Поля
         private string _filepath;
+        private string _region;
 
         // Конструктор
-        public AddCertificateDialog(Inspection inspection)
+        public AddCertificateDialog(Inspection inspection, string region)
         {
             InitializeComponent();
 
+            _region = region;
             Inspection = inspection;
             NewLicensePlate = GetNewLicensePlate();
             CertificateId = GetCertificateId();
@@ -68,32 +70,11 @@ namespace CarAccountingGibdd.Dialogs
             }
         }
 
-        int GenerateRegionCode(Random random, List<(int Start, int End)> ranges)
-        {
-            var range = ranges[random.Next(ranges.Count)];
-            return random.Next(range.Start, range.End + 1);
-        }
-
         private string GetNewLicensePlate()
         {
             var newLicensePlate = new StringBuilder();
             var random = new Random();
             const string letters = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ";
-
-            var validRanges = new List<(int Start, int End)>
-            {
-                (1, 99),
-                (102, 113),
-                (116, 116),
-                (121, 126),
-                (134, 138),
-                (142, 147),
-                (150, 159),
-                (161, 164),
-                (173, 178),
-                (186, 199),
-                (702, 716)
-            };
 
             do
             {
@@ -106,17 +87,11 @@ namespace CarAccountingGibdd.Dialogs
                     random.Next(10) +
                     $"{letters[random.Next(letters.Length)]}" +
                     $"{letters[random.Next(letters.Length)]}"
-                );
+                    );
+            }
+            while (App.DbContext.Certificates.Any(c => c.LicensePlate == newLicensePlate + _region));
 
-                int code = GenerateRegionCode(random, validRanges);
-                string regionCode = code < 100 ? code.ToString("D2") : code.ToString();
-
-                newLicensePlate.Append(regionCode);
-
-            } 
-            while (App.DbContext.Certificates.Any(c => c.Number == newLicensePlate.ToString()));
-
-            return newLicensePlate.ToString();
+            return newLicensePlate + _region;
         }
 
         private string GetRandomCertificateNumber()
@@ -238,7 +213,7 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Обработчики событий
-        private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
+        private void Exit_Click(object sender, RoutedEventArgs e) => Close();
 
         private async void Add_Click(object sender, RoutedEventArgs e) => await CreateSertificate();
     }

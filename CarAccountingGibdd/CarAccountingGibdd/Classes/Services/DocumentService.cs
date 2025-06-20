@@ -455,35 +455,32 @@ namespace CarAccountingGibdd.Classes.Services
 
 
         // Отчет
+        // Вставьте этот метод вместо вашего текущего GenerateExcelReport
         public static void GenerateExcelReport(
             string outputPath,
             List<ReportItem> reportItems,
             DateOnly startDate,
             DateOnly endDate,
             string employeeFullname,
-            string organizationName = "Департамент Государственной инспекции безопасности дорожного движения\n(ГИБДД)",
-            string logoResourceUri = "/CarAccountingGibdd;component/Resources/LogoGibdd.png")
+            string organizationName = "Департамент Государственной инспекции безопасности дорожного движения\n(ГИБДД)")
         {
             using (var workbook = new XLWorkbook())
             {
                 var ws = workbook.Worksheets.Add("Отчёт");
-
                 int row = 1;
 
-                // Вставляем логотип из ресурса
-                InsertLogoFromResource(ws, row, 1, logoResourceUri);
-
-                // Название организации (рядом с логотипом)
-                ws.Cell(row, 2).Value = organizationName;
-                ws.Cell(row, 2).Style.Font.Bold = true;
-                ws.Cell(row, 2).Style.Font.FontSize = 16;
-                ws.Range(row, 2, row, 4).Merge();
+                // --- Заголовок (объединённая первая и вторая ячейка) ---
+                var headerCell = ws.Cell(row, 1);
+                headerCell.Value = organizationName;
+                headerCell.Style.Font.Bold = true;
+                headerCell.Style.Font.FontSize = 16;
+                headerCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 row += 2;
 
                 // --- Период отчёта ---
                 ws.Cell(row, 1).Value = "Период отчёта:";
+                ws.Range(row, 2, row, 2).Merge();
                 ws.Cell(row, 2).Value = $"{startDate:dd.MM.yyyy} - {endDate:dd.MM.yyyy}";
-                ws.Range(row, 2, row, 4).Merge();
                 row += 2;
 
                 // --- Таблица показателей ---
@@ -500,26 +497,26 @@ namespace CarAccountingGibdd.Classes.Services
                     row++;
                 }
 
-                row += 1;
+                row++;
 
                 // --- Информация о сотруднике и дате ---
                 ws.Cell(row, 1).Value = "Составил:";
-                ws.Cell(row, 2).Value = $"{employeeFullname}";
+                ws.Cell(row, 2).Value = employeeFullname;
                 row++;
                 ws.Cell(row, 1).Value = "Дата составления:";
-                ws.Cell(row, 2).Value = $"{DateTime.Now:dd.MM.yyyy}";
+                ws.Cell(row, 2).Value = DateTime.Now.ToString("dd.MM.yyyy");
 
                 // --- Оформление ---
                 ws.Columns().AdjustToContents();
 
-                // Сохраняем файл
+                // Сохраняем файл с обработкой ошибок
                 bool saved = false;
                 while (!saved)
                 {
                     try
                     {
                         workbook.SaveAs(outputPath);
-                        saved = true; // Успешно сохранили — выходим из цикла
+                        saved = true;
                     }
                     catch
                     {
@@ -530,34 +527,10 @@ namespace CarAccountingGibdd.Classes.Services
                             MessageBoxImage.Warning);
 
                         if (result == MessageBoxResult.Cancel)
-                            break; // Пользователь отменил попытку — выходим из цикла
+                            break;
                     }
                 }
             }
-        }
-
-        private static void InsertLogoFromResource(IXLWorksheet ws, int row, int column, string resourceUri)
-        {
-            var uri = new Uri(resourceUri, UriKind.Relative);
-            var resourceInfo = System.Windows.Application.GetResourceStream(uri);
-
-            if (resourceInfo != null)
-            {
-                using (var stream = resourceInfo.Stream)
-                {
-                    // Копируем поток в MemoryStream, так как ClosedXML требует Stream с поддержкой Seek
-                    using (var ms = new MemoryStream())
-                    {
-                        stream.CopyTo(ms);
-                        ms.Position = 0;
-
-                        var picture = ws.AddPicture(ms)
-                            .MoveTo(ws.Cell(row, column))
-                            .WithSize(50, 50);
-                    }
-                }
-            }
-            // Ресурс не найден — можно залогировать или обработать
         }
     }
 }

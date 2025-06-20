@@ -372,6 +372,10 @@
                             <Setter TargetName="placeholder" Property="Foreground" Value="{StaticResource Text.Primary.Brush}"/>
                             <Setter Property="BorderBrush" Value="{StaticResource Border.Focused.Brush}"/>
                         </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -186,7 +186,7 @@
                        Width="300">
                 <Button Style="{StaticResource Button.Ordinary}"
                         DockPanel.Dock="Bottom"
-                        Content="Выйти"
+                        Content="Назад"
                         Click="Exit_Click"/>
 
                 <Button Style="{StaticResource Button.Primary.Icon}"
