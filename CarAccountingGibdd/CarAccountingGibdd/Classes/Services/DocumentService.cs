@@ -389,6 +389,208 @@ namespace CarAccountingGibdd.Classes.Services
                 };
                 document.Add(footer);
 
+                // Добавляем таблицу с линией и надписью 
+                PdfPTable signatureLineTable = new PdfPTable(1);
+                signatureLineTable.TotalWidth = 200f;
+                signatureLineTable.LockedWidth = true;
+                signatureLineTable.HorizontalAlignment = Element.ALIGN_RIGHT;
+
+                PdfPCell lineCell = new PdfPCell()
+                {
+                    BorderWidthBottom = 1f,
+                    Border = PdfPCell.BOTTOM_BORDER,
+                    FixedHeight = 20f,
+                    Padding = 0,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_BOTTOM
+                };
+                signatureLineTable.AddCell(lineCell);
+
+                PdfPCell captionCell = new PdfPCell(new Phrase("(подпись)", russianFont))
+                {
+                    Border = PdfPCell.NO_BORDER,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    PaddingTop = 2f
+                };
+                signatureLineTable.AddCell(captionCell);
+
+                document.Add(signatureLineTable);
+
+                // Получаем текущую вертикальную позицию (нижний край таблицы)
+                float yPos = writer.GetVerticalPosition(true);
+
+                // Вычисляем координаты для изображения подписи
+                float xPos = document.PageSize.Width - document.RightMargin - 200f + 40f; // подгоните под ширину таблицы и отступы
+                float yImage = yPos + 5f; // немного выше линии, чтобы наложиться
+
+                // Загружаем изображение подписи
+                Image signatureImage = null;
+                uri = new Uri("/CarAccountingGibdd;component/Resources/Signature.png", UriKind.Relative);
+                streamResourceInfo = System.Windows.Application.GetResourceStream(uri);
+                if (streamResourceInfo != null)
+                {
+                    using (var stream = streamResourceInfo.Stream)
+                    {
+                        byte[] imageBytes = new byte[stream.Length];
+                        stream.Read(imageBytes, 0, imageBytes.Length);
+                        signatureImage = Image.GetInstance(imageBytes);
+                        signatureImage.ScaleToFit(114f, 114f);
+                    }
+                }
+
+                if (signatureImage != null)
+                {
+                    signatureImage.SetAbsolutePosition(xPos, yImage);
+                    PdfContentByte cb = writer.DirectContent;
+                    PdfGState graphicsState = new PdfGState();
+                    graphicsState.FillOpacity = 0.7f;  // 50% прозрачность
+                    cb.SetGState(graphicsState);
+                    cb.AddImage(signatureImage);
+                }
+
+                document.Close();
+            }
+        }
+
+        // Отчет PDF
+        public static void GeneratePdfReport(string outputPath, List<Report> reports, DateOnly startDate, DateOnly endDate, string employeeFullname)
+        {
+            using (var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (var document = new Document(PageSize.A4, 85f, 42f, 57f, 57f))
+            {
+                PdfWriter writer = PdfWriter.GetInstance(document, fs);
+                document.Open();
+
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+                BaseFont baseFont = BaseFont.CreateFont("c:\\windows\\fonts\\times.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                BaseFont boldFont = BaseFont.CreateFont("c:\\windows\\fonts\\timesbd.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+
+                Font russianFont = new Font(baseFont, 10f, Font.ITALIC);
+                Font headerFont = new Font(boldFont, 16f, Font.NORMAL);
+                Font subHeaderFont = new Font(boldFont, 14f, Font.NORMAL);
+                Font normalFont = new Font(baseFont, 12f, Font.NORMAL);
+                Font boldNormalFont = new Font(boldFont, 12f, Font.NORMAL);
+                Font boldHeaderTableFont = new Font(boldFont, 10f, Font.NORMAL);
+                Font cellFont = new Font(baseFont, 10f, Font.NORMAL);
+
+                // Логотип
+                Image logo = null;
+                var uri = new Uri("/CarAccountingGibdd;component/Resources/LogoGibdd.png", UriKind.Relative);
+                var streamResourceInfo = System.Windows.Application.GetResourceStream(uri);
+                if (streamResourceInfo != null)
+                {
+                    using (var stream = streamResourceInfo.Stream)
+                    {
+                        byte[] imageBytes = new byte[stream.Length];
+                        stream.Read(imageBytes, 0, imageBytes.Length);
+                        logo = Image.GetInstance(imageBytes);
+                        logo.ScaleToFit(55f, 55f);
+                        logo.Alignment = Image.ALIGN_LEFT;
+                    }
+                }
+
+                // Шапка с логотипом и названием
+                PdfPTable headerTable = new PdfPTable(2);
+                headerTable.TotalWidth = 260f;
+                headerTable.LockedWidth = true;
+                headerTable.HorizontalAlignment = Element.ALIGN_LEFT;
+                headerTable.SetWidths(new float[] { 1f, 4f });
+
+                PdfPCell logoCell = new PdfPCell();
+                if (logo != null)
+                {
+                    logoCell.AddElement(logo);
+                }
+                logoCell.Border = PdfPCell.NO_BORDER;
+                logoCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                headerTable.AddCell(logoCell);
+
+                PdfPCell orgNameCell = new PdfPCell(new Phrase(14f, "Департамент Государственной инспекции безопасности дорожного движения\n(ГИБДД)", boldNormalFont))
+                {
+                    Border = PdfPCell.NO_BORDER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE,
+                    PaddingBottom = 7f,
+                    PaddingLeft = 15f
+                };
+                headerTable.AddCell(orgNameCell);
+
+                document.Add(headerTable);
+
+                // Название документа
+                Paragraph title = new Paragraph($"Отчет по заявлениям за период с {startDate} по {endDate}", headerFont)
+                {
+                    Alignment = Element.ALIGN_CENTER,
+                    SpacingBefore = 20f,
+                    SpacingAfter = 35f
+                };
+                document.Add(title);
+
+                // Таблица с отчетными данными
+                PdfPTable table = new PdfPTable(7); // 7 колонок
+                table.WidthPercentage = 100;
+                table.SetWidths(new float[] { 1.4f, 1.5f, 1.7f, 2f, 1.7f, 1.7f, 1.5f });
+
+                // Заголовки столбцов
+                string[] headers = { "№ заявки", "Департамент", "Владелец", "Данные ТС", "Дата подачи", "Дата рассмотрения", "Статус" };
+                foreach (var h in headers)
+                {
+                    var cell = new PdfPCell(new Phrase(h, boldHeaderTableFont))
+                    {
+                        HorizontalAlignment = Element.ALIGN_CENTER,
+                        VerticalAlignment = Element.ALIGN_MIDDLE,
+                        BackgroundColor = new BaseColor(230, 230, 230),
+                        Padding = 4f
+                    };
+                    table.AddCell(cell);
+                }
+
+                // Данные
+                foreach (var r in reports)
+                {
+                    table.AddCell(new PdfPCell(new Phrase(r.ApplcationId.ToString(), cellFont)));
+                    table.AddCell(new PdfPCell(new Phrase(r.DepartmentName, cellFont)));
+                    table.AddCell(new PdfPCell(new Phrase(r.OwnerFullname, cellFont)));
+                    table.AddCell(new PdfPCell(new Phrase(r.VehicleFullInfo, cellFont)));
+                    table.AddCell(new PdfPCell(new Phrase(r.DatetimeSupply.ToString("dd.MM.yyyy HH:mm"), cellFont)));
+                    table.AddCell(new PdfPCell(new Phrase(r.DatetimeConfirmValue, cellFont)));
+                    table.AddCell(new PdfPCell(new Phrase(r.StatusName, cellFont)));
+                }
+
+                document.Add(table);
+
+                // Данные по заявкам
+                Paragraph inspectionHeader = new Paragraph("Данные о заявках:", boldNormalFont) { SpacingAfter = 5f, SpacingBefore = 15f };
+                document.Add(inspectionHeader);
+
+                Paragraph info = new Paragraph(
+                    $"Отклонено: {reports.Where(r => r.StatusName == "Отклонена").Count()} заявок(-ки)\n" +
+                    $"Имеют нарушения: {reports.Where(r => r.StatusName == "Требует доработки").Count()} заявок(-ки)\n" +
+                    $"Выдано свидетельств: {reports.Where(r => r.StatusName == "Завершена").Count()} шт.",
+                    normalFont)
+                {
+                    Alignment = Element.ALIGN_LEFT,
+                    SpacingAfter = 20f,
+                };
+                document.Add(info);
+
+                // Всего заявок
+                Paragraph countApplications = new Paragraph($"Всего: {reports.Count()} заявок(-ки)", boldNormalFont)
+                {
+                    SpacingAfter = 20f,
+                };
+                document.Add(countApplications);
+
+                // Дата составления и ответственный
+                Paragraph footer = new Paragraph(
+                    $"Дата составления отчета: {DateTime.Now:dd.MM.yyyy}\n" +
+                    $"Ответственный сотрудник: {employeeFullname}",
+                    normalFont)
+                {
+                    Alignment = Element.ALIGN_RIGHT,
+                    SpacingAfter = 20f
+                };
+                document.Add(footer);
 
                 // Добавляем таблицу с линией и надписью 
                 PdfPTable signatureLineTable = new PdfPTable(1);
@@ -453,9 +655,7 @@ namespace CarAccountingGibdd.Classes.Services
             }
         }
 
-
-        // Отчет
-        // Вставьте этот метод вместо вашего текущего GenerateExcelReport
+        // Отчет Excel по показателям и значениям
         public static void GenerateExcelReport(
             string outputPath,
             List<ReportItem> reportItems,
@@ -469,7 +669,7 @@ namespace CarAccountingGibdd.Classes.Services
                 var ws = workbook.Worksheets.Add("Отчёт");
                 int row = 1;
 
-                // --- Заголовок (объединённая первая и вторая ячейка) ---
+                // --- Заголовок ---
                 var headerCell = ws.Cell(row, 1);
                 headerCell.Value = organizationName;
                 headerCell.Style.Font.Bold = true;
@@ -492,7 +692,6 @@ namespace CarAccountingGibdd.Classes.Services
 
                 foreach (var item in reportItems)
                 {
-                    ws.Cell(row, 1).Value = item.Indicator;
                     ws.Cell(row, 2).Value = item.Value;
                     row++;
                 }

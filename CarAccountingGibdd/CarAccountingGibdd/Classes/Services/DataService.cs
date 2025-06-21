@@ -1,5 +1,6 @@
 ﻿using CarAccountingGibdd.Components;
 using CarAccountingGibdd.Model;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using static iTextSharp.text.pdf.hyphenation.TernaryTree;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CarAccountingGibdd.Classes.Services;
 
@@ -1454,13 +1453,212 @@ public class DepartmentDataService
 
 public class ReportDataService
 {
+    private ComboBox _sorterCB;
+    private TextBox _searchTB;
+    private CheckBox _ascendingCHB;
+    private Button _reserFiltersBTN;
+    private Button _searchBTN;
+    private DataGrid _itemsDG;
+    private Action UpdateIC;
+    private BindableDateBox _startDateTB;
+    private BindableDateBox _endDateTB;
+
+
+    public ReportDataService(ComboBox sorterCB, TextBox searchTB, CheckBox ascendingCHB, Button searchBTN, 
+        Button reserFiltersBTN, BindableDateBox startDateTB, BindableDateBox endDateTB, DataGrid itemsDG, Action Action)
+    {
+        _sorterCB = sorterCB;
+        _searchTB = searchTB;
+        _ascendingCHB = ascendingCHB;
+        _searchBTN = searchBTN;
+        _reserFiltersBTN = reserFiltersBTN;
+        _startDateTB = startDateTB;
+        _endDateTB = endDateTB;
+        _itemsDG = itemsDG;
+        UpdateIC = Action;
+
+        sorterCB.ItemsSource = new[] { "По дате", "По статусу", "По ФИО владельца", "По инфо. ТС", "По департаменту" };
+        sorterCB.SelectedIndex = 0;
+        ascendingCHB.IsChecked = false;
+
+        OnTriggers();
+    }
+
+    // Поиск
+    public List<Report> ApplySearch(List<Report> reports)
+    {
+        string search = _searchTB.Text.ToLower();
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            reports = reports.Where(r =>
+                r.ApplcationId.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                r.StatusName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                r.OwnerFullname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                r.VehicleFullInfo.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                r.DepartmentName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                r.DatetimeSupply.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                r.DatetimeConfirm?.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) == true
+                ).ToList();
+        }
+        return reports;
+    }
+
+    // Сортировка
+    public List<Report> ApplySort(List<Report> reports)
+    {
+        int sortIndex = _sorterCB.SelectedIndex;
+        bool ascending = (bool)_ascendingCHB.IsChecked;
+
+        if (ascending)
+        {
+            return sortIndex switch
+            {
+                1 => reports.OrderBy(e => e.StatusName).ToList(),
+                2 => reports.OrderBy(e => e.OwnerFullname).ToList(),
+                3 => reports.OrderBy(e => e.VehicleFullInfo).ToList(),
+                4 => reports.OrderBy(e => e.DepartmentName).ToList(),
+                _ => reports.OrderBy(e => e.DatetimeSupply).ToList(),
+            };
+        }
+        else
+
+
+        {
+            return sortIndex switch
+            {
+                1 => reports.OrderByDescending(e => e.StatusName).ToList(),
+                2 => reports.OrderByDescending(e => e.OwnerFullname).ToList(),
+                3 => reports.OrderByDescending(e => e.VehicleFullInfo).ToList(),
+                4 => reports.OrderByDescending(e => e.DepartmentName).ToList(),
+                _ => reports.OrderByDescending(e => e.DatetimeSupply).ToList(),
+            };
+        }
+    }
+
+    // Фильтрация по датам
+    private static readonly Regex DateRegex = new Regex(@"^\d{2}\.\d{2}(\.\d{4})?$");
+
+    private bool IsValidDateFormat(string dateText)
+    {
+        return DateRegex.IsMatch(dateText);
+    }
+
+    // Фильтрация по датам
+    public List<Report> ApplyDateFilter(List<Report> reports)
+    {
+        _ = DateOnly.TryParse(_startDateTB.DateText, out DateOnly startDate);
+        _ = DateOnly.TryParse(_endDateTB.DateText, out DateOnly endDate);
+
+        return reports.Where(r =>
+        {
+            var supplyDate = DateOnly.FromDateTime(r.DatetimeSupply);
+            return supplyDate >= startDate && supplyDate <= endDate;
+        }).ToList();
+    }
+
+    private void ApplyDatesFilters()
+    {
+        bool isStartValid = DateOnly.TryParse(_startDateTB.DateText, out DateOnly startDate);
+        bool isEndValid = DateOnly.TryParse(_endDateTB.DateText, out DateOnly endDate);
+
+        if (isStartValid && isEndValid)
+        {
+            string startDateStr = _startDateTB.DateText;
+            string endDateStr = _endDateTB.DateText;
+
+            if (IsValidDateFormat(startDateStr) && IsValidDateFormat(endDateStr))
+            {
+                UpdateIC();
+            }
+            else
+            {
+                _itemsDG.ItemsSource = null;
+            }
+        }
+        else
+        {
+            _itemsDG.ItemsSource = null;
+        }
+    }
+
+    // Обработчики событий
+    private void AscendingCHB_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender != null) UpdateIC();
+    }
+
+    private void SorterCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender != null) UpdateIC();
+    }
+
+    private void SearchBTN_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender != null) UpdateIC();
+    }
+
+    private void StartDateTB_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender != null) ApplyDatesFilters();
+    }
+
+    private void EndDateTB_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender != null) ApplyDatesFilters();
+    }
+
+
+    // СБрос фильтров
+    private void ResetFiltersBTN_Click(object sender, RoutedEventArgs e)
+    {
+        OffTriggers();
+
+        _sorterCB.SelectedIndex = 0;
+        _ascendingCHB.IsChecked = false;
+        _searchTB.Clear();
+
+        DateOnly endDate = DateOnly.FromDateTime(DateTime.Now);
+        DateOnly startDate = endDate.AddMonths(-1);
+
+        _endDateTB.DateText = endDate.ToString();
+        _startDateTB.DateText = startDate.ToString();
+
+        UpdateIC();
+        OnTriggers();
+    }
+
+    // Включает тригеры
+    private void OnTriggers()
+    {
+        _sorterCB.SelectionChanged += SorterCB_SelectionChanged;
+        _ascendingCHB.Click += AscendingCHB_Click;
+        _searchBTN.Click += SearchBTN_Click;
+        _reserFiltersBTN.Click += ResetFiltersBTN_Click;
+        _startDateTB.DateTextChangedExternal += StartDateTB_TextChanged;
+        _endDateTB.DateTextChangedExternal += EndDateTB_TextChanged;
+    }
+
+    // Выключает тригеры
+    private void OffTriggers()
+    {
+        _sorterCB.SelectionChanged -= SorterCB_SelectionChanged;
+        _ascendingCHB.Click -= AscendingCHB_Click;
+        _searchBTN.Click -= SearchBTN_Click;
+        _reserFiltersBTN.Click -= ResetFiltersBTN_Click;
+        _startDateTB.DateTextChangedExternal -= StartDateTB_TextChanged;
+        _endDateTB.DateTextChangedExternal -= EndDateTB_TextChanged;
+    }
+}
+
+public class CombinedReportDataService
+{
     private Button _reserFiltersBTN;
     private BindableDateBox _startDateTB;
     private BindableDateBox _endDateTB;
     private DataGrid _itemsDG;
     private Action UpdateIC;
 
-    public ReportDataService(Button reserFiltersBTN, BindableDateBox startDateTB, BindableDateBox endDateTB, DataGrid itemsDG, Action Action)
+    public CombinedReportDataService(Button reserFiltersBTN, BindableDateBox startDateTB, BindableDateBox endDateTB, DataGrid itemsDG, Action Action)
     {
         _reserFiltersBTN = reserFiltersBTN;
         _startDateTB = startDateTB;

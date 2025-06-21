@@ -31,6 +31,7 @@ namespace CarAccountingGibdd.Dialogs
 
         private Certificate _certificate;
         private IGrouping<int, ViolationInspection> _violationInspections;
+        private List<Report> _reports;
         private List<ReportItem> _reportItems;
         private DateOnly _startDate;
         private DateOnly _endDate;
@@ -51,13 +52,23 @@ namespace CarAccountingGibdd.Dialogs
             _employeeFullname = employee.Fullname;
         }
 
-        // Конструктор для отчета
+        // Конструктор для отчета Excel
         public SaveDocumentDialog(List<ReportItem> reportItems, DateOnly startDate, DateOnly endDate, Employee employee)
         {
             InitializeComponent();
             _startDate = startDate;
             _endDate = endDate;
             _reportItems = reportItems;
+            _employeeFullname = employee.Fullname;
+        }
+
+        // Конструктор для отчета Pdf
+        public SaveDocumentDialog(List<Report> reports, DateOnly startDate, DateOnly endDate, Employee employee)
+        {
+            InitializeComponent();
+            _startDate = startDate;
+            _endDate = endDate;
+            _reports = reports;
             _employeeFullname = employee.Fullname;
         }
 
@@ -76,7 +87,7 @@ namespace CarAccountingGibdd.Dialogs
                     FileName = $"Свидетельство о регистрации транспортного средства №{_certificate.CertificateId}"
                 };
             }
-            else if (_reportItems != null) // Для отчета
+            else if (_reportItems != null) // Для отчета Excel
             {
                 // Выбор пути
                 saveFileDialog = new SaveFileDialog()
@@ -94,6 +105,16 @@ namespace CarAccountingGibdd.Dialogs
                     Filter = "Pdf Files|*.pdf",
                     Title = "Сохранить PDF документ",
                     FileName = $"Отчёт о выявленных нарушениях №{_violationInspections.First().InspectionId}"
+                };
+            }
+            else if (_reports != null) // Для отчета Pdf
+            {
+                // Выбор пути
+                saveFileDialog = new SaveFileDialog()
+                {
+                    Filter = "Pdf Files|*.pdf",
+                    Title = "Сохранить PDF документ",
+                    FileName = $"Отчет за период с {_startDate:dd.MM.yyyy} по {_endDate:dd.MM.yyyy}"
                 };
             }
 
@@ -121,6 +142,10 @@ namespace CarAccountingGibdd.Dialogs
             {
                 DocumentService.GenerateExcelReport(_filepath, _reportItems, _startDate, _endDate, _employeeFullname);
             }
+            else if (_reports != null)
+            {
+                DocumentService.GeneratePdfReport(_filepath, _reports, _startDate, _endDate, _employeeFullname);
+            }
 
             // Открываем файл (или нет)
             bool openedDocument = openedDocumentCB.IsChecked.Value;
@@ -143,7 +168,6 @@ namespace CarAccountingGibdd.Dialogs
                         MessageBoxImage.Error);
                 }
             }
-
 
             Close();
         }

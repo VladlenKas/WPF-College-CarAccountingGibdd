@@ -221,7 +221,7 @@ namespace CarAccountingGibdd.Classes
         private static partial Regex Description();
 
         // Эл. почта
-        [GeneratedRegex(@"[a-zA-Z0-9\@\.]")]
+        [GeneratedRegex(@"[a-zA-Z0-9\@\.\-_]")]
         private static partial Regex Email();
 
         // Цифры для веса 

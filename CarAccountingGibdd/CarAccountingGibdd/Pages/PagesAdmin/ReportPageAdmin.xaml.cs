@@ -28,47 +28,50 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
     {
         // Поля
         private Employee _admin;
-        private List<ReportItem> _reportItems;
+        private ReportDataService _dataService;
+        private List<Report> _reports;
 
         // Конструктор
         public ReportPageAdmin(Employee admin)
         {
             InitializeComponent();
 
-            _admin = admin;
-            ReportDataService dataService = new(resetFiltersBTN, startDateTB, endDateTB, itemsDG, UpdateIC);
+            DateOnly endDate = DateOnly.FromDateTime(DateTime.Now);
+            DateOnly startDate = endDate.AddMonths(-1);
 
+            endDateTB.DateText = endDate.ToString();
+            startDateTB.DateText = startDate.ToString();
+
+            _admin = admin;
+            _dataService = new(sorterCB, searchTB, ascendingCHB, searchBTN, resetFiltersBTN, startDateTB, endDateTB, itemsDG, UpdateIC);
             UpdateIC();
         }
 
         // Методы
         private void UpdateIC()
         {
-            _ = DateOnly.TryParse(startDateTB.DateText, out DateOnly startDate);
-            _ = DateOnly.TryParse(endDateTB.DateText, out DateOnly endDate);
+            var reports = App.DbContext.Applications
+                .Select(a => new Report
+                {
+                    ApplcationId = a.ApplicationId,
+                    StatusName = a.ApplicationStatus.Name,          // Название статуса заявки
+                    OwnerFullname = a.Owner.Fullname,               // ФИО владельца
+                    VehicleFullInfo = a.Vehicle.FullInfo,           // Инфо о ТС
+                    DepartmentName = a.DepartmentName,             // Название отдела
+                    DatetimeSupply = a.DatetimeSupply,              // Дата подачи заявки
+                    DatetimeConfirm = a.DatetimeConfirm             // Дата подтверждения 
+                })
+                .ToList();
 
-            var combinedReport = CombinedReport.GetCombinedReport(startDate, endDate, App.DbContext);
-
-            var reportItems = new List<ReportItem>
-            {
-                new ReportItem { Indicator = "Всего заявок", Value = combinedReport.TotalApplications.ToString() },
-                new ReportItem { Indicator = "Заявок с активными сертификатами", Value = combinedReport.ActiveCertificateApplications.ToString() },
-                new ReportItem { Indicator = "Проведено осмотров", Value = combinedReport.InspectionsCount.ToString() },
-                new ReportItem { Indicator = "Зарегистрировано ТС", Value = combinedReport.RegisteredVehicles.ToString() },
-                new ReportItem { Indicator = "Выдано свидетельств", Value = combinedReport.IssuedCertificates.ToString() },
-                new ReportItem { Indicator = "Выявлено нарушений", Value = combinedReport.ViolationsCount.ToString() },
-                new ReportItem { Indicator = "Среднее время обработки заявки (дней)", Value = combinedReport.AverageProcessingTimeDays.ToString("F1") },
-                new ReportItem { Indicator = "Процент выданных свидетельств от зарегистрированных ТС", Value = $"{combinedReport.PercentCertificatesFromVehicles:F1}%" },
-                new ReportItem { Indicator = "Процент заявок с активными сертификатами", Value = $"{combinedReport.PercentActiveCertApplications:F1}%" },
-                new ReportItem { Indicator = "Процент завершённых заявок", Value = $"{combinedReport.PercentCompletedApplications:F1}%" },
-                new ReportItem { Indicator = "Процент выявленных нарушений от осмотров", Value = $"{combinedReport.PercentViolationsFromInspections:F1}%" },
-                new ReportItem { Indicator = "Процент заявок с нарушениями", Value = $"{combinedReport.PercentApplicationsWithViolations:F1}%" },
-            };
+            // Фильтры
+            reports = _dataService.ApplyDateFilter(reports);
+            reports = _dataService.ApplySort(reports);
+            reports = _dataService.ApplySearch(reports);
 
             itemsDG.ItemsSource = null;
-            itemsDG.ItemsSource = reportItems;
+            itemsDG.ItemsSource = reports;
 
-            _reportItems = reportItems;
+            _reports = reports;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -80,7 +83,7 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
             {
                 if (IsValidDateFormat(startDate.ToString()) && IsValidDateFormat(endDate.ToString()))
                 {
-                    SaveDocumentDialog dialog = new(_reportItems, startDate, endDate, _admin);
+                    SaveDocumentDialog dialog = new(_reports, startDate, endDate, _admin);
                     ComponentsHelper.ShowDialogWindowDark(dialog);
                 }
             }
