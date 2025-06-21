@@ -10,6 +10,7 @@
         MaxHeight="300" MaxWidth="500"
         MinHeight="300" MinWidth="500"
         WindowStartupLocation="CenterScreen"
+        Background="#f7f7f7"
         
         xmlns:gif="http://wpfanimatedgif.codeplex.com">
 
@@ -20,9 +21,9 @@
                    DockPanel.Dock="Top">
 
             <!-- Гиф -->
-            <Image gif:ImageBehavior.AnimatedSource="pack://application:,,,/CarAccountingGibdd;component/Resources/GifLoadCat.gif"
+            <Image gif:ImageBehavior.AnimatedSource="pack://application:,,,/CarAccountingGibdd;component/Resources/LoadingGif.gif"
                    DockPanel.Dock="Top"
-                   Width="150"
+                   Width="180"
                    Name="loadGif"
                    Margin="0 0 0 12"/>
 

@@ -287,7 +287,7 @@ public partial class GibddContext : DbContext
             entity.Property(e => e.DatetimeCompleted)
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_completed");
-            entity.Property(e => e.InspectorId).HasColumnName("inspector_id");
+            entity.Property(e => e.InspectorId).HasColumnName("employee_id");
             entity.Property(e => e.DatetimePlanned)
                 .HasColumnType("datetime")
                 .HasColumnName("datetime_planned");
@@ -301,7 +301,7 @@ public partial class GibddContext : DbContext
             entity.HasOne(d => d.Inspector).WithMany(p => p.Inspections)
                 .HasForeignKey(d => d.InspectorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("inspector_id");
+                .HasConstraintName("employee_id");
 
             entity.HasOne(d => d.Status).WithMany(p => p.Inspections)
                 .HasForeignKey(d => d.StatusId)
