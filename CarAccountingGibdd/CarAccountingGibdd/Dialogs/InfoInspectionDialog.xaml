@@ -8,7 +8,7 @@
        
         xmlns:cnvrt="clr-namespace:CarAccountingGibdd.Classes.Converters"
         
-        Title="Информация по инспекции" 
+        Title="Информация по осмотру" 
         SizeToContent="Height"
         MinHeight="500"
         MinWidth="700" Width="1000"
@@ -25,7 +25,7 @@
                 <TextBlock Style="{StaticResource TextBlock.H2}"
                        DockPanel.Dock="Top"
                        Margin="0 0 0 24">
-                <Run Text="Данные о проведении инспекции"/>
+                <Run Text="Данные о проведении осмотра"/>
                 <Run Text="{Binding InspectionId, StringFormat={}№{0}}"/>
                 </TextBlock>
 
@@ -194,7 +194,7 @@
                         <TextBlock DockPanel.Dock="Top"
                                    Margin="0 0 0 12"
                                    TextWrapping="Wrap">
-                            <Run Text="Номер заявки:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="Номер заявления:" Style="{StaticResource Run.Subtitle}"/>
                             <Run Text="{Binding Application.ApplicationId}"
                                     Style="{StaticResource Run.Description}"/>
                         </TextBlock>

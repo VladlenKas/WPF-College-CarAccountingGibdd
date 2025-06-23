@@ -60,7 +60,7 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private void CreateApplication()
+        private void Edit()
         {
             // Получаем данные для платежа
             Owner owner = (Owner)ownerATB.SelectedItem;
@@ -85,11 +85,10 @@ namespace CarAccountingGibdd.Dialogs
             Close();
         }
         
-
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) => CreateApplication();
+        private void Edit_Click(object sender, RoutedEventArgs e) => Edit();
     }
 }
 

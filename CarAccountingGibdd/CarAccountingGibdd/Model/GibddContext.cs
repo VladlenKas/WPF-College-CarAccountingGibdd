@@ -75,9 +75,9 @@ public partial class GibddContext : DbContext
         .AsSplitQuery(); // для оптимизации
 
     public IQueryable<Employee> Employees => AllEmployees
-        .Where(r => r.Deleted != 1)
         .Include(r => r.Post)
-        .Include(r => r.Department);
+        .Include(r => r.Department)
+        .Where(r => r.Deleted != 1);
 
     public IQueryable<Department> Departments => AllDepartments
         .Where(r => r.Deleted != 1)

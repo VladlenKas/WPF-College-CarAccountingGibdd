@@ -31,7 +31,7 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private async void AddOwner()
+        private async void Add()
         {
             // Получаем данные для добавления владельца
             string firstname = firstnameTB.Text;
@@ -65,6 +65,6 @@ namespace CarAccountingGibdd.Dialogs
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) => AddOwner();
+        private void Add_Click(object sender, RoutedEventArgs e) => Add();
     }
 }

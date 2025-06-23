@@ -141,7 +141,7 @@ namespace CarAccountingGibdd.Dialogs
             }
         }
 
-        private void CreateApplication()
+        private void Add()
         {
             // Получаем инфо для инспекции
             _selectedDate = (DateTime?)dateCB.SelectedItem;
@@ -172,7 +172,7 @@ namespace CarAccountingGibdd.Dialogs
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) => CreateApplication();
+        private void Add_Click(object sender, RoutedEventArgs e) => Add();
 
         private void DateCB_SelectionChanged(object sender, SelectionChangedEventArgs e) => VisibleTimeComboBox();
     }

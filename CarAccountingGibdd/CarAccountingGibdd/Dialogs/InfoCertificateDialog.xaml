@@ -215,7 +215,7 @@
                 <Button Style="{StaticResource Button.Primary}"
                     DockPanel.Dock="Bottom"
                     Content="Закрыть"
-                    Click="ExitBTN_Click"/>
+                    Click="Exit_Click"/>
 
             </DockPanel>
 

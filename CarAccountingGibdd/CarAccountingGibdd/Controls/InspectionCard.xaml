@@ -25,7 +25,7 @@
                     <TextBlock Style="{StaticResource TextBlock.H2}"
                                DockPanel.Dock="Top"
                                Margin="0 0 0 24">
-                    <Run Text="Инспекция"/>
+                    <Run Text="Осмотр"/>
                     <Run Text="{Binding InspectionId, StringFormat={}№{0}}"/>
                     </TextBlock>
 
@@ -33,7 +33,7 @@
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
-                    <Run Text="Заявка:" Style="{StaticResource Run.Subtitle}"/>
+                    <Run Text="Заявление:" Style="{StaticResource Run.Subtitle}"/>
                     <Run Text="{Binding ApplicationId, StringFormat={}№{0}}"
                          Style="{StaticResource Run.Description}"/>
                     </TextBlock>
@@ -104,7 +104,7 @@
                                 DockPanel.Dock="Bottom"
                                 Visibility="Collapsed"
                                 Name="endInspectionBTN"
-                                Content="Завершить инспекцию"
+                                Content="Завершить осмотр"
                                 Tag="check"
                                 Click="EndInspection_Click"/>
 

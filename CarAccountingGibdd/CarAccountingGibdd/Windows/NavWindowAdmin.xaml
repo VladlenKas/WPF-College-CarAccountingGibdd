@@ -92,12 +92,11 @@
                 <Separator Background="#ffffff"
                            Margin="0 0 0 10"/>
 
-                <RadioButton Style="{StaticResource RadioButton.Navigation}"
-                             Content="Выйти"
-                             Tag="logout"
-                             GroupName="navItems"
-                             Margin="0 0 0 10"
-                             Checked="ExitRButton_Checked"/>
+                <Button Style="{StaticResource Button.Navigator}"
+                        Content="Выйти"
+                        Tag="logout"
+                        Margin="0 0 0 10"
+                        Click="Exit_Click"/>
 
             </StackPanel>
 

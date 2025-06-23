@@ -39,7 +39,7 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private void AddVehicle()
+        private void Add()
         {
             // Получаем данные для добавления
             string vin = vinTB.Text;
@@ -71,8 +71,6 @@ namespace CarAccountingGibdd.Dialogs
 
         private void AddImages()
         {
-            this.Hide();
-
             AddImageForVehicleDialog dialog = new AddImageForVehicleDialog(_photosVehicles);
             dialog.ShowDialog();
 
@@ -91,14 +89,12 @@ namespace CarAccountingGibdd.Dialogs
 
                 _photosVehicles = dialog.PhotosVehicles;
             }
-
-            this.ShowDialog();
         }
 
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) => AddVehicle();
+        private void Add_Click(object sender, RoutedEventArgs e) => Add();
 
         private void AddImages_Click(object sender, RoutedEventArgs e) => AddImages();
     }

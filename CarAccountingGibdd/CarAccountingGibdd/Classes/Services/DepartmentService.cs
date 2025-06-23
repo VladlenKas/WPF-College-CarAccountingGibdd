@@ -87,7 +87,7 @@ namespace CarAccountingGibdd.Classes.Services
                 // Дубликат названия
                 bool isDublicateName = App.DbContext.Departments.Any(o => o.Name == _name);
                 if (isDublicateName)
-                {
+                {   
                     MessageHelper.MessageUniversal("Такое название департамента уже существует! Введите другое");
                     return false;
                 }

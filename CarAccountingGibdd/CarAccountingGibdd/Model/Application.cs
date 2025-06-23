@@ -35,7 +35,7 @@ public partial class Application
         Inspections?.FirstOrDefault()?.Inspector?.Fullname ?? "Отсутствует";
 
     public string DepartmentName =>
-        Inspections?.FirstOrDefault()?.Inspector?.Department.Name ?? "Отсутствует";
+        Inspections?.FirstOrDefault()?.Inspector?.Department?.Name ?? "Отсутствует";
 
     public int? InspectorId =>
         Inspections?.FirstOrDefault()?.Inspector?.EmployeeId ?? null;

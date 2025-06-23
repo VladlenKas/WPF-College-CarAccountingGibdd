@@ -564,9 +564,10 @@ namespace CarAccountingGibdd.Classes.Services
                 document.Add(inspectionHeader);
 
                 Paragraph info = new Paragraph(
+                    $"В работе: {reports.Where(r => r.StatusName != "Отклонена" && r.StatusName != "Требует доработки" && r.StatusName != "Завершена").Count()} заявок(-ки)\n" +
                     $"Отклонено: {reports.Where(r => r.StatusName == "Отклонена").Count()} заявок(-ки)\n" +
                     $"Имеют нарушения: {reports.Where(r => r.StatusName == "Требует доработки").Count()} заявок(-ки)\n" +
-                    $"Выдано свидетельств: {reports.Where(r => r.StatusName == "Завершена").Count()} шт.",
+                    $"Выдано свидетельств: {reports.Where(r => r.StatusName == "Завершена").Count()} шт.\n",
                     normalFont)
                 {
                     Alignment = Element.ALIGN_LEFT,
@@ -575,7 +576,7 @@ namespace CarAccountingGibdd.Classes.Services
                 document.Add(info);
 
                 // Всего заявок
-                Paragraph countApplications = new Paragraph($"Всего: {reports.Count()} заявок(-ки)", boldNormalFont)
+                Paragraph countApplications = new Paragraph($"Всего поступило: {reports.Count()} заявок(-ки)", boldNormalFont)
                 {
                     SpacingAfter = 20f,
                 };

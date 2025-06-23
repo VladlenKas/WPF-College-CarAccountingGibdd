@@ -30,6 +30,7 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
         private Employee _admin;
         private ReportDataService _dataService;
         private List<Report> _reports;
+        private static readonly Regex DateRegex = new Regex(@"^\d{2}\.\d{2}(\.\d{4})?$");
 
         // Конструктор
         public ReportPageAdmin(Employee admin)
@@ -54,12 +55,12 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
                 .Select(a => new Report
                 {
                     ApplcationId = a.ApplicationId,
-                    StatusName = a.ApplicationStatus.Name,          // Название статуса заявки
+                    DepartmentName = a.DepartmentName,              // Название отдела
                     OwnerFullname = a.Owner.Fullname,               // ФИО владельца
                     VehicleFullInfo = a.Vehicle.FullInfo,           // Инфо о ТС
-                    DepartmentName = a.DepartmentName,             // Название отдела
                     DatetimeSupply = a.DatetimeSupply,              // Дата подачи заявки
-                    DatetimeConfirm = a.DatetimeConfirm             // Дата подтверждения 
+                    DatetimeConfirm = a.DatetimeConfirm,            // Дата подтверждения 
+                    StatusName = a.ApplicationStatus.Name           // Название статуса заявки
                 })
                 .ToList();
 
@@ -94,8 +95,6 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
         }
 
         // Фильтрация по датам
-        private static readonly Regex DateRegex = new Regex(@"^\d{2}\.\d{2}(\.\d{4})?$");
-
         private bool IsValidDateFormat(string dateText)
         {
             return DateRegex.IsMatch(dateText);

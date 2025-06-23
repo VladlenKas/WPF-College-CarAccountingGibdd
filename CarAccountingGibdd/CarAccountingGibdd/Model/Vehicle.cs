@@ -25,6 +25,8 @@ public partial class Vehicle
 
     public string FullInfo => $"{Brand} {Model} {Year}, {Color}. ВИН: {Vin}";
 
+    public string ShortInfo => $"{Brand} {Model}. {Vin}";
+
     public string BrandModel => $"{Brand} {Model}";
 
     public sbyte Used { get; set; }

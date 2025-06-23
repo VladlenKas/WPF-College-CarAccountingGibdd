@@ -27,6 +27,6 @@ namespace CarAccountingGibdd.Dialogs
             DataContext = certificate;
         }
 
-        private void ExitBTN_Click(object sender, RoutedEventArgs e) => this.Close();
+        private void Exit_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

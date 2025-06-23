@@ -25,7 +25,7 @@
                 <TextBlock Style="{StaticResource TextBlock.H2}"
                        DockPanel.Dock="Top"
                        Margin="0 0 0 24">
-                <Run Text="Данные о заявке"/>
+                <Run Text="Данные о заявлении"/>
                 <Run Text="{Binding ApplicationId, StringFormat={}№{0}}"/>
                 </TextBlock>
 
@@ -220,7 +220,7 @@
 
                         <TextBlock Style="{StaticResource TextBlock.H3}"
                                    DockPanel.Dock="Top"
-                                   Text="Инспекция"
+                                   Text="Осмотр"
                                    TextWrapping="Wrap"
                                    Margin="0 0 0 18"/>
 
@@ -236,7 +236,7 @@
                         <TextBlock DockPanel.Dock="Top"
                                    Margin="0 0 0 12"
                                    TextWrapping="Wrap">
-                            <Run Text="Номер инспекции:" Style="{StaticResource Run.Subtitle}"/>
+                            <Run Text="Номер осмотра:" Style="{StaticResource Run.Subtitle}"/>
                             <Run Text="{Binding InspectionNumber, Mode=OneWay}"
                                  Style="{StaticResource Run.Description}"/>
                         </TextBlock>
@@ -262,7 +262,7 @@
                                 DockPanel.Dock="Bottom"
                                 HorizontalAlignment="Right"
                                 Content="Закрыть"
-                                Click="ExitBTN_Click"/>
+                                Click="Exit_Click"/>
                         
                     </DockPanel>
                 </Grid>

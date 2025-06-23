@@ -58,7 +58,7 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private async void AddOwner()
+        private async void Edit()
         {
             // Получаем данные для добавления владельца
             string firstname = firstnameTB.Text;
@@ -79,7 +79,7 @@ namespace CarAccountingGibdd.Dialogs
             if (!notError) return;
 
             // Подтверждение
-            bool accept = MessageHelper.ConfirmSave();
+            bool accept = MessageHelper.ConfirmEdit();
             if (!accept) return;
 
             // Формирование
@@ -93,7 +93,7 @@ namespace CarAccountingGibdd.Dialogs
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) => AddOwner();
+        private void Add_Click(object sender, RoutedEventArgs e) => Edit();
 
         private void VisibilityPassword_Click(object sender, RoutedEventArgs e)
         {

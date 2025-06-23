@@ -20,7 +20,7 @@ public partial class Owner
 
     public string FIname => $"{Lastname} {Firstname}";
 
-    public string FIpassport => $"{Lastname} {Firstname}, {Passport}";
+    public string FIpassport => $"{Lastname} {Firstname}. {Passport.Substring(0, 4)} {Passport.Substring(4, 6)}";
 
     public DateOnly Birthdate { get; set; }
 

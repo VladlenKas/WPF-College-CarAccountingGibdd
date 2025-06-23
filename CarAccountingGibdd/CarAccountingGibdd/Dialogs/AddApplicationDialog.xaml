@@ -37,15 +37,15 @@
                        Foreground="{StaticResource Text.Secondary.Brush}"
                        DockPanel.Dock="Top"/>
 
-            <components:AutoCompleteTextBox Placeholder="Владелец (ФИ, паспорт)"
+            <components:AutoCompleteTextBox Placeholder="Владелец (ФИ. Паспорт)"
                                             DisplayMemberPath="FIpassport"
                                             x:Name="ownerATB"
                                             Margin="0 0 0 12"
                                             DockPanel.Dock="Top"
                                             behaviors:TextBoxValidationBehavior.ValidationType="CyrillicAndNumbers"/>
 
-            <components:AutoCompleteTextBox Placeholder="Автомобиль (марка, модель, год, цвет)"
-                                            DisplayMemberPath="Info"
+            <components:AutoCompleteTextBox Placeholder="Автомобиль (марка, модель. ВИН)"
+                                            DisplayMemberPath="ShortInfo"
                                             x:Name="vehicleATB"
                                             Margin="0 0 0 24"
                                             DockPanel.Dock="Top"

@@ -93,7 +93,7 @@
                                 DockPanel.Dock="Bottom"
                                 HorizontalAlignment="Right"
                                 Content="Закрыть"
-                                Click="ExitBTN_Click"/>
+                                Click="Exit_Click"/>
 
                     </DockPanel>
                 </Grid>

@@ -63,17 +63,6 @@ namespace CarAccountingGibdd.Classes
         public static void MessageNullCost() =>
             ShowWarning("Данных средств недостаточно для оплаты гос. пошлины!\nПожалуйста, укажите другую сумму");
 
-        public static void MessageActiveApplication() =>
-            ShowWarning("В настоящее время выбранное транспортное средство уже имеет действующую заявку. " +
-                "Гражданин не может подавать сразу несколько заявок на одно транспортное средство");
-
-        public static void MessageCerrentSertificate() =>
-            ShowWarning("Данный владелец уже имеет действующее свидетельство о регистрации ТС. " +
-                "Нельзя выдавать несколько сертификатов одному владельцу");
-
-        public static void MessageCerrentOwner() =>
-            ShowWarning("Данное транспортное средство уже имеет владельца и свидетельство о регистрации ТС. Подать заявку невозможно");
-
         public static void MessageInvalidLicensePlate() =>
             ShowWarning(
                 "Неверный формат номерного знака!\n" +
@@ -95,7 +84,6 @@ namespace CarAccountingGibdd.Classes
                 "Пример корректной электронной почты: employee2025@gmail.com\n\n" +
                 "Проверьте правильность ввода адреса и домена."
             );
-
 
         public static void MessageNotChanges() =>
             MessageBox.Show("Вы не внесли изменений", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -127,8 +115,8 @@ namespace CarAccountingGibdd.Classes
 
         public static bool ConfirmSaveApplication() =>
             ConfirmAction(
-                "Вы уверены, что заполнили все поля верно? После одобрения заявки внести изменения будет НЕВОЗМОЖНО!",
-                "Формирование заявки прошло успешно");
+                "Вы уверены, что заполнили все поля верно? Возможность внести изменения доступна только до рассмотрения заявки!",
+                "Для успешного формирования заявки, пожалуйста, дождитесь завершения оплаты");
 
         public static bool ConfirmDeleteOwner() =>
             ConfirmAction(
@@ -159,33 +147,33 @@ namespace CarAccountingGibdd.Classes
 
         public static bool ConfirmEditApplication() =>
             ConfirmAction(
-                "Вы уверены, что заполнили все поля верно? После одобрения заявки внести изменения будет НЕВОЗМОЖНО!",
+                "Вы уверены, что заполнили все поля верно? Возможность внести изменения доступна только до рассмотрения заявки!",
                 "Редактирование заявки прошло успешно");
 
         public static bool ConfirmRejectApplication() =>
             ConfirmAction(
-                "Вы уверены, что хотите отклонить заявку? Данное действие отменить НЕВОЗМОЖНО!",
+                "Вы уверены, что хотите отклонить заявку? Данное действие отменить невозможно!",
                 "Заявка октлонена успешно");
 
         public static bool ConfirmApplication() =>
             ConfirmAction(
-                "Вы уверены, что хотите подтвердить заявку? После данного действия заявка будет доступна для проведения инспекции ТС!",
+                "Вы уверены, что хотите подтвердить заявку? После данного действия заявка будет доступна для проведения осмотра ТС!",
                 "Заявка подтверждена успешно");
 
         public static bool ConfirmAcceptApplication() =>
             ConfirmAction(
-                "Вы уверены, что хотите принять заявку? После данного действия будут запланированы дата и время для проведения инспекции, которую необходимо будет провести! В случае неявки гражданина, заявка и инспекция будут автоматически анулированы",
-                "Заявка на проведение инспекции принята успешно");
+                "Вы уверены, что хотите принять заявку? После данного действия будут запланированы дата и время для проведения осмотра, которую необходимо будет провести! В случае неявки гражданина, заявка и инспекция будут автоматически анулированы",
+                "Заявка на проведение осмотра принята успешно");
 
         public static bool ConfirmRejectInspection() =>
             ConfirmAction(
-                "Вы уверены, что хотите отменить запланированный осмотр? Данное действие отменить НЕВОЗМОЖНО!",
+                "Вы уверены, что хотите отменить запланированный осмотр? Данное действие отменить невозможно!",
                 "Осмотр отменен успешно");
 
         public static bool ConfirmStartInspection() =>
             ConfirmAction(
                 "Вы уверены, что хотите начать проведение осмотра?",
-                "Проведение инспекции начато успешно");
+                "Проведение осмотра начато успешно");
         
         public static bool ConfirmDetachOwner() =>
             ConfirmAction(
@@ -207,9 +195,9 @@ namespace CarAccountingGibdd.Classes
             }
         }
 
-        public static bool GetResultInspection()
+        public static bool? GetResultInspection()
         {
-            var resultChanged = MessageBox.Show("Инспекция прошла успешно?",
+            var resultChanged = MessageBox.Show("Осмотр прошел успешно?",
                 "Вопрос",
                 MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Question);
@@ -218,9 +206,13 @@ namespace CarAccountingGibdd.Classes
             {
                 return true;
             }
-            else
+            else if (resultChanged == MessageBoxResult.No)
             {
                 return false;
+            }
+            else
+            {
+                return null;
             }
         } 
     }

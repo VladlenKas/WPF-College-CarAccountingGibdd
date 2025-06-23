@@ -108,10 +108,10 @@ namespace CarAccountingGibdd.Classes.Services
             // Находим сертификат
             var certificate = vehicle.Applications
                 .SelectMany(a => a.Certificates)
-                .Single(c => c.IsActive == 0);
+                .Single(c => c.IsActive == 1);
 
             // Помечаем, как неактивный
-            certificate.IsActive = 1;
+            certificate.IsActive = 0;
 
             App.DbContext.Update(certificate);
             App.DbContext.SaveChanges();
@@ -251,41 +251,19 @@ namespace CarAccountingGibdd.Classes.Services
         // Проверка на номерные знаки
         private bool ValidateLicensePlateChange(Vehicle vehicle, string newLicensePlate)
         {
-            bool hadOldPlate = !string.IsNullOrWhiteSpace(vehicle.LicensePlate);
-            bool hasNewPlate = !string.IsNullOrWhiteSpace(newLicensePlate);
-
-            if (hadOldPlate)
+            // Валидность на формат
+            if (!Validations.ValidateCorrectLicensePlate(newLicensePlate))
             {
-                // Если был старый номер, новый должен быть заполнен и валиден
-                if (!hasNewPlate)
-                {
-                    MessageHelper.MessageUniversal("На данный момент у ТС есть номерной знак. Он не может быть пустым!"); 
-                    return false;
-                }
-
-                // Валидность на формат
-                if (!Validations.ValidateCorrectLicensePlate(newLicensePlate))
-                {
-                    MessageHelper.MessageInvalidLicensePlate(); 
-                    return false;
-                }
-
-                // Повторяющийся номерной знак
-                bool isDuplicateLicensePlate = App.DbContext.Vehicles.Any(v => v.LicensePlate == _licensePlate && v.VehicleId != vehicle.VehicleId);
-                if (isDuplicateLicensePlate)
-                {
-                    MessageHelper.MessageDuplicateLicensePlate();
-                    return false;
-                }
+                MessageHelper.MessageInvalidLicensePlate();
+                return false;
             }
-            else
+
+            // Повторяющийся номерной знак
+            bool isDuplicateLicensePlate = App.DbContext.Vehicles.Any(v => v.LicensePlate == _licensePlate && v.VehicleId != vehicle.VehicleId);
+            if (isDuplicateLicensePlate)
             {
-                // Если не было старого номера, новый номер должен быть пустым
-                if (hasNewPlate)
-                {
-                    MessageHelper.MessageUniversal("На данный момент у ТС отсутсвует номерной знак. Он должен быть пустым!"); 
-                    return false;
-                }
+                MessageHelper.MessageDuplicateLicensePlate();
+                return false;
             }
 
             return true; // Все проверки пройдены

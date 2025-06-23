@@ -102,7 +102,6 @@ namespace CarAccountingGibdd.Controls
         {
             e.Handled = true; // Останавливаем всплытие события
 
-
             bool accept = MessageHelper.ConfirmRejectInspection();
             if (accept) 
             {
@@ -131,15 +130,15 @@ namespace CarAccountingGibdd.Controls
         {
             e.Handled = true; // Останавливаем всплытие события
 
-            bool result = MessageHelper.GetResultInspection();
+            bool? result = MessageHelper.GetResultInspection();
             bool saved = false;
 
-            if (result)
+            if (result == true)
             {
                 SelectRegionDialog dialog = new(_inspection);
                 ComponentsHelper.ShowDialogWindowDark(dialog);
             }
-            else if (!result)
+            else if (result == false)
             {
                 AddViolationInspectionDialog dialog = new(_inspection);
                 ComponentsHelper.ShowDialogWindowDark(dialog);

@@ -42,7 +42,7 @@
                      Tag="Название"
                      Margin="0 0 0 12"
                      MaxLength="40"
-                     behaviors:TextBoxValidationBehavior.ValidationType="Cyrillic"/>
+                     behaviors:TextBoxValidationBehavior.ValidationType="Description"/>
             
             <components:BindablePhoneBox DockPanel.Dock="Top"
                                          x:Name="phoneTB"

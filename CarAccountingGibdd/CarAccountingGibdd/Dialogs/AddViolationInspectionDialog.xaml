@@ -13,7 +13,7 @@
         SizeToContent="Height"
         MinHeight="750"
         MinWidth="1050" Width="1100"
-        Title="Формирование документа с нарушениями" 
+        Title="Формирование отчета о выявленных нарушениях" 
         Style="{StaticResource Window.Ordinary}"
         WindowStartupLocation="CenterScreen">
 
@@ -43,7 +43,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <DockPanel Grid.Column="0"
                            Margin="0 0 24 0">
 
@@ -51,7 +51,7 @@
                                Text="Данные ТС:"
                                Margin="0 0 0 16"
                                DockPanel.Dock="Top"/>
-                    
+
                     <!-- Текстовые поля с данными о сертификате-->
                     <TextBlock DockPanel.Dock="Top"
                        Margin="0 0 0 12"
@@ -113,7 +113,7 @@
                                Text="Данные владельца:"
                                Margin="0 0 0 16"
                                DockPanel.Dock="Top"/>
-                    
+
                     <TextBlock DockPanel.Dock="Top"
                                Margin="0 0 0 12"
                                TextWrapping="Wrap">
@@ -179,23 +179,26 @@
                     </Grid>
                 </DockPanel>
             </Grid>
+        </DockPanel>
 
-            <DockPanel LastChildFill="False"
-                       DockPanel.Dock="Right"
-                       Width="300">
-                <Button Style="{StaticResource Button.Ordinary}"
-                    DockPanel.Dock="Bottom"
+        <DockPanel LastChildFill="False"
+                   DockPanel.Dock="Right"
+                   VerticalAlignment="Bottom"
+                   HorizontalAlignment="Right">
+            
+            <Button Style="{StaticResource Button.Ordinary}"
+                    DockPanel.Dock="Left"
                     Content="Выйти"
+                    Width="200"
                     Click="Exit_Click"/>
 
-                <Button Style="{StaticResource Button.Primary.Icon}"
-                        Tag="FilePlusOutline"
-                        DockPanel.Dock="Bottom"
-                        Content="Сохранить"
-                        Margin="0 0 0 12"
-                        Click="Add_Click"/>
-            </DockPanel>
-
+            <Button Style="{StaticResource Button.Primary.Icon}"
+                    Width="200"
+                    Tag="FilePlusOutline"
+                    DockPanel.Dock="Left"
+                    Content="Сохранить"
+                    Margin="12 0 0 0"
+                    Click="Add_Click"/>
         </DockPanel>
 
     </Grid>

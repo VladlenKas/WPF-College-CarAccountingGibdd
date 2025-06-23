@@ -41,7 +41,7 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private void Add()
+        private void Edit()
         {
             // Получаем данные для добавления владельца
             string name = nameTB.Text;
@@ -70,6 +70,6 @@ namespace CarAccountingGibdd.Dialogs
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) => Add();
+        private void Edit_Click(object sender, RoutedEventArgs e) => Edit();
     }
 }

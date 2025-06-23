@@ -34,7 +34,7 @@ namespace CarAccountingGibdd.Windows
             _dbContext = new();
 
             InitializeComponent();
-            Title = $"Меню Администратора. Сотрудник: {_inspector.Fullname}";
+            Title = $"Меню Инспектора. Сотрудник: {_inspector.Fullname}";
             FIcourier.Text = inspector.FIname;
 
             applicationRB.IsChecked = true;
@@ -45,7 +45,7 @@ namespace CarAccountingGibdd.Windows
         private void ApplicationPageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new ApplicationPageInspector(_inspector));
-            titlePage.Text = "Заявки";
+            titlePage.Text = "Заявления";
         }
         
         private void InspectionPageRB_Checked(object sender, RoutedEventArgs e)

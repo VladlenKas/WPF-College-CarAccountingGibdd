@@ -55,7 +55,7 @@ namespace CarAccountingGibdd.Dialogs
 
             MessageBox.Show("Письмо формируется. Через несколько секунд вам придет уведомление о его завершении!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            MailAddress from = new MailAddress("kasimovvladlen2006@yandex.ru", "Управление ГИБДД");
+            MailAddress from = new MailAddress("caraccounting.gibdd@yandex.ru", "Управление ГИБДД");
             MailAddress to = new MailAddress(email);
             MailMessage message = new MailMessage(from, to);
 
@@ -82,7 +82,7 @@ namespace CarAccountingGibdd.Dialogs
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("kasimovvladlen2006@yandex.ru", "czwycjcedmqhebcd")
+                Credentials = new NetworkCredential("caraccounting.gibdd@yandex.ru", "byksxvejlsanrjsb")
             };
 
             await smtp.SendMailAsync(message);
@@ -125,7 +125,7 @@ namespace CarAccountingGibdd.Dialogs
             return false;
         }
 
-        private async Task CreateViolationInspection()
+        private async Task Create()
         {
             // Проверка
             if (_violationsList.Count <= 0)
@@ -160,7 +160,7 @@ namespace CarAccountingGibdd.Dialogs
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private async void Add_Click(object sender, RoutedEventArgs e) => await CreateViolationInspection();
+        private async void Add_Click(object sender, RoutedEventArgs e) => await Create();
 
         private void ViolationsATB_ItemSelected(object obj)
         {

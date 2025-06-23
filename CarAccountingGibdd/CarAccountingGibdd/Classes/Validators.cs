@@ -217,7 +217,7 @@ namespace CarAccountingGibdd.Classes
         private static partial Regex LicensePlate();
 
         // Описание
-        [GeneratedRegex(@"[а-яА-Я0-9-().,;""':/]")]
+        [GeneratedRegex(@"[а-яА-Я0-9-().,;""':/№]")]
         private static partial Regex Description();
 
         // Эл. почта
@@ -394,11 +394,6 @@ namespace CarAccountingGibdd.Classes
             }
 
             return true;
-        }
-
-        internal static async Task<bool> ValidateEmailAsync()
-        {
-            throw new NotImplementedException();
         }
     }
 }

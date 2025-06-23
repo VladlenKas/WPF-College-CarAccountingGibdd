@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -19,17 +21,19 @@ namespace CarAccountingGibdd.Dialogs
     /// <summary>
     /// Логика взаимодействия для MessageLoadingDialog.xaml
     /// </summary>
-    public partial class MessageLoadingDialog : Window, INotifyPropertyChanged
+    public partial class PaymentMessageDialog : Window, INotifyPropertyChanged
     {
         // Поля
+        private bool _isDialogClosed = false;
         private int _secondsLeft;
         private readonly DispatcherTimer _dispatcherTimer;
 
         // Свойства
+        public bool Saved { get; set; } = false;
         public string SecondsLeft => _secondsLeft.ToString();
 
         // Конструктор
-        public MessageLoadingDialog()
+        public PaymentMessageDialog()
         {
             InitializeComponent();
 
@@ -49,11 +53,18 @@ namespace CarAccountingGibdd.Dialogs
         // Методы
         private void TimerCallback()
         {
+            stopBTN.Visibility = Visibility.Collapsed; // Убираем кнопку выхода
             loadGif.Visibility = Visibility.Collapsed; // Убираем гифку
-            exitBTN.Visibility = Visibility.Visible; // Показываем кнопку для выхода
+
+            Saved = true; // Помечаем флаг о том, что оплата произведена
+            Close();
+
+            MessageBox.Show("Процесс платежа завершен! Формирование заявления прошло успешно!",
+                            "Успех",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
         }
 
-        // Обработчики событий
         private void DispatcherTimer_Tick(object? sender, EventArgs e)
         {
             _secondsLeft--; // Уменьшаем секунды для текстбокса
@@ -64,18 +75,47 @@ namespace CarAccountingGibdd.Dialogs
                 _dispatcherTimer.Stop(); // Останавливаем его
 
                 timerTB.Text = string.Empty; // Очищаем текст
-                infoTB.Text = "Оплата произведена успешно!";
+                //infoTB.Text = "Оплата произведена успешно!";
 
-                TimerCallback(); // Вызываем конечный метод
+                if (!_isDialogClosed)
+                    TimerCallback(); // Вызываем конечный метод
             }
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e) => Close();
+        // Обработчики событий
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _isDialogClosed = true;
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e) => this.Close();
 
         // Реализация интерфейса
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
+        // Скрыываем крестик на панели окна
+        const int MF_BYPOSITION = 0x400;
+        const int MF_REMOVE = 0x1000;
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("user32.dll")]
+        static extern bool RemoveMenu(IntPtr hMenu, uint uPosition, uint uFlags);
+
+        [DllImport("user32.dll")]
+        static extern int GetMenuItemCount(IntPtr hMenu);
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            var hwnd = new WindowInteropHelper(this).Handle;
+            IntPtr hMenu = GetSystemMenu(hwnd, false);
+            int menuItemCount = GetMenuItemCount(hMenu);
+            // Удаляет последнюю кнопку (обычно "Закрыть")
+            RemoveMenu(hMenu, (uint)(menuItemCount - 1), MF_BYPOSITION | MF_REMOVE);
+        }
     }
 }

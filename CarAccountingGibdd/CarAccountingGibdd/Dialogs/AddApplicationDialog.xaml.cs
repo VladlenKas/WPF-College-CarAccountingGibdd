@@ -44,7 +44,7 @@ namespace CarAccountingGibdd.Dialogs
                 );
 
             ownerATB.ItemsSource = App.DbContext.Owners;
-            paymentCB.ItemsSource = new[] { "Безналичный", "Наличный" };
+            paymentCB.ItemsSource = new[] { "Безналичный расчет", "Наличный расчет" };
 
             DataContext = this;
             ChangeForPayment = "0 р.";
@@ -53,7 +53,7 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private void CreateApplication()
+        private void Create()
         {
             // Получаем данные для платежа
             Owner owner = (Owner)ownerATB.SelectedItem;
@@ -89,18 +89,26 @@ namespace CarAccountingGibdd.Dialogs
             bool accept = MessageHelper.ConfirmSaveApplication();
             if (!accept) return;
 
+            // Закрываем
+            Hide();
+
+            // Показываем окно загрузки оплаты
+            PaymentMessageDialog dialog = new PaymentMessageDialog();
+            ComponentsHelper.ShowDialogWindowDark(dialog);
+
+            // Если произошла отмена
+            if (!dialog.Saved)
+            {
+                ComponentsHelper.ShowDialogWindowDark(this);
+                return;
+            }
+
             // Формирование 
             applicationService.Create(_operator);
 
-            // Закрываем
-            Close();
-
-            // Показываем окно загрузки оплаты
-            MessageLoadingDialog dialog = new MessageLoadingDialog();
-            ComponentsHelper.ShowDialogWindowDark(dialog);
-
             // Смена флажка о сохранении
             Saved = true;
+            Close();
         }
 
         private int AmountChanged()
@@ -124,7 +132,7 @@ namespace CarAccountingGibdd.Dialogs
         // Обработчики событий
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) => CreateApplication();
+        private void Add_Click(object sender, RoutedEventArgs e) => Create();
 
         private void PaymentCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

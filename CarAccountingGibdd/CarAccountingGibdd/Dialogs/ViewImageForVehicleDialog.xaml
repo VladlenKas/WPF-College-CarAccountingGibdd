@@ -11,7 +11,7 @@
         xmlns:converters="clr-namespace:CarAccountingGibdd.Classes.Converters"
         
         SizeToContent="Height"
-        MinHeight="850"
+        MinHeight="550"
         MinWidth="450" Width="450"
         Title="Просмотр фото ТС" 
         Style="{StaticResource Window.Ordinary}"

@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Net.Mail;
 using System.Net;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace CarAccountingGibdd.Dialogs
 {
@@ -27,7 +28,6 @@ namespace CarAccountingGibdd.Dialogs
     {
         // Поля и свойства
         private string Email => emailTB.Text;
-        private string newPassword => ComponentsHelper.GetPassword(PassPB, PassTB);
 
         // Конструктор
         public ChangePasswordDialog()
@@ -37,21 +37,16 @@ namespace CarAccountingGibdd.Dialogs
         }
 
         // Методы
-        private Employee? FindEmployee(string email)
-        {
-            return App.DbContext.Employees.SingleOrDefault(r =>
-                r.Email == email);
-        }
-
         private void ChangePassword()
         {
-            if (Email == string.Empty || newPassword == string.Empty)
+            if (Email == string.Empty)
             {
                 MessageHelper.MessageNullFields();
                 return;
             }
 
-            var employee = FindEmployee(Email);
+            var employee = App.DbContext.Employees.SingleOrDefault(r =>
+                r.Email == Email);
 
             if (employee == null)
             {
@@ -70,45 +65,60 @@ namespace CarAccountingGibdd.Dialogs
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    // Отправляем пароль на почту
-                    MailAddress from = new MailAddress("kasimovvladlen2006@yandex.ru", "Управление ГИБДД");
-                    MailAddress to = new MailAddress(Email);
-                    MailMessage message = new MailMessage(from, to);
-
-                    message.Subject = "Восстановление пароля";
-                    message.Body =
-                        "Сброс пароля<br><br>" +
-                        "Здравствуйте!<br><br>" +
-                        "Ваш пароль был успешно сброшен по запросу восстановления доступа к сервису \"Управление ГИБДД\".<br><br>" +
-                        $"Ваш e-mail: {Email}<br>" +
-                        $"Ваш новый пароль: {newPassword}<br><br>" +
-                        "Пожалуйста, используйте новый пароль для входа в систему.<br>" +
-                        "Если вы не запрашивали сброс пароля, проигнорируйте это письмо или свяжитесь с поддержкой.<br><br>" +
-                        "С уважением,<br>" +
-                        "Служба поддержки ГИБДД";
-                    message.IsBodyHtml = true;
-
-                    SmtpClient smtp = new SmtpClient("smtp.yandex.ru", 25) 
+                    try
                     {
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential("kasimovvladlen2006@yandex.ru", "czwycjcedmqhebcd")
-                    };
-                    smtp.Send(message);
+                        // Генерируем новый пароль
+                        string newPassword = ComponentsHelper.GeneratePassword();
 
-                    // Уведомляем пользователя
-                    MessageBox.Show("Пароль успешно изменен!",
-                                    "Успех",
-                                    MessageBoxButton.OK,
-                                    MessageBoxImage.Information);
+                        // Отправляем пароль на почту
+                        MailAddress from = new MailAddress("caraccounting.gibdd@yandex.ru", "Управление ГИБДД");
+                        MailAddress to = new MailAddress(Email);
+                        MailMessage message = new MailMessage(from, to);
 
-                    // Меняем данные пароля
-                    employee.Password = newPassword;
-                    App.DbContext.Update(employee);
-                    App.DbContext.SaveChanges();
+                        message.Subject = "Восстановление пароля";
+                        message.Body =
+                            "Сброс пароля<br><br>" +
+                            "Здравствуйте!<br><br>" +
+                            "Ваш пароль был успешно сброшен по запросу восстановления доступа к сервису \"Управление ГИБДД\".<br><br>" +
+                            $"Ваш e-mail: {Email}<br>" +
+                            $"Ваш новый пароль: {newPassword}<br><br>" +
+                            "Пожалуйста, используйте новый пароль для входа в систему.<br>" +
+                            "Если вы не запрашивали сброс пароля, проигнорируйте это письмо или свяжитесь с поддержкой.<br><br>" +
+                            "С уважением,<br>" +
+                            "Служба поддержки ГИБДД";
+                        message.IsBodyHtml = true;
 
-                    this.Close();
+                        SmtpClient smtp = new SmtpClient("smtp.yandex.ru", 25)
+                        {
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential("caraccounting.gibdd@yandex.ru", "byksxvejlsanrjsb")
+                        };
+                        smtp.Send(message);
+
+                        // Уведомляем пользователя
+                        MessageBox.Show("Пароль успешно изменен и отправлен на электронную почту!",
+                                        "Успех",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Information);
+
+                        // Меняем данные пароля
+                        employee.Password = newPassword;
+                        App.DbContext.Update(employee);
+                        App.DbContext.SaveChanges();
+
+                        this.Close();
+                    }
+                    catch (Exception exc)
+                    {
+                        // Уведомляем пользователя
+                        MessageBox.Show($"Произошла ошибка при отправке письма: {exc}",
+                                        "Ошибка",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Error);
+                        return;
+                    }
                 }
             }
         }
@@ -117,7 +127,5 @@ namespace CarAccountingGibdd.Dialogs
         private void Login_Click(object sender, RoutedEventArgs e) => ChangePassword();
 
         private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
-
-        private void VisibilityPassword_Click(object sender, RoutedEventArgs e) => ComponentsHelper.ToggleVisibility(sender, PassPB, PassTB);
     }
 }

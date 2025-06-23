@@ -103,12 +103,9 @@ namespace CarAccountingGibdd.Dialogs
             UpdateIC();
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            MessageHelper.ConfirmExit(this);
-        }
+        private void Exit_Click(object sender, RoutedEventArgs e) => MessageHelper.ConfirmExit(this);
 
-        private void Add_Click(object sender, RoutedEventArgs e) 
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
             PhotosVehicles = _photosVehicles;
             Saved = true; 

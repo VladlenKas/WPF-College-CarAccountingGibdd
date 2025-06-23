@@ -320,7 +320,7 @@ public class InspectionDataService
     {
         /*
             2. Инспектор => Только свои
-            3. Оператор => Все в своем департаменте
+            3. Оператор => Все
             */
 
         switch (employee.PostId)

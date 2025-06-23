@@ -79,7 +79,7 @@ namespace CarAccountingGibdd.Classes.Services
                     .ToList();
 
                 // Проверяем, одинаковые ли владельцы
-                bool allOwnersAreSame = owners.Count <= 1;
+                bool allOwnersAreSame = owners.Count < 1;
 
                 if (allOwnersAreSame)
                 {

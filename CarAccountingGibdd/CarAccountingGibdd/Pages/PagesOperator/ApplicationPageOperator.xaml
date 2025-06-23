@@ -75,7 +75,7 @@
                     </ItemsControl>
                 </ScrollViewer>
 
-                <TextBlock Text="Данные о заявках отсутствуют"
+                <TextBlock Text="Данные о заявлениях отсутствуют"
                            Style="{StaticResource TextBlock.H2}"
                            Visibility="{Binding Items.Count, ElementName=cardsIC, 
                            Converter={x:Static converters:IntToVisibilityConverter.Instance } }"/>

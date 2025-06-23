@@ -52,16 +52,6 @@ namespace CarAccountingGibdd.Dialogs
             _employeeFullname = employee.Fullname;
         }
 
-        // Конструктор для отчета Excel
-        public SaveDocumentDialog(List<ReportItem> reportItems, DateOnly startDate, DateOnly endDate, Employee employee)
-        {
-            InitializeComponent();
-            _startDate = startDate;
-            _endDate = endDate;
-            _reportItems = reportItems;
-            _employeeFullname = employee.Fullname;
-        }
-
         // Конструктор для отчета Pdf
         public SaveDocumentDialog(List<Report> reports, DateOnly startDate, DateOnly endDate, Employee employee)
         {
@@ -85,16 +75,6 @@ namespace CarAccountingGibdd.Dialogs
                     Filter = "Pdf Files|*.pdf",
                     Title = "Сохранить PDF документ",
                     FileName = $"Свидетельство о регистрации транспортного средства №{_certificate.CertificateId}"
-                };
-            }
-            else if (_reportItems != null) // Для отчета Excel
-            {
-                // Выбор пути
-                saveFileDialog = new SaveFileDialog()
-                {
-                    Filter = "Excel Files|*.xlsx;*.xlsm",
-                    Title = "Сохранить EXCEL документ",
-                    FileName = $"Отчет за период с {_startDate:dd.MM.yyyy} по {_endDate:dd.MM.yyyy}"
                 };
             }
             else if (_violationInspections != null) // Для списка с нарушениями
@@ -137,10 +117,6 @@ namespace CarAccountingGibdd.Dialogs
             {
                 Inspection inspecton = _violationInspections.First().Inspection;
                 DocumentService.GenerateViolationsReport(_filepath, inspecton.InspectionId, _employeeFullname);
-            }
-            else if (_reportItems != null)
-            {
-                DocumentService.GenerateExcelReport(_filepath, _reportItems, _startDate, _endDate, _employeeFullname);
             }
             else if (_reports != null)
             {

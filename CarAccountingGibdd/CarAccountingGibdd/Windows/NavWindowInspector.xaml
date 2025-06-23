@@ -42,7 +42,7 @@
 
                 <RadioButton Style="{StaticResource RadioButton.Navigation}"
                              Name="applicationRB"
-                             Content="Заявки"
+                             Content="Заявления"
                              Tag="listBoxOutline"
                              GroupName="navItems"
                              Margin="0 0 0 5"

@@ -44,7 +44,7 @@ namespace CarAccountingGibdd.Windows
         private void ApplicationPageRB_Checked(object sender, RoutedEventArgs e)
         {
             CurrentPage.Navigate(new ApplicationPageOperator(_operator));
-            titlePage.Text = "Заявки";
+            titlePage.Text = "Заявления";
         }
 
         private void InspectionPageRB_Checked(object sender, RoutedEventArgs e)

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Dialogs;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace CarAccountingGibdd
 {
@@ -34,12 +35,6 @@ namespace CarAccountingGibdd
         }
 
         // Методы
-        private Employee? Authenticate(string email, string password)
-        {
-            return App.DbContext.Employees.SingleOrDefault(r =>
-                r.Email == email && r.Password == password);
-        }
-
         private void Auth()
         {
             if (Email == string.Empty || Password == string.Empty)
@@ -48,7 +43,8 @@ namespace CarAccountingGibdd
                 return;
             }
 
-            var employee = Authenticate(Email, Password);
+            var employee = App.DbContext.Employees.SingleOrDefault(r =>
+                r.Email == Email && r.Password == Password);
 
             if (employee == null)
             {

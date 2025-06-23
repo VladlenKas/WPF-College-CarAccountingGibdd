@@ -12,7 +12,7 @@
         SizeToContent="Height"
         MinHeight="650"
         MinWidth="450" Width="450"
-        Title="Сохранение документа" 
+        Title="Выбор региона для формирование гос. номера" 
         Style="{StaticResource Window.Ordinary}"
         WindowStartupLocation="CenterScreen">
 

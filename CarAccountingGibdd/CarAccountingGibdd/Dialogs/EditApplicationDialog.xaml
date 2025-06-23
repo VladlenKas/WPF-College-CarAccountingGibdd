@@ -34,7 +34,7 @@
             <!-- Подзаголовок -->
             <TextBlock Style="{StaticResource TextBlock.Subtitle}"
                        Margin="0 0 0 24"
-                       Text="Внимательно заполните данные и произведите оплату. Без нее формирование заявки невозможно!"
+                       Text="Внимательно проверьте все данные и подтвердите сохранение"
                        Foreground="{StaticResource Text.Secondary.Brush}"
                        DockPanel.Dock="Top"/>
 
@@ -71,7 +71,7 @@
                     DockPanel.Dock="Bottom"
                     Content="Сохранить"
                     Margin="0 0 0 12"
-                    Click="Add_Click"/>
+                    Click="Edit_Click"/>
 
         </DockPanel>
 

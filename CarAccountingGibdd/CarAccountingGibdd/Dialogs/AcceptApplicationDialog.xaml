@@ -12,7 +12,7 @@
         SizeToContent="Height"
         MinHeight="650"
         MinWidth="450" Width="450"
-        Title="Назначение заявки на плановую инспекцию" 
+        Title="Назначение заявки на плановый осмотр" 
         Style="{StaticResource Window.Ordinary}"
         WindowStartupLocation="CenterScreen">
 
@@ -27,7 +27,7 @@
                        DockPanel.Dock="Top"
                        Margin="0 0 0 16"
                        TextWrapping="Wrap">
-                <Run Text="Назначение заявки на плановую инспекцию"/>
+                <Run Text="Назначение заявки на плановый осмотр"/>
                 <Run Text="{Binding ApplicationNumber, StringFormat={}№{0}}"/>
             </TextBlock>
 
@@ -65,7 +65,7 @@
             </ComboBox>
 
             <TextBlock DockPanel.Dock="Top"
-                       Text="* - время проведения инспекции для ТС. Минимальный интервал между осмотрами составляет 2 часа."
+                       Text="* - время начала проведения осмотра для ТС. Минимальный интервал между осмотрами составляет 2 часа."
                        Opacity="0.5"
                        Style="{StaticResource TextBlock.Subtitle}"
                        Visibility="{Binding ElementName=timeCB, Path=Visibility}"/>

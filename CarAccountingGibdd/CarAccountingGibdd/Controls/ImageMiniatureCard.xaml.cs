@@ -30,7 +30,6 @@ namespace CarAccountingGibdd.Controls
         // Свойства
         public PhotosVehicle PhotosVehicle { get; private set; }
 
-
         // Конструктор для редактирования
         public ImageMiniatureCard(PhotosVehicle photosVehicle, Window dialog)
         {

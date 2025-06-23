@@ -103,7 +103,7 @@
                     DockPanel.Dock="Bottom"
                     Content="Сохранить"
                     Margin="0 0 0 12"
-                    Click="Add_Click"/>
+                    Click="Edit_Click"/>
 
         </DockPanel>
 

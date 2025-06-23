@@ -78,7 +78,7 @@ namespace CarAccountingGibdd.Windows
             titlePage.Text = "Просмотр отчета";
         }
 
-        private void ExitRButton_Checked(object sender, RoutedEventArgs e)
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
             AuthWindow window = new();
             window.Show();

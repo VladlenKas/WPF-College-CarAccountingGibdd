@@ -53,13 +53,13 @@ namespace CarAccountingGibdd.Pages.PagesOperator
             foreach (var application in applications)
             {
                 var card = new ApplicationCard(application, _operator);
-                card.ApplicationToAcceptEvent += ApplicationToAccept;
+                card.ApplicationToAcceptEvent += ToAccept;
                 cardsIC.Items.Add(card);
             }
         }
 
         // Обработчики событий
-        private void ApplicationToAccept(object sender, ApplicationEventArgs e) => UpdateIC();
+        private void ToAccept(object sender, ApplicationEventArgs e) => UpdateIC();
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
