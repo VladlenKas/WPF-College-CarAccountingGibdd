@@ -74,7 +74,7 @@ namespace CarAccountingGibdd.Dialogs
         {
             var newLicensePlate = new StringBuilder();
             var random = new Random();
-            const string letters = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ";
+            const string letters = "АВЕКМНОРСТУХ";
 
             do
             {

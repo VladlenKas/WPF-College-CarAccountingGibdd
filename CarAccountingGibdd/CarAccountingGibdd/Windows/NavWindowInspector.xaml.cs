@@ -24,14 +24,12 @@ namespace CarAccountingGibdd.Windows
     public partial class NavWindowInspector : Window
     {
         // Поля и свойства
-        private readonly GibddContext _dbContext;
         private readonly Employee _inspector;
 
         // Конструктор
         public NavWindowInspector(Employee inspector)
         {
             _inspector = inspector;
-            _dbContext = new();
 
             InitializeComponent();
             Title = $"Меню Инспектора. Сотрудник: {_inspector.Fullname}";

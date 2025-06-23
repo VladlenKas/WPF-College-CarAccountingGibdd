@@ -115,7 +115,7 @@
 
                     <TextBlock Style="{StaticResource TextBlock.H1}"
                                Name="titlePage"
-                               Text="Заявки"
+                               Text="Заявления"
                                DockPanel.Dock="Left"/>
 
                     <StackPanel Orientation="Horizontal"

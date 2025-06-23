@@ -84,8 +84,19 @@ namespace CarAccountingGibdd.Pages.PagesAdmin
             {
                 if (IsValidDateFormat(startDate.ToString()) && IsValidDateFormat(endDate.ToString()))
                 {
-                    SaveDocumentDialog dialog = new(_reports, startDate, endDate, _admin);
-                    ComponentsHelper.ShowDialogWindowDark(dialog);
+                    if (startDate < endDate)
+                    {
+                        SaveDocumentDialog dialog = new(_reports, startDate, endDate, _admin);
+                        ComponentsHelper.ShowDialogWindowDark(dialog); 
+                    }
+                    else
+                    {
+                        MessageHelper.MessageUniversal("Дата начала периода отчета должна быть раньше даты окончания периода отчета!");
+                    }
+                }
+                else
+                {
+                    MessageHelper.MessageUniversal("Выберите корректный формат даты!");
                 }
             }
             else
