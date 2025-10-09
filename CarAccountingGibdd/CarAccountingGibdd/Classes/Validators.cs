@@ -298,14 +298,42 @@ namespace CarAccountingGibdd.Classes
         // Ограничение на валидность лицензионного номера
         public static bool ValidateCorrectLicensePlate(string licensePlate)
         {
-            var regex = new Regex(@"^[АВЕКМНОРСТУХ]{1}[0-9]{3}[АВЕКМНОРСТУХ]{2}[0-9]{2,3}$");
-            if (!regex.IsMatch(licensePlate))
+            // Проверка формата номерного знака
+            var regex = new Regex(@"^[АВЕКМНОРСТУХ]{1}[0-9]{3}[АВЕКМНОРСТУХ]{2}([0-9]{2,3})$");
+            if (!regex.IsMatch(licensePlate)) return false;
+
+            // Извлекаем последние цифры
+            var match = regex.Match(licensePlate);
+            var digitsStr = match.Groups[1].Value;
+
+            if (!int.TryParse(digitsStr, out int lastDigits)) return false;
+
+            // Диапазоны допустимых значений
+            var validRanges = new List<(int Start, int End)>
             {
-                return false;
+                (1, 99),
+                (102, 113),
+                (116, 116),
+                (121, 126),
+                (134, 138),
+                (142, 147),
+                (150, 159),
+                (161, 164),
+                (173, 178),
+                (186, 199),
+                (702, 716)
+            };
+
+            // Проверка попадания в диапазоны
+            foreach (var range in validRanges)
+            {
+                if (lastDigits >= range.Start && lastDigits <= range.End)
+                    return true;
             }
-            return true;
+
+            return false;
         }
-        
+
         // Ограничение на валидность VIN
         public static bool ValidateCorrectVin(string vin)
         {
@@ -314,6 +342,19 @@ namespace CarAccountingGibdd.Classes
             {
                 return false;
             }
+
+            // Проверяем наличие хотя бы одной буквы
+            if (!vin.Any(char.IsLetter))
+            {
+                return false;
+            }
+
+            // Проверяем наличие хотя бы одной цифры
+            if (!vin.Any(char.IsDigit))
+            {
+                return false;
+            }
+
             return true;
         }
 

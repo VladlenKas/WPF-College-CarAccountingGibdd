@@ -349,7 +349,6 @@ namespace CarAccountingGibdd.Classes.Services
             document.Close();
         }
 
-
         // Отчет PDF
         public static void GeneratePdfReport(string outputPath, List<Report> reports, DateOnly startDate, DateOnly endDate, string employeeFullname)
         {

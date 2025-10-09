@@ -33,7 +33,7 @@ public partial class GibddContext : DbContext
 
     public virtual DbSet<InspectionStatus> InspectionStatuses { get; set; }
 
-    public virtual DbSet<Owner> Owners { get; set; }
+    public virtual DbSet<Owner> AllOwners { get; set; }
 
     public virtual DbSet<PhotosVehicle> PhotosVehicles { get; set; }
 
@@ -92,9 +92,20 @@ public partial class GibddContext : DbContext
         .Include(i => i.Inspection);
 
     public IQueryable<Vehicle> Vehicles => AllVehicles
-        .Where(r => r.Deleted != 1)
+        .Include(r => r.Applications)
+            .ThenInclude(r => r.Owner)
+        .Include(r => r.Applications)
+            .ThenInclude(r => r.Certificates)
         .Include(r => r.PhotosVehicles)
-        .Include(r => r.VehicleType);
+        .Include(r => r.VehicleType)
+        .Where(r => r.Deleted != 1);
+
+    public IQueryable<Owner> Owners => AllOwners
+        .Include(r => r.Applications)
+            .ThenInclude(r => r.Vehicle)
+        .Include(r => r.Applications)
+            .ThenInclude(r => r.Certificates)
+        .Where(r => r.Deleted != 1);
 
     public IQueryable<Certificate> Certificates => AllCertificates
         .Include(a => a.Application)

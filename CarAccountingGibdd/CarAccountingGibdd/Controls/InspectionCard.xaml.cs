@@ -58,35 +58,28 @@ namespace CarAccountingGibdd.Controls
             {
                 infoBTN.Visibility = Visibility.Visible;
             }
-            else // для инспектора
+            else // инспектор
             {
-                if (status == 1) // осмотр не начат
+                switch (status)
                 {
-                    startInspectionBTNS.Visibility = Visibility.Visible;
-                }
-                else if (status == 2) // в процессе
-                {
-                    endInspectionBTN.Visibility = Visibility.Visible;
-                }
-                else // все остальные статусы
-                {
-                    infoBTN.Visibility = Visibility.Visible;
+                    case 1: // Осмотр не начат
+                        startInspectionBTNS.Visibility = Visibility.Visible;
+                        break;
+                    case 2: // В процессе
+                        endInspectionBTN.Visibility = Visibility.Visible;
+                        break;
+                    default: // Остальные статусы
+                        infoBTN.Visibility = Visibility.Visible;
+                        break;
                 }
             }
 
             // Прозрачность зависит от статуса осмотра
-            if (status == 3) // например, статус "завершён" или другой, когда нужна прозрачность
-            {
-                this.Opacity = 0.5;
-            }
-            else
-            {
-                this.Opacity = 1.0;
-            }
+            this.Opacity = (status == 3) ? 0.5 : 1.0;
 
             // Закрашиваем Border в красный, если опоздание
             DateTime datetimePlanned = _inspection.DatetimePlanned.AddHours(2);
-            if (DateTime.Now > datetimePlanned)
+            if (DateTime.Now > datetimePlanned && (status == 1 || status == 2))
             {
                 importantPushTB.Visibility = Visibility.Visible;
             }

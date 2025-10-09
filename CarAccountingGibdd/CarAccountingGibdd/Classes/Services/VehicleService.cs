@@ -203,6 +203,14 @@ namespace CarAccountingGibdd.Classes.Services
                 return false;
             }
 
+            // Валидность VIN
+            bool isVinValid = Validations.ValidateCorrectVin(_vin);
+            if (!isVinValid)
+            {
+                MessageHelper.MessageInvalidVin();
+                return false;
+            }
+
             // Валидность номерного знака
             bool isLicensePlateValid = ValidateLicensePlateChange(vehicle, _licensePlate);
             if (!isLicensePlateValid)

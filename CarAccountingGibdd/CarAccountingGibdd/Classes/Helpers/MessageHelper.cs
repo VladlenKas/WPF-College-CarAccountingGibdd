@@ -136,8 +136,8 @@ namespace CarAccountingGibdd.Classes
         
         public static bool ConfirmDeleteEmployee() =>
             ConfirmAction(
-                "Вы действительно хотите удалить этого сотрудника?",
-                "Удаление прошло успешно");
+                "Вы действительно хотите уволить этого сотрудника?",
+                "Увольнение прошло успешно");
         
         public static bool ConfirmDeleteVehicle() =>
             ConfirmAction(
