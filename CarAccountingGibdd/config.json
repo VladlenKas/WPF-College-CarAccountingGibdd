@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "server=localhost;user=root;password=1234;database=gibdd"
+  },
+  "MySQLVersion": "8.0.39"
+}

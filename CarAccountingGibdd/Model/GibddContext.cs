@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using CarAccountingGibdd.Classes.Services;
+﻿using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
+using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace CarAccountingGibdd.Model;
 
@@ -118,8 +120,22 @@ public partial class GibddContext : DbContext
                 .ThenInclude(i => i.Inspector);
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;user=root;password=root;database=gibdd", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.39-mysql"));
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            // Читаем конфиг
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("config.json", optional: false)
+                .Build();
+
+            string connectionString = configuration.GetConnectionString("DefaultConnection");
+            string version = configuration["MySQLVersion"];
+
+            optionsBuilder.UseMySql(connectionString,
+                Microsoft.EntityFrameworkCore.ServerVersion.Parse($"{version}-mysql"));
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -11,10 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CarAccountingGibdd.Classes.Services;
 using CarAccountingGibdd.Dialogs;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.IO;
 
 namespace CarAccountingGibdd
 {
@@ -31,6 +31,20 @@ namespace CarAccountingGibdd
         public AuthWindow()
         {
             InitializeComponent();
+
+            // Проверка подключения к БД при запуске
+            try
+            {
+                using (var context = new GibddContext())
+                {
+                    var testQuery = context.Employees.Any();
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleDatabaseError(ex);
+            }
+
             //ApplicationService.HasStartedInspections(); // Проверка на просроченные записи
         }
 
@@ -114,6 +128,58 @@ namespace CarAccountingGibdd
             dialog.ShowDialog();
 
             this.Show();
+        }
+
+        private void HandleDatabaseError(Exception ex)
+        {
+            string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json");
+
+            string errorMessage = ex.Message;
+
+            if (ex.Message.Contains("Access denied"))
+            {
+                errorMessage = "Неверный пароль или пользователь MySQL";
+            }
+            else if (ex.Message.Contains("Unknown database"))
+            {
+                errorMessage = "База данных «gibdd» не найдена. Импортируйте gibdd.sql";
+            }
+            else if (ex.Message.Contains("Unable to connect"))
+            {
+                errorMessage = "MySQL не запущен или недоступен";
+            }
+
+            MessageBox.Show(
+                "Не удалось подключиться к базе данных\n\n" +
+                $"Причина: {errorMessage}\n\n" +
+                "Проверьте:\n" +
+                "• MySQL установлен и запущен\n" +
+                "• База данных «gibdd» создана (gibdd.sql)\n" +
+                "• Настройки подключения в конфиге верны\n\n" +
+                $"Файл конфигурации:\n{configPath}",
+                "Ошибка подключения",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+
+            // Предлагаем открыть конфиг
+            if (MessageBox.Show(
+                "Открыть файл конфигурации для редактирования?",
+                "Помощь",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start("notepad.exe", configPath);
+                }
+                catch   
+                {
+                    System.Diagnostics.Process.Start("explorer.exe",
+                        $"/select,\"{configPath}\"");
+                }
+            }
+
+            Close();
         }
     }
 }
