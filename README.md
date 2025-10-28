@@ -1,128 +1,52 @@
-# WPF-College-CarAccountingGibdd
+## 📦 Установка
 
-## 🇷🇺 Русский
+### Шаг 1: Скачайте файлы
 
-### Описание
+Скачайте два файла из этого релиза:
 
-Десктопное приложение для учета автомобилей образовательного учреждения с интеграцией ГИБДД. Разработано на платформе C# WPF с использованием паттерна MVP и базы данных MySQL. Приложение обеспечивает эффективное управление автопарком, регистрацию транспортных средств и взаимодействие с системой ГИБДД.
+- 📥 `CarAccountingGibddSetup_v1.0.0.exe` — установщик приложения
+- 📥 `gibdd.sql` — дамп базы данных MySQL
 
-### Возможности
+### Шаг 2: Установите приложение
 
-- **Управление автопарком** — учет транспортных средств образовательного учреждения
-- **Регистрация в ГИБДД** — интеграция с системой государственной автоинспекции
-- **База данных MySQL** — надежное хранение информации об автомобилях
-- **Паттерн MVP** — чистая архитектура с разделением логики и представления
-- **Современный UI** — интуитивно понятный интерфейс на WPF
-- **Управление водителями** — учет персонала и назначение ответственных лиц
-- **История операций** — отслеживание всех изменений в системе
+1. Запустите `CarAccountingGibddSetup_v1.0.0.exe`
+2. Следуйте инструкциям установщика
+3. Приложение установится в `C:\Program Files\Car Accounting Gibdd\`
 
-### Установка
+### Шаг 3: Настройте MySQL
 
-1. Клонируйте репозиторий:
-   ```bash
-   git clone https://github.com/VladlenKas/WPF-College-CarAccountingGibdd.git
-   ```
+#### Установите MySQL 8.0+ (если ещё не установлен)
 
-2. Откройте проект в Visual Studio (рекомендуется Visual Studio 2019 или выше)
+Скачать: https://dev.mysql.com/downloads/installer/
 
-3. Установите необходимые зависимости:
-   - .NET Framework 4.7.2 или выше
-   - MySQL Server 8.0 или выше
-   - MySQL Connector/NET
+#### Импортируйте базу данных через Data Import
 
-4. Настройте подключение к базе данных в файле конфигурации
+1. Откройте MySQL Workbench
+2. Подключитесь к localhost
+3. В меню выберите: **Server → Data Import**
+4. Выберите **Import from Self-Contained File**
+5. Укажите путь к скачанному файлу `gibdd.sql`
+6. В **Default Target Schema** выберите существующую базу или создайте новую (`gibdd`)
+7. Нажмите **Start Import**
+8. Дождитесь завершения импорта
 
-5. Импортируйте дамп базы данных (скоро будет добавлен)
+#### Настройте подключение
 
-6. Скомпилируйте и запустите проект
+1. Откройте файл: `C:\Program Files\Car Accounting Gibdd\config.json`
+2. Измените пароль и версию MySQL:
 
-### Использование
+```
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "server=localhost;user=root;password=ВАШ_ПАРОЛЬ;database=gibdd"
+  },
+  "MySQLVersion": ВАША_ВЕРСИЯ
+}
+```
+3. По умолчанию: password — root, MySQLVersion — 8.039
 
-1. **Запуск приложения** — откройте исполняемый файл или запустите через Visual Studio
-2. **Добавление автомобиля** — используйте форму регистрации для внесения нового ТС
-3. **Управление записями** — просматривайте, редактируйте и удаляйте информацию
-4. **Интеграция с ГИБДД** — синхронизируйте данные с государственной системой
-5. **Отчеты** — генерируйте отчеты по автопарку
 
----
+#### Запустите приложение
 
-## 🇬🇧 English
+Найдите ярлык на рабочем столе или в меню "Пуск"
 
-### Description
-
-Desktop application for car accounting in educational institutions with GIBDD (State Traffic Police) integration. Built on C# WPF platform using MVP pattern and MySQL database. The application provides efficient vehicle fleet management, vehicle registration, and interaction with the GIBDD system.
-
-### Features
-
-- **Fleet Management** — vehicle accounting for educational institutions
-- **GIBDD Registration** — integration with the State Traffic Police system
-- **MySQL Database** — reliable storage of vehicle information
-- **MVP Pattern** — clean architecture with separation of logic and presentation
-- **Modern UI** — intuitive WPF-based interface
-- **Driver Management** — personnel tracking and assignment of responsible persons
-- **Operation History** — tracking of all system changes
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/VladlenKas/WPF-College-CarAccountingGibdd.git
-   ```
-
-2. Open the project in Visual Studio (Visual Studio 2019 or higher recommended)
-
-3. Install required dependencies:
-   - .NET Framework 4.7.2 or higher
-   - MySQL Server 8.0 or higher
-   - MySQL Connector/NET
-
-4. Configure database connection in the configuration file
-
-5. Import database dump (to be added soon)
-
-6. Build and run the project
-
-### Usage
-
-1. **Launch Application** — open the executable file or run through Visual Studio
-2. **Add Vehicle** — use the registration form to add a new vehicle
-3. **Manage Records** — view, edit, and delete information
-4. **GIBDD Integration** — synchronize data with the state system
-5. **Reports** — generate fleet reports
-
----
-
-## 📦 Releases
-
-No releases available yet. Check the [Releases](https://github.com/VladlenKas/WPF-College-CarAccountingGibdd/releases) page for upcoming versions.
-
----
-
-## 📝 Note
-
-🔄 **Coming Soon:**
-- Database dump for easy setup
-- Application screenshots
-- Detailed documentation
-
----
-
-## 🛠️ Technology Stack
-
-- **Language:** C#
-- **Framework:** WPF (.NET Framework)
-- **Architecture:** MVP (Model-View-Presenter)
-- **Database:** MySQL
-- **IDE:** Visual Studio
-
----
-
-## 📧 Contact
-
-For questions or suggestions, please contact: vladlenkas06@gmail.com
-
----
-
-## ⭐ Support
-
-If you find this project useful, please consider giving it a star!
