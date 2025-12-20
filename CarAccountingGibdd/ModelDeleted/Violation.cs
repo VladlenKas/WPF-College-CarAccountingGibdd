@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CarAccountingGibdd.Model;
+namespace CarAccountingGibdd.ModelDeleted;
 
 public partial class Violation
 {
@@ -11,7 +11,9 @@ public partial class Violation
 
     public string Description { get; set; } = null!;
 
-    public bool Deleted { get; set; }
+    public string NumberDescription => $"(№{Number:D3}) {Description}";
+
+    public sbyte Deleted { get; set; }
 
     public virtual ICollection<ViolationInspection> ViolationInspections { get; set; } = new List<ViolationInspection>();
 }

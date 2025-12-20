@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CarAccountingGibdd.Model;
+namespace CarAccountingGibdd.ModelDeleted;
 
 public partial class Application
 {
@@ -19,7 +19,7 @@ public partial class Application
 
     public decimal Amount { get; set; }
 
-    public short PaymentMethod { get; set; }
+    public sbyte PaymentMethod { get; set; }
 
     public virtual ApplicationStatus ApplicationStatus { get; set; } = null!;
 
@@ -30,4 +30,20 @@ public partial class Application
     public virtual Owner Owner { get; set; } = null!;
 
     public virtual Vehicle Vehicle { get; set; } = null!;
+
+    public string InspectorFullname =>
+        Inspections?.FirstOrDefault()?.Inspector?.Fullname ?? "Отсутствует";
+
+    public string DepartmentName =>
+        Inspections?.FirstOrDefault()?.Inspector?.Department?.Name ?? "Отсутствует";
+
+    public int? InspectorId =>
+        Inspections?.FirstOrDefault()?.Inspector?.EmployeeId ?? null;
+
+    public string InspectionNumber =>
+        Inspections?.FirstOrDefault()?.InspectionId.ToString() ?? "Отсутствует";
+    
+    public string InspectionDate =>
+        Inspections?.FirstOrDefault()?.DatetimePlanned.ToString() ?? "Отсутствует";
+
 }

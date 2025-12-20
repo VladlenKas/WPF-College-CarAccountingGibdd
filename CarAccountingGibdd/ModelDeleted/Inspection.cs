@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CarAccountingGibdd.Model;
+namespace CarAccountingGibdd.ModelDeleted;
 
 public partial class Inspection
 {
@@ -9,7 +9,7 @@ public partial class Inspection
 
     public int ApplicationId { get; set; }
 
-    public int EmployeeId { get; set; }
+    public int InspectorId { get; set; }
 
     public int InspectionStatusId { get; set; }
 
@@ -19,9 +19,9 @@ public partial class Inspection
 
     public virtual Application Application { get; set; } = null!;
 
-    public virtual Employee Employee { get; set; } = null!;
+    public virtual Employee Inspector { get; set; } = null!;
 
-    public virtual InspectionStatus InspectionStatus { get; set; } = null!;
+    public virtual InspectionStatus Status { get; set; } = null!;
 
-    public virtual ICollection<ViolationInspection> ViolationInspections { get; set; } = new List<ViolationInspection>();
+    public virtual ICollection<ViolationInspection> ViolationsInspections { get; set; } = new List<ViolationInspection>();
 }

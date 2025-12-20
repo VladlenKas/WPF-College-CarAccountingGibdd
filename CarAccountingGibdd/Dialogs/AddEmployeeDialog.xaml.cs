@@ -49,7 +49,8 @@ namespace CarAccountingGibdd.Dialogs
             string password = ComponentsHelper.GetPassword(PassPB, PassTB);
 
             // Создаем экземпляр сервиса
-            EmployeeService service = new EmployeeService(firstname, lastname, patronymic, birthdate, passport, department, post, email, password);
+            EmployeeService service = new EmployeeService(firstname, lastname, patronymic, birthdate, 
+                passport, department, post, email, password);
 
             // Проверка
             bool notError = await service.CheckAsync();

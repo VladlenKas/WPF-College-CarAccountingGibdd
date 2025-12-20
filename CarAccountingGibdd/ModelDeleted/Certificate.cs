@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CarAccountingGibdd.Model;
+namespace CarAccountingGibdd.ModelDeleted;
 
 public partial class Certificate
 {
@@ -15,7 +15,14 @@ public partial class Certificate
 
     public string LicensePlate { get; set; } = null!;
 
-    public bool IsActive { get; set; }
+    public sbyte IsActive { get; set; }
 
     public virtual Application Application { get; set; } = null!;
+
+    public string IsActiveName => IsActive switch
+    {
+        0 => "Недействительный",
+        1 => "Действительный",
+        _ => "NULL VALUE"
+    };
 }

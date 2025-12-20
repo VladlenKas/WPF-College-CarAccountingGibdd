@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CarAccountingGibdd.Modes;
+namespace CarAccountingGibdd.ModelDeleted;
 
 public partial class ApplicationStatus
 {

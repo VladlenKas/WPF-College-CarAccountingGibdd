@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CarAccountingGibdd.Model;
+namespace CarAccountingGibdd.ModelDeleted;
 
 public partial class Department
 {
@@ -13,7 +13,7 @@ public partial class Department
 
     public string Phone { get; set; } = null!;
 
-    public bool Deleted { get; set; }
+    public sbyte Deleted { get; set; }
 
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 }

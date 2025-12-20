@@ -17,7 +17,8 @@ namespace CarAccountingGibdd.Classes.Services
         private readonly Card? _card;
 
         // Конструктор для добавления
-        public ApplicationService(Owner owner, Vehicle vehicle, int paymentMethod, int change, Card? card) 
+        public ApplicationService(Owner owner, Vehicle vehicle, 
+            int paymentMethod, int change, Card? card) 
         {
             _owner = owner;
             _vehicle = vehicle;

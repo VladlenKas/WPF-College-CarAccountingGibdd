@@ -1,7 +1,10 @@
-﻿using System;
+﻿using CarAccountingGibdd.Classes;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Windows.Media.Imaging;
 
-namespace CarAccountingGibdd.Model;
+namespace CarAccountingGibdd.ModelDeleted;
 
 public partial class PhotosVehicle
 {
@@ -12,4 +15,6 @@ public partial class PhotosVehicle
     public byte[] Photo { get; set; } = null!;
 
     public virtual Vehicle Vehicle { get; set; } = null!;
+
+    public BitmapImage BitmapImage => TypeHelper.GetBitmapImage(Photo);
 }
